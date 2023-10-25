@@ -13,7 +13,7 @@ module top #(parameter VGA_BITS = 8) (
 
 	// CPU
 	//RISCV CPU_RISCV(CLOCK_50, SW[0], pc, instruction, mem_write, byte_enable, alu_result, write_data, read_data);
-   //riscvmulti cpu(CLOCK_50, SW, address, write_data, mem_write, read_data, byte_enable);
+  riscvmulti cpu(CLOCK_50, SW, address, write_data, mem_write, read_data, byte_enable);
 				
 	// Memoria 
    //imem imem(VGA_CLK, pc, instruction);
