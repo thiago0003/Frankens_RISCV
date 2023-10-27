@@ -1,0 +1,514 @@
+﻿# Intel Corporation Software and/or Intellectual Property License File
+# Issued 25 October 2023
+# Evaluation-License Expires 25 October 2023
+# Continued use of the product(s) beyond License Expiration requires purchase of a  
+# seat license  
+# Fixed Node License
+# Primary Machine Name-martins
+# Primary Machine ID-NIC ID 5CC9D35F9B21
+# Companion ID-N/A
+# Companion ID 2-N/A
+# Product License Summary:
+# 1 Intel® Quartus® Prime Software 90-Day Evaluation (Standard and Pro Editions) (License: EVALUATION-LIC), 1 Seat(s)
+# - Maintenance Expiration of 2024.01
+# - License Expires 23-Jan-2024
+################################################################################ 
+# FEATURE START 
+FEATURE 6AF8_018B alterad 2024.01 23-jan-2024 uncounted 1896E182095B \
+	VENDOR_STRING=71kC3v5MjLCp4WFGu6RraL HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="0B4F BF1B 1F67 E409 F0B0 FB38 2C97 F2AE 61FC A79D BC74 \
+	0A51 5651 52D0 523A 1ACD 08D4 D012 8BFB D14C 564D 7233 7A82 \
+	555C 530A 5501 1CD9 1C9F 07BF 72AA"
+FEATURE 6AF7_018B alterad 2024.01 23-jan-2024 uncounted A50A46FFE94F \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1DB0 74BE AB18 5899 CE9B 934B \
+	0216 6F73 E07B 5E54 751C 37AD F46B A88A BBD6 1134 424B 95E9 \
+	215B DA86 39EB 33B6 CC06 44EF 4B58 038A AE07 3DFF E048 00DA"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# This is license file for 90-Day Evaluation License 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE maxplus2 alterad 2024.01 23-jan-2024 uncounted E78C73A917A7 \
+	HOSTID=5cc9d35f9b21 SIGN="0100 177F 7DE0 4B24 0C24 70AE 0207 \
+	FBD9 9F7B A95F 4D11 2B60 1B9A CAB6 8ED2 070A 98DA 7C75 928D \
+	DE06 F5BF 0D20 E0FD 6DB0 1F32 FFE0 366E 1104 5A49 6123"
+FEATURE quartus alterad 2024.01 23-jan-2024 uncounted DC607DE27F70 \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1472 6776 E5C5 23E9 B26C C1C4 \
+	ACAA 7872 732E E192 09C4 C3CA 2E1D A6D6 5F0B 079B 9FDF 7C6B \
+	5434 3417 33A4 DE92 4A1F A38F C0BA 78AB 5962 20D9 CBA7 6F11"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the BCH Encoder/Decoder FPGA IP 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00FD alterad 2024.01 23-jan-2024 uncounted 1674A93EA155 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0D06 23E5 063E F50B CDAB 86DC \
+	F9FB 4761 22D3 054C 0C55 ED05 2440 9919 6049 199D 4DB9 02DF \
+	75E8 EE0F 35CD 5B63 ED15 4CE3 FB29 2D2C 1BAA CDBB 1BA2 263F"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the High-Speed Reed Solomon Encoder/Decoder FPGA  
+# IP  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00FC alterad 2024.01 23-jan-2024 uncounted 7E024F555425 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1599 BB3F 804F F1FA 48BA 70C0 \
+	745B 6E50 9284 2D2E B549 F7E1 C660 C30A 0C49 15BC F180 8C0D \
+	55BC 6B67 3217 B401 C745 42A6 0F25 AE4C 87BE AA7E 7370 D07B"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for 10Gb Ethernet Encrypted Reference Design 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF8_E003 alterad 2024.01 23-jan-2024 uncounted 1C9C8F09D0D5 \
+	VENDOR_STRING=keQT6yxCreXGwizZdoMwsH HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="0974 7024 FF64 CDEA AE82 8217 A9C3 8196 0290 2ED2 FA2F \
+	E1F5 90EF 89DB 5236 0288 6F01 D678 AA1C 45E1 8E9E 38BE E9E3 \
+	B584 8CAE 5C2E 61A2 9718 DBE4 5C1A"
+FEATURE 6AF7_E003 alterad 2024.01 23-jan-2024 uncounted 2FD6403A0F3C \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="143D 1B26 FC9B 3DCF 2A31 6D97 \
+	F5A4 1792 1061 9354 4A90 A211 C824 4120 7514 1B2E D394 A387 \
+	6F63 F296 C505 EA9E E305 2D12 B8E8 61F5 0DFE E4E1 0524 8826"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Mentor Graphics AXI3 Inline Monitor BFM 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+DAEMON mgcld path_to_mgcld
+INCREMENT mgcvipae mgcld 2024.01 23-jan-2024 uncounted \
+  9F97C309258BE259BFF9 \
+    VENDOR_STRING=1121D595 HOSTID=5cc9d35f9b21 ISSUER=Intel SN=188001770 \
+    SIGN2="1182 CCD1 F7E1 7A1A 3477 F93E 93C9 8A8D 40A1 269E F4F6 4EAE \
+    96C7 DF25 3049 05CD 32DC 091C C4E6 2F2A 05C0 FD42 C066 A202 5B5F 7D81 \
+    C2F4 EB48 AB3C 8E9C"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Mentor Graphics AXI3 Master BFM 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+DAEMON mgcld path_to_mgcld
+INCREMENT mgcvipaeaxi mgcld 2024.01 23-jan-2024 uncounted \
+  EFB773F9F9A1DD6DE795 \
+    VENDOR_STRING=185DF514 HOSTID=5cc9d35f9b21 ISSUER=Intel SN=188001771 \
+    SIGN2="0793 DEA9 4315 43ED B17F 9CC1 68E9 899B B52B DCC6 73A4 EE5B \
+    8DCA D2EE 808E 16B5 4DBC 60D1 EF1C F452 195A C8F1 CCEA 8537 494F 4D89 \
+    31C9 EACF 7668 A8AE"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Mentor Graphics AXI4 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+DAEMON mgcld path_to_mgcld
+INCREMENT mgcvipaeaxi4 mgcld 2024.01 23-jan-2024 uncounted \
+  AFC7E349D0424F57BC3A \
+    VENDOR_STRING=A2F11A08 HOSTID=5cc9d35f9b21 ISSUER=Intel SN=188001773 \
+    SIGN2="1764 EFD1 C0E7 2DD0 1E7F 9179 003C 6446 4742 A164 0C0B 44DE \
+    B278 665D 9308 070B 464A B4AB 0CDF 4A3A EDDC A461 4F0B 78B4 7F3E C0A4 \
+    70AF 426C FEBF C743"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Video & Image Processing Suite Broadcast  
+# Deinterlacer Core  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_0114 alterad 2024.01 23-jan-2024 uncounted 35F31703FA2F \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0917 F821 4739 66AD 3FA2 145A \
+	3892 87C6 D2BB D304 37EB 765B D293 6466 3994 0404 34BE B37D \
+	ADEA 7B91 D844 FE78 DDE5 EB3A 33F3 F29B A544 D164 7E50 7B22"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the CIC Compiler FPGA IP 
+FEATURE 6AF8_00BB alterad 2024.01 23-jan-2024 uncounted 0D1EA99B884E \
+	VENDOR_STRING=6lqPsM0lnHIxE7Air11pB7 HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="1AA9 C6CA EFA7 9F82 89C9 20AE C7D9 3874 3EC4 5440 6F56 \
+	DC80 A1D4 8EA4 F46C 18E2 89C1 3BC5 32A2 F9A0 64BE FDE9 74A8 \
+	1F3E 26BB 23F1 4AC2 F9D6 0FCE 0C60"
+FEATURE 6AF7_00BB alterad 2024.01 23-jan-2024 uncounted 22D04DB83791 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0EC1 7D8F F8FE D79E 7716 CFFD \
+	A98C 01E7 1632 76D4 4BE1 B892 21DE F931 75F1 190E 9A0D C39C \
+	510B 043D 8629 AD4C DE44 5FE2 10BA 0487 54A3 77A0 2114 BA18"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is license file for CXL IP for Device Type1 with optional built-in  
+# cache  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_0187 alterad 2024.01 23-jan-2024 uncounted 872F9864E6FF \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1938 04C1 CECA 7D8D 3085 62B8 \
+	3E5F 96D7 F2A4 2260 00D7 3F79 D088 0FF6 204D 034C 3740 3F70 \
+	CCB5 7607 B2AD 11E5 7C2B 971C 0143 98D7 1857 1A72 E3B2 7139"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is license key for CXL IP for Device Type2 without Device coherency  
+# (DCOH) support logic  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_0185 alterad 2024.01 23-jan-2024 uncounted 63B0289E08C3 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="01D3 51B7 6B34 ED8F 6C0D 5E17 \
+	A0B0 E644 FFE8 1B83 9B40 CC26 068C 8F2E 23AA 1AB7 A839 2120 \
+	654B FA6F 056E 8CA3 2950 3A38 626D 1D50 4CEF 63C0 F63F 6B4B"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is license file for CXL IP for Device Type3 with DDR4 based MemBuffer  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_0188 alterad 2024.01 23-jan-2024 uncounted 38B036B92BC3 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0C6C 0261 967D 32EE E0AF 506E \
+	8C9C E2A2 D45F 60B7 8180 96F2 CDC0 A07A CFD8 1035 AB2D B7CC \
+	0952 4797 76DC E182 60FB 2A80 C560 BEA7 7B99 A745 8600 24FA"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the FFT / IFFT FPGA IP 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_0034 alterad 2024.01 23-jan-2024 uncounted 0FCBCE08A465 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="106A 878A A55A 21EA ABB7 66DF \
+	8AB9 CABC 8131 9EE5 9104 38AF 8076 820D CF0A 15E0 942D B85D \
+	1428 45E9 0556 4724 85C5 D212 751E 256F 1CEC 9DBE 0401 3D98"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the FIR Compiler II FPGA IP 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00D8 alterad 2024.01 23-jan-2024 uncounted 5A2B8F525B39 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0BA5 1CD8 7058 F65A 77B7 08F2 \
+	2971 D019 C4B2 4678 2BA0 4694 57CA 91C6 D82B 189D DF8C 8CBC \
+	9A09 2722 1F43 9654 0271 2596 3C36 5694 7EF7 A414 782F FC5C"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Numerically Controlled Oscillator Compiler  
+# (NCO) FPGA IP.  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_0014 alterad 2024.01 23-jan-2024 uncounted A9F5DC3832B9 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0704 3D44 BC40 5985 D038 3D4D \
+	D737 66E3 B5B8 3A12 8EB4 C6F8 8AE2 5BC0 FC44 0F73 F916 40A0 \
+	07F5 C952 A6CB E37D E2D0 F038 3AB1 5EE0 6882 C17F EB85 0401"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Nios II Soft Processor FPGA IP 
+FEATURE 6AF8_00A2 alterad 2024.01 23-jan-2024 uncounted CC0C984C50AB \
+	VENDOR_STRING=bhJ49oc3oAR7TV65A7WRkb HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="150C F68E 62C7 789C 595A 43DF 0387 D9D6 A917 62E7 ED77 \
+	F423 D66A 1B88 8387 0896 4E94 181A 873F 7FCD 71E0 564C 7569 \
+	92E6 A9CE 17F0 1F28 7AB2 1E78 8977"
+FEATURE 6AF7_00A2 alterad 2024.01 23-jan-2024 uncounted E1C5342A14FD \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="10E4 A3D3 C960 712A D012 E7C0 \
+	F4AF 53E1 C6DF 6E0A C5FE 13C8 D1F1 D623 887E 068D 7B8F B9F7 \
+	188B 7324 0009 A5BF 46B0 DBC0 1435 9025 D5DA 0C46 CC8B CEE8"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the DDR3 SDRAM Controller for ALTMEMPHY FPGA  
+# IP  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00C2 alterad 2024.01 23-jan-2024 uncounted 4392AEE2F691 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1A3F 6C19 95B8 FFD9 3F7E 197C \
+	DD2F 277F 84DB 7AC9 BD4E B4C1 B50C 1684 850F 02AF 8103 32B7 \
+	27DF 0CEC 7BB1 5D68 1198 CB78 CEEA AD5F 97FA 1BF3 DF09 35BE"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the DDR2 SDRAM High Performance Controller FPGA  
+# IP  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00BF alterad 2024.01 23-jan-2024 uncounted 092A4D1C6369 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1290 E914 6B5C 6CA5 0568 8D21 \
+	8C33 392E 9947 B915 6B6B AFAF 925D 871F F4FA 114F EC91 AE8B \
+	DF3B 407D B3B4 476C 4654 A301 83B6 3098 8A4B 6570 D265 7191"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Video & Image Processing Suite (Color Space  
+# Converter, Gamma Corrector I & II, Chroma Resampler, Chroma Resampler II, 2D FIR  
+# Filter, 2D FIR Filter II, Alpha Blending Mixer, Scaler, Scaler II, Deinterlacer,  
+# Deinterla  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+PACKAGE ip_video_image_suite alterad COMPONENTS="6AF7_00B3 6AF7_00F8 \
+	6AF7_00B5 6AF7_00B1 6AF7_00F7 6AF7_0115 6AF7_00C4 6AF7_00F1 \
+	6AF7_00C5 6AF7_00EF 6AF7_00D0 6AF7_00C9 6AF7_0135 6AF7_0003 \
+	6AF7_00F2 6AF7_00B6 6AF7_00EE 6AF7_00C3 6AF7_00F5 6AF7_00D1 \
+	6AF7_00B2 6AF7_00DC 6AF7_00F6 6AF7_00E9 6AF7_0131 6AF7_00CF \
+	6AF7_00F4 6AF7_00F3 6AF7_00ED 6AF7_0112" OPTIONS=SUITE \
+	SIGN="1B18 EB3C 3135 B229 4DA9 2EB3 3165 B5B4 F288 BF54 1D51 \
+	FD72 BC38 8BCD 1073 1E15 3296 A9BA E930 8009 7587 DEC6 F1EA \
+	FBCD 674A 5C70 7383 AF60 A04A 801C"
+FEATURE ip_video_image_suite alterad 2024.01 23-jan-2024 uncounted \
+	1BA2C426464F \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="148E 173A FBAC 9F88 E8E9 F228 \
+	23B8 3346 6D8F 0F63 368B EE84 DAC1 C350 C26B 14A8 ACD0 6D6E \
+	CCFC 6852 9AD0 12A1 51DA D092 21EB 4488 C22D 5C8B 836C 7673"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE C4D5_512A alterad 2024.01 23-jan-2024 uncounted 242759AA5C64 \
+	VENDOR_STRING=7fkcz2dzAE7VAszbjLTzXH HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="00FD ACB4 C067 6D15 EF97 150C 32D6 F48B 7923 8919 4065 \
+	4625 6B2F 0D88 BA20 08E1 E4C4 3431 C219 EECE 837C C551 0E0F \
+	2459 1038 E588 F8F2 15B0 E2D1 FBE3"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the superset of legacy Turbo IP (IP-TURBO) +  
+# Rate (De)Matcher + (De)Interleaver +CRC  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_013D alterad 2024.01 23-jan-2024 uncounted E7CF51DBDC43 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="046F 43F4 5CF8 5F67 8801 2368 \
+	99F0 AE9C 9E09 C13B 7390 0393 473C 5171 D73D 04CB C1C6 D897 \
+	863E 4BE8 9044 BC3B 3DCA B5B7 F9CB B5DF BC15 AB88 8DBE 214B"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license for the Video & Image Processing Suite Word Aligner core.  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00EB alterad 2024.01 23-jan-2024 uncounted EF31D002180D \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0EF9 079B C67C 8B4F 747F 45D8 \
+	230B 3F6A 0E01 0076 6D2D 801E 8F78 19A0 E602 1921 3B8D 71CB \
+	39E3 EAFE 643F 510E D09D 6F2F E8BB 3641 7353 2014 C296 0F75"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Low Density Parity Check Encoder/Decoder  
+# FPGA IP  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00FE alterad 2024.01 23-jan-2024 uncounted C1495FCBCA91 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0E64 34FB 042E B90E A78E 3BBB \
+	2371 70C9 F28C 1FFD 66AF AF1B 50F8 7C13 1265 1EDD 2A1F 7FB2 \
+	AFBA DB0E CB26 F2A6 57A4 3913 CC8E 058D 942F 9B8E 644E 6557"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license for the High-Speed Viterbi FPGA IP 
+FEATURE 6AF8_0037 alterad 2024.01 23-jan-2024 uncounted 515752A6676A \
+	VENDOR_STRING=caMae1fgp0kgRI9YoGj96H HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="1267 C8AF BD24 57AC 58D7 64A8 DDF1 F529 E54A 4A60 8042 \
+	2F7C D947 3867 7F3F 09F6 E540 C52F D348 DC00 077B 8C4B B48C \
+	4357 7672 6FAF 79C3 A99A BF2A A271"
+FEATURE 6AF8_0057 alterad 2024.01 23-jan-2024 uncounted BF6BA92027F8 \
+	VENDOR_STRING=38C2p0eqIdyfxDgEWZ2OZ6 HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="0D62 2494 5740 25F5 430E 090B 22BE 37E3 429D F91B 72E3 \
+	2DCC 1B45 3FB8 9267 02D2 2E69 2247 F9B6 9CDF 1AED C3ED 7187 \
+	963D EA50 C6BE 1085 3A5F 065B 2159"
+FEATURE 6AF7_0037 alterad 2024.01 23-jan-2024 uncounted 6F022883C771 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="01FE 6E52 FD31 A023 447D CD2F \
+	6832 F9E8 94AD 89C6 1773 59E6 C6B7 E879 EF5F 107F 170A 8702 \
+	80A8 B9C2 F98B 1233 5318 6B92 19AC F2BA 9456 9455 1A38 EB6B"
+FEATURE 6AF7_0057 alterad 2024.01 23-jan-2024 uncounted 6A0902A3012D \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="02EE A6B2 DE78 19E4 AFB4 B413 \
+	36BC 8443 FE55 2EDE ADFA 04F4 1DDF B909 59D8 1215 9511 3CB9 \
+	4AC8 6086 D248 263A 3483 F6B5 8E70 FA3D 64D2 59D6 842D 5C34"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Reed Solomon Encoder / Decoder II FPGA IP  
+FEATURE 6AF7_00E5 alterad 2024.01 23-jan-2024 uncounted 96E792BDE301 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0C53 F17A 2920 1BFD 424B FAD5 \
+	3507 7CCB 12C8 B37E 8581 5770 10BD 9E23 8283 1198 9443 DDEE \
+	2FA0 1301 A300 EC24 5559 F251 ACE5 BD14 0D98 2D40 1D5B 3D24"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license for the Low Speed Viterbi FPGA IP 
+FEATURE 6AF8_0038 alterad 2024.01 23-jan-2024 uncounted C7B23561183B \
+	VENDOR_STRING=kjZObYiULCN5dpjNvMVqw7 HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="154E 6786 0A2F CF12 05CD 4E4E B224 9A2F 29B5 DAED 8A3A \
+	C499 14F6 450B 7F59 0B71 51AF 3F4D FCF5 2CE7 0D2D C452 1EEE \
+	B0F4 1FD0 6BC0 084B 8F17 CF18 83EE"
+FEATURE 6AF8_0057 alterad 2024.01 23-jan-2024 uncounted BF6BA92027F8 \
+	VENDOR_STRING=38C2p0eqIdyfxDgEWZ2OZ6 HOSTID=5cc9d35f9b21 TS_OK \
+	SIGN="0D62 2494 5740 25F5 430E 090B 22BE 37E3 429D F91B 72E3 \
+	2DCC 1B45 3FB8 9267 02D2 2E69 2247 F9B6 9CDF 1AED C3ED 7187 \
+	963D EA50 C6BE 1085 3A5F 065B 2159"
+FEATURE 6AF7_0038 alterad 2024.01 23-jan-2024 uncounted 9422CEFCA08D \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0122 5A05 FB42 FAA9 91A7 7447 \
+	1EA2 487F 20E6 9A69 02AB F89F C4F9 53DE A307 0D70 A2F8 7011 \
+	D5AA E3D0 195F C8F7 5EE8 328E 0CBC A1F1 6BB6 6275 DE24 06A3"
+FEATURE 6AF7_0057 alterad 2024.01 23-jan-2024 uncounted 6A0902A3012D \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="02EE A6B2 DE78 19E4 AFB4 B413 \
+	36BC 8443 FE55 2EDE ADFA 04F4 1DDF B909 59D8 1215 9511 3CB9 \
+	4AC8 6086 D248 263A 3483 F6B5 8E70 FA3D 64D2 59D6 842D 5C34"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# PCI Express SR-IOV Block (includes use for Arria 10 SR-IOV 2 version. SR-IOV 1 version  
+# will remain unlicensed for now)  
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00FB alterad 2024.01 23-jan-2024 uncounted 7831A9305B61 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1F89 27BA F30D F070 8B4C F965 \
+	CFB2 C97E FE7B FCD1 7332 1671 A273 4417 9A8B 1F53 F2BF D0BA \
+	5A38 41A6 358D E1CE C691 93A5 E41A EE3D 8412 D2EB F72F 803E"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the IP Turbo Encoder/Decoder FPGA IP 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE 6AF7_00FA alterad 2024.01 23-jan-2024 uncounted 3B3BEF973EF9 \
+	VENDOR_STRING="iiiiiiiihdLkhIIIIIIIIUPDuiaaaaaaaa11X38DDDDDDDDpjz5cddddddddtmGzGJJJJJJJJbqIh0uuuuuuuugYYWiVVVVVVVVbp0FVHHHHHHHHBUEakffffffffD2FFRkkkkkkkkWL$84" \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="16A2 C7C6 9901 79BA 0576 2F2B \
+	E386 B3A6 CF72 34D6 F25A 7A61 86F7 5E36 07EB 065E 0612 84B8 \
+	CA4A DB5D 26ED A4B7 A5DD 5B2E 1981 7F45 B25C F55B A682 E3DE"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a feature line for Quartus II OpenCL SDK 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE opencl_sdk alterad 2024.01 23-jan-2024 uncounted 42FD144A9419 \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="0678 79CA 0913 FF5D D84D ABAD \
+	3000 76BC 6627 4199 8279 D618 F2DA B4C2 E317 1C7E 7F28 C260 \
+	4B42 FD6E CC88 89EE 9B25 F64C 5B8E 71EF 63E5 C50F 93A0 C25C"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Intel Design Security feature for the Quartus  
+# II Software.  
+FEATURE quartus_nonvolatile_encryption alterad 2024.01 23-jan-2024 \
+	uncounted 5AFC45F38BF1 HOSTID=5cc9d35f9b21 TS_OK SIGN="1B4C \
+	6970 A6B5 C802 E558 68CA BE39 D6E3 8406 33A2 F4D2 8C3C 46F2 \
+	D906 9802 07B5 D147 5861 F923 6154 344C A9F1 EA31 D4C8 4389 \
+	C0F3 3090 3BD1 1D48 1DE3"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a feature line for Quartus II Partial Reconfiguration Feature 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE quartus_partial_reconfig alterad 2024.01 23-jan-2024 \
+	uncounted C90B67472F1F HOSTID=5cc9d35f9b21 TS_OK SIGN="1D79 \
+	ECD6 BE2F E9A7 832F 72DA 45DE 590B 1A93 B205 53AD D82A 2F43 \
+	5AD3 4AE5 06B9 E317 432B 23E1 30D4 947E 852C B60D 3818 7164 \
+	8426 CC93 351C 057A 1206"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the Quartus II Separation Feature 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE quartus_red_black alterad 2024.01 23-jan-2024 uncounted \
+	2B44FAFD1CC9 HOSTID=5cc9d35f9b21 TS_OK SIGN="133F 871E 0368 \
+	1C6F 6A96 FA1A B325 F615 606C 06CC 0D75 F3AB 36E9 BC36 0735 \
+	1F40 3945 444F D4E4 4DE2 355D DDD1 A815 4DAC AD5B 1F97 C476 \
+	940E FAFF AEFA"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE quartus alterad 2024.01 23-jan-2024 uncounted DC607DE27F70 \
+	HOSTID=5cc9d35f9b21 TS_OK SIGN="1472 6776 E5C5 23E9 B26C C1C4 \
+	ACAA 7872 732E E192 09C4 C3CA 2E1D A6D6 5F0B 079B 9FDF 7C6B \
+	5434 3417 33A4 DE92 4A1F A38F C0BA 78AB 5962 20D9 CBA7 6F11"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# Number of seat licenses is 1 
+# Maintenance for this license expires on 2024.01 
+# License Expires 23-Jan-2024 
+FEATURE quartus_pro alterad 2024.01 23-jan-2024 uncounted \
+	A1CB5A9262BE HOSTID=5cc9d35f9b21 TS_OK SIGN="0598 6AD9 F293 \
+	B297 F611 1B03 7FD2 3A97 FAD8 9DB0 E06D BD9B 29F7 9D23 1867 \
+	1F61 B621 26FD C5B1 3595 0A99 BA05 E64F 76BA 0675 AA03 1E3F \
+	3639 DEF4 393E"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is a license file for the ModelSim 
+DAEMON mgcld path_to_mgcld
+INCREMENT alteramtivsim mgcld 2024.01 23-jan-2024 uncounted \
+  7F277349AD37F8F59CCB \
+    VENDOR_STRING=E74CDDA7 HOSTID=5cc9d35f9b21 ISSUER=Intel SN=188001775 \
+    SIGN2="04FB DB4C 571C 5E47 8BE8 FE48 C1BC 45E5 9230 19D0 EA25 DFD8 \
+    B065 7471 4FB0 18D6 FD4D 18CB 0072 94DB A905 F1AF E482 7A49 D27C 23FC \
+    C989 F66C E66B 1800"
+# FEATURE END 
+################################################################################
+# FEATURE START 
+# The following is the license file for Questa*-Intel FPGA Edition - Questa Plus 
+DAEMON mgcld path_to_mgcld
+INCREMENT intelqsim mgcld 2024.01 23-jan-2024 uncounted \
+  BF87A3A907A37C6A66C6 \
+    VENDOR_STRING=0ECB1E91 HOSTID=5cc9d35f9b21 ISSUER=Intel SN=188001776 \
+    SIGN2="01C2 C0C2 10A4 F049 F9CD 47A3 81DA 14B6 A856 ED1B CF08 A161 \
+    223D 2F1E 54F4 08F1 830D 18F3 9A02 75F5 2CBE 3756 E967 1450 E4C7 6733 \
+    93EA 51E8 95B6 43E2"
+# FEATURE END 
+################################################################################
+# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/25/2023

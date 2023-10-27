@@ -1,0 +1,3 @@
+Warning (10273): Verilog HDL warning at CPU_RISCV.v(208): extended using "x" or "z" File: /home/martins/Documents/RISC_V/CPU_RISCV.v Line: 208
+Info (10281): Verilog HDL Declaration information at CPU_RISCV.v(40): object "rs1" differs only in case from object "RS1" in the same scope File: /home/martins/Documents/RISC_V/CPU_RISCV.v Line: 40
+Info (10281): Verilog HDL Declaration information at CPU_RISCV.v(42): object "rs2" differs only in case from object "RS2" in the same scope File: /home/martins/Documents/RISC_V/CPU_RISCV.v Line: 42
