@@ -1,0 +1,17 @@
+**/.vscode/**
+**/*.zip
+
+
+# Quartus dump files
+**/db/**
+**/build/**
+**/incremental_db/**
+**/output_files/**
+**/greybox_tmp/**
+
+**/qsim/**
+**/questa/**
+**/modelsim/**
+
+# Verilator
+**/Frankenstein_monociclo/obj_dir/**
