@@ -5,7 +5,7 @@
 #include "obj_dir/VCPU_RISCV.h"
 #include "obj_dir/Vmem.h"
 #include "obj_dir/Vtop.h"
-#include "obj_dir/Vvga.h"
+//#include "obj_dir/Vvga.h"
 
 #define MAX_TIME 20
 vluint64_t sim_time = 0;

@@ -1,5 +1,7 @@
 /* verilator lint_off DECLFILENAME */
 /* verilator lint_off WIDTHTRUNC */
+/* verilator lint_off MULTITOP */
+/* verilator lint_off UNUSEDSIGNAL */
  // Modulo de memoria de programa 
 module dmem( input clk, mem_write,
              input  [ 3:0] byte_en,
