@@ -29,8 +29,11 @@
 * Após isso, instanciamos nosso top level Vtop *nome = new Vtop  
 
 ## Run Frankenstein: 
+* `-Wno-STMTDLY`: Para rodar ignorando os warnig 
 
+### Command
 `verilator -Wno-STMTDLY --trace --exe --build -cc frankenstein.cpp mem.v CPU_RISCV.v top.v`
+
 
 * OBS: Devemos colocar os módulos de compilação na ordem inversa pois para gerar primeiro os módulos filhos. 
 
