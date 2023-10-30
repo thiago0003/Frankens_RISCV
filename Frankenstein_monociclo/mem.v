@@ -51,7 +51,7 @@ module dmem( input clk, mem_write,
     RAM[31] = 32'h00000000;
   end
 
-  assign vdata = RAM[{25'b0000000000000000000000000, vaddr[8:2]}]; // word aligned
+  assign vdata = RAM[{{25'b0000000000000000000000000, vaddr[8:2]}, 2'b00}]; // word aligned
   assign read_data = RAM[addr[31:2]]; // word aligned
   
   always @(posedge clk) 
@@ -90,5 +90,5 @@ module imem( input  [8:0]  pc,
     RAM[9] = 32'hfe5ff06f;
   end
 
-  assign instr = RAM[{25'b0000000000000000000000000, pc[8:2]}]; // word aligned
+  assign instr = RAM[{{25'b0000000000000000000000000, pc[8:2]}, 2'b00}]; // word aligned
 endmodule
