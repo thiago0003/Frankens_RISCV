@@ -16,7 +16,7 @@ int main(int argc, char** argv, char** env)
     m_trace->open("waveform.vcd");
 
     //top->reset=1;
-
+ 
     while(sim_time < MAX_TIME)
     {
         // if(top->reset && sim_time == 1)
@@ -38,5 +38,4 @@ int main(int argc, char** argv, char** env)
     m_trace->close();
     delete top;
     exit(EXIT_SUCCESS);
-
 }

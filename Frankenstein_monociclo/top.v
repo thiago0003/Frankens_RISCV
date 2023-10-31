@@ -27,7 +27,7 @@ module top #(parameter VGA_BITS = 8) (
 	franken_riscv franken_riscv(CLOCK_50, !resetn, pc, instruction, mem_write, byte_enable, alu_result, write_data, read_data);
 	
 	// Memoria 
-   imem imem(pc, instruction);
+    imem imem(pc, instruction);
   	dmem dmem(!CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
 
    // Video 

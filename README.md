@@ -27,6 +27,8 @@ Também conhecido como Frankenstein, tem como objetivo ser um processador de fá
 ## Create a testbench  
 * No nosso testbench, devemos importar apenas o .h do nosso módulo top `Vtop.h`, que irá se encontrar dentro da pasta `obj_dir/`.
 
+[Informações sobre testbench](https://itsembedded.com/dhd/verilator_2/)
+
 ### BUGS
 * Como nosso tempo está definido em 1ps, o nosso reset não erá aparecer como uma onda longa no waveform, mas está sendo setado.  
 
@@ -69,8 +71,8 @@ Intruções contidas no processador.
 |:---------------:|:----------------:|:-------:|:-------:|:------------:|:------:|
 | I-Type          |imm\[11:0\]       | rs1     | funct3  | rd           |opcode  |
 
-|   |Instrução |  Tipo  | Instruction Set                                                |
-|:-:|:--------:|:------:|:---------------------------------------------------------------|
+|    |Instrução |  Tipo  | Instruction Set                                                |
+|:--:|:--------:|:------:|:---------------------------------------------------------------|
 | ☑️ | add      | R-Type | `0000000 \| rs2 \| rs1 \| 000 \| rd \| 0110011`                |
 | ☑️ | addi     | I-Type | `imm[11:0] \| rs1 \| 000 \| rd  \| 0010011`                    |
 | ☑️ | jal      | J-Type | `imm[20\|10:1\|11\|19:12] \| rd \| 1101111`                    |
@@ -81,8 +83,8 @@ Intruções contidas no processador.
 | ☑️ | or       | R-Type | `0000000 \| rs2 \| rs1 \| 110 \| rd \| 0110011`                |
 | ☑️ | sub      | R-Type | `0100000 \| rs2 \| rs1 \| 000 \| rd \| 0110011`                |
 | ☑️ | sw       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 010 \| imm[4:0] \| 0100011`        |
-| - | lw       | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
-| - | lbu      | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
+| ☑️ | lw       | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
+| ☑️ | lbu      | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
 
 
 
