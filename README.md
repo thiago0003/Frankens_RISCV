@@ -50,3 +50,46 @@ Também conhecido como Frankenstein, tem como objetivo ser um processador de fá
 
 ### Waveform
 Uma vez aberto nosso arquivo no GTK-Wave não é necessário sair e abrir novamente, o GTK-Wave tem um botão de reload para recarregar os arquivos. Dessa forma não perdemos o que já foi alterado na visualização.  
+
+## Instruções Contidas No Processador
+Intruções contidas no processador.
+
+|Tipo de instrução| 31 - 25          | 24 - 20 | 19 - 15 | 14 - 12 | 11 - 7       | 6 - 0  |
+|:---------------:|:----------------:|:-------:|:-------:|:-------:|:------------:|:------:|
+| R-Type          |funct7            | rs2     | rs1     | funct3  | rd           |opcode  |
+| S-Type          |imm\[11:5\]       | rs2     | rs1     | funct3  | mm\[4:0\]    |opcode  |
+| B-Type          |imm\[12\|10:5\]  | rs2     | rs1     | funct3  | mm\[4:1\|11\]|opcode  |
+
+|Tipo de instrução| 31 - 12                    | 11 - 7 | 6 - 0  |
+|:---------------:|:--------------------------:|:------:|:------:|
+| U-Type          | imm\[31:12\]               | rd     | opcode |
+| J-Type          | imm\[20\|10:1\|11\|19:12\] | rd     | opcode |
+
+|Tipo de instrução| 31 - 20          | 19 - 15 | 14 - 12 | 11 - 7       | 6 - 0  |
+|:---------------:|:----------------:|:-------:|:-------:|:------------:|:------:|
+| I-Type          |imm\[11:0\]       | rs1     | funct3  | rd           |opcode  |
+
+|   |Instrução |  Tipo  | Instruction Set                                                |
+|:-:|:--------:|:------:|:---------------------------------------------------------------|
+| ☑️ | add      | R-Type | `0000000 \| rs2 \| rs1 \| 000 \| rd \| 0110011`                |
+| ☑️ | addi     | I-Type | `imm[11:0] \| rs1 \| 000 \| rd  \| 0010011`                    |
+| ☑️ | jal      | J-Type | `imm[20\|10:1\|11\|19:12] \| rd \| 1101111`                    |
+| ☑️ | bge      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 101 \| imm[4:1\|11] \| 1100011`|
+| ☑️ | lui      | U-Type | `imm[31:12] \| rd \| 0110111`                                  |
+| ☑️ | slli     | I-Type | `0000000 \| shamt \| rs1 \| 001 \| rd \| 0010011`              |
+| ☑️ | xor      | R-Type | `0000000 \| rs2 \| rs1 \| 100 \| rd \| 0110011`                |
+| ☑️ | or       | R-Type | `0000000 \| rs2 \| rs1 \| 110 \| rd \| 0110011`                |
+| ☑️ | sub      | R-Type | `0100000 \| rs2 \| rs1 \| 000 \| rd \| 0110011`                |
+| ☑️ | sw       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 010 \| imm[4:0] \| 0100011`        |
+| - | lw       | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
+| - | lbu      | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
+
+
+
+
+| - | jalr     | I-Type | `imm[11:0] \| rs1 \| 000 \| rd \| 1100111`                     |
+| - | sb       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 000 \| imm[4:0] \| 0100011`        |
+| - | beq      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 000 \| imm[4:1\|11] \| 1100011`|
+| - | blt      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 100 \| imm[4:1\|11] \| 1100011`|
+| - | bne      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 001 \| imm[4:1\|11] \| 1100011`|
+| - | auipc    | U-Type | `imm[31:12] \| rd \| 0010111`                                  |

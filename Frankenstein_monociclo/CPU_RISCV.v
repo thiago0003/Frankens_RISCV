@@ -28,7 +28,7 @@ module franken_riscv( input  		     clk, reset,
 							pc + 32'd4;
 						  
 	always @(posedge clk)
-     pc <= next_pc;
+    	pc <= next_pc;
 	
 	// Recebe os valores que sao passados na instruçao
 	wire [6:0] opcode;
@@ -172,35 +172,32 @@ module franken_riscv( input  		     clk, reset,
 	
 	
 	//-------------------------------------ALU-------------------------------------------------//
-	wire [31:0] result;
-	assign result = 	is_add   	? src1 + src2:
+	//wire [31:0] alu_result;
+	assign alu_result = 	is_add   	? src1 + src2:
 							is_addi		? src1 + imm:
 							is_sub		? src1 - src2:
 							is_andi		? src1 & imm:
-							is_or			? src1 | src2:
+							is_or		? src1 | src2:
 							is_slli		? src1 << imm[4:0]:
 							is_srli		? src1 >> imm[4:0]:
-							is_auipc		? pc + $signed(imm):
+							is_auipc	? pc + $signed(imm):
 							J_type   	? jump_add:
 							S_type 		? src1 + imm: 
-							is_lw			? src1 + imm: 
-							is_sw			? src1 + imm: 
+							is_lw		? src1 + imm: 
+							is_sw		? src1 + imm: 
 							is_lui		? imm:
 							is_xor		? src1 ^ src2:
 							is_lbu		? src1 + imm:
 							32'b0;
-							
-	// Recebe o resultado da alu.
-	assign alu_result = result;
 	
 	// Caso nossa instruçao seja de JUMP, temos que calcular a nova posiçao para nosso PC.
-	assign jump_add =	is_jal  													? pc 					+ $signed(imm):
-							is_jalr 													? $signed(src1) 	+ $signed(imm):
-							(is_beq && ($signed(src1) == $signed(src2))) ? pc		 			+ $signed(imm) :
-							(is_bne && ($signed(src1) != $signed(src2))) ? pc 					+ $signed(imm):
-							(is_blt && ($signed(src1)  < $signed(src2)))	? pc			 		+ $signed(imm):
-							(is_bge && ($signed(src1) >= $signed(src2)))	? pc 					+ $signed(imm):
-							pc + 32'd4;
+	assign jump_add =	is_jal 										 ? pc 			 + $signed(imm):
+						is_jalr 									 ? $signed(src1) + $signed(imm):
+						(is_beq && ($signed(src1) == $signed(src2))) ? pc		 	 + $signed(imm):
+						(is_bne && ($signed(src1) != $signed(src2))) ? pc 			 + $signed(imm):
+						(is_blt && ($signed(src1)  < $signed(src2))) ? pc			 + $signed(imm):
+						(is_bge && ($signed(src1) >= $signed(src2))) ? pc 			 + $signed(imm):
+						pc + 32'd4;
 
 	// Valor que sera salvo na nossa memoria e a condicional de escrita
 	assign write_data = is_sw ? src2 : (is_sb ? (alu_result[1:0]==3 ? {src2[7:0], 24'h000000} : 
@@ -223,7 +220,7 @@ module franken_riscv( input  		     clk, reset,
 										                       {24'h000000, read_data[ 7: 0]}):
 																	  read_data;
 	
-	regfile regs(clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
+	regfile regs(!clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
 	
 endmodule
 

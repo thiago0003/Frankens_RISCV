@@ -15,20 +15,20 @@ int main(int argc, char** argv, char** env)
     top->trace(m_trace, 5);
     m_trace->open("waveform.vcd");
 
-    top->reset=1;
+    //top->reset=1;
 
     while(sim_time < MAX_TIME)
     {
-        if(top->reset && sim_time == 1)
-        {
-            top->reset=0;
-            sim_time ++;
+        // if(top->reset && sim_time == 1)
+        // {
+        //     top->reset=0;
+        //     sim_time ++;
             
-            top->eval();
-            m_trace->dump(sim_time);
-        } 
+        //     top->eval();
+        //     m_trace->dump(sim_time);
+        // } 
 
-        top->clk^=1;
+        top->CLOCK_50^=1;
         sim_time ++;
 
         top->eval();

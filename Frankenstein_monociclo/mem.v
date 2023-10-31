@@ -12,47 +12,10 @@ module dmem( input clk, mem_write,
              output [31:0] vdata
 );
 
-  reg [31:0] RAM [0:31];
-  integer i;
+  reg [31:0] RAM [0:511];
 
-  initial
-  begin
-    RAM[0] = 32'h00000000;
-    RAM[1] = 32'h00000000;
-    RAM[2] = 32'h00000000;
-    RAM[3] = 32'h00000000;
-    RAM[4] = 32'h00000000;
-    RAM[5] = 32'h00000000;
-    RAM[6] = 32'h00000000;
-    RAM[7] = 32'h00000000;
-    RAM[8] = 32'h00000000;
-    RAM[9] = 32'h00000000;
-    RAM[10] = 32'h00000000;
-    RAM[11] = 32'h00000000;
-    RAM[12] = 32'h00000000;
-    RAM[13] = 32'h00000000;
-    RAM[14] = 32'h00000000;
-    RAM[15] = 32'h00000000;
-    RAM[16] = 32'h00000000;
-    RAM[17] = 32'h00000000;
-    RAM[18] = 32'h00000000;
-    RAM[19] = 32'h00000000;
-    RAM[20] = 32'h00000000;
-    RAM[21] = 32'h00000000;
-    RAM[22] = 32'h00000000;
-    RAM[23] = 32'h00000000;
-    RAM[24] = 32'h00000000;
-    RAM[25] = 32'h00000000;
-    RAM[26] = 32'h00000000;
-    RAM[27] = 32'h00000000;
-    RAM[28] = 32'h00000000;
-    RAM[29] = 32'h00000000;
-    RAM[30] = 32'h00000000;
-    RAM[31] = 32'h00000000;
-  end
-
-  assign vdata = RAM[{{25'b0000000000000000000000000, vaddr[8:2]}, 2'b00}]; // word aligned
-  assign read_data = RAM[addr[31:2]]; // word aligned
+  assign vdata = RAM[{25'b0000000000000000000000000, vaddr[8:2]}]; // word aligned
+  assign read_data = RAM[{2'b00, addr[31:2]}]; // word aligned
   
   always @(posedge clk) 
     if (mem_write) 
@@ -74,21 +37,12 @@ module imem( input  [8:0]  pc,
              output [31:0] instr
 );
 
-  reg [31:0] RAM[0:9];
+  reg [31:0] RAM[0:63]; 
 
   initial
   begin
-    RAM[0] = 32'h00000293;
-    RAM[1] = 32'h12c00313;
-    RAM[2] = 32'h0002c383;
-    RAM[3] = 32'h00138393;
-    RAM[4] = 32'h00728023;
-    RAM[5] = 32'h00128293;
-    RAM[6] = 32'h0062d463;
-    RAM[7] = 32'hfedff06f;
-    RAM[8] = 32'h00000293;
-    RAM[9] = 32'hfe5ff06f;
+      $readmemh("mem.txt", RAM);
   end
 
-  assign instr = RAM[{{25'b0000000000000000000000000, pc[8:2]}, 2'b00}]; // word aligned
+  assign instr = RAM[{25'b0000000000000000000000000, pc[8:2]}]; // word aligned
 endmodule
