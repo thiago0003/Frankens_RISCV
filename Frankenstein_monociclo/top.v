@@ -31,7 +31,7 @@ module top #(parameter VGA_BITS = 8) (
   	dmem dmem(!CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
 
    // Video 
-	vga video(VGA_CLK, read_data_vga, VGA_R, VGA_G, VGA_B, VGA_HS_O, VGA_VS_O, addr_vga);
+	//vga video(VGA_CLK, read_data_vga, VGA_R, VGA_G, VGA_B, VGA_HS_O, VGA_VS_O, addr_vga);
 	
    assign VGA_BLANK_N = 1'b1;
    assign VGA_SYNC_N  = 1'b0;  
