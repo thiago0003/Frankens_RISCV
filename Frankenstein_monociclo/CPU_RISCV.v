@@ -1,12 +1,12 @@
 /* verilator lint_off DECLFILENAME */
 // Nosso processador 
-module franken_riscv( input  		     clk, reset,
+module franken_riscv( input  		    clk, reset,
                       output reg [31:0] pc,
                       input      [31:0] instruction,
-                      output 		     mem_write,
-			          output     [3: 0] byte_enable,
+                      output 		       mem_write,
+			             output     [3: 0] byte_enable,
                       output     [31:0] alu_result, 
-			          output     [31:0] write_data,
+			             output     [31:0] write_data,
                       input      [31:0] read_data
 );
 
@@ -23,9 +23,9 @@ module franken_riscv( input  		     clk, reset,
 	wire [31:0] next_pc;
 	
 	// Atualiza nosso valor de PC
-	assign next_pc =	reset 					? 32'b0:
-							is_conditional_jump	? jump_add:
-							pc + 32'd4;
+	assign next_pc =	reset 				? 32'b0:
+						is_conditional_jump	? jump_add:
+						pc + 32'd4;
 						  
 	always @(posedge clk)
     	pc <= next_pc;
@@ -81,77 +81,77 @@ module franken_riscv( input  		     clk, reset,
 	
 	wire [31:0] imm;
 	assign imm = (I_type) ? ({{20{instruction[31]}},instruction[31:20]}):
-					 (S_type) ? ({{20{instruction[31]}},instruction[31:25],instruction[11:7]}):		
-					 (B_type) ? ({{19{instruction[31]}},instruction[31],instruction[7],instruction[30:25],instruction[11:8],1'b0}):
-					 (U_type) ? ({instruction[31:12],12'b0}):
-					 (J_type) ? ({{11{instruction[31]}}, instruction[31],instruction[19:12],instruction[20],instruction[30:21],1'b0}):
-					 32'b0;
+				 (S_type) ? ({{20{instruction[31]}},instruction[31:25],instruction[11:7]}):		
+				 (B_type) ? ({{19{instruction[31]}},instruction[31],instruction[7],instruction[30:25],instruction[11:8],1'b0}):
+				 (U_type) ? ({instruction[31:12],12'b0}):
+				 (J_type) ? ({{11{instruction[31]}}, instruction[31],instruction[19:12],instruction[20],instruction[30:21],1'b0}):
+				 32'b0;
 					 
 	//Math
 	wire is_add;
-	assign is_add    	= (opcode == 7'b0110011 & funct3 == 3'b000 & funct7 == 7'b0000000);
+	assign is_add   = (opcode == 7'b0110011 & funct3 == 3'b000 & funct7 == 7'b0000000);
 	
 	wire is_addi;
-	assign is_addi   	= (opcode == 7'b0010011 & funct3 == 3'b000);
+	assign is_addi  = (opcode == 7'b0010011 & funct3 == 3'b000);
 	
 	wire is_sub;
-	assign is_sub 	  	= (opcode == 7'b0110011 & funct3 == 3'b000 & funct7 == 7'b0100000);
+	assign is_sub 	= (opcode == 7'b0110011 & funct3 == 3'b000 & funct7 == 7'b0100000);
 	
 	//Logic
 	wire is_xor;
-	assign is_xor	 	= (opcode == 7'b0110011 & funct3 == 3'b100 & funct7 == 7'b0000000);
+	assign is_xor	= (opcode == 7'b0110011 & funct3 == 3'b100 & funct7 == 7'b0000000);
 	
 	wire is_or;
-	assign is_or	 	= (opcode == 7'b0110011 & funct3 == 3'b110 & funct7 == 7'b0000000);
+	assign is_or	= (opcode == 7'b0110011 & funct3 == 3'b110 & funct7 == 7'b0000000);
 	
 	wire is_andi;
-	assign is_andi		= (opcode == 7'b0010011 & funct3 == 3'b111);
+	assign is_andi	= (opcode == 7'b0010011 & funct3 == 3'b111);
 	
 	//Bit operator
 	wire is_slli;
-	assign is_slli   	= (opcode == 7'b0010011 & funct3 == 3'b001 & funct7 == 7'b0000000);
+	assign is_slli 	= (opcode == 7'b0010011 & funct3 == 3'b001 & funct7 == 7'b0000000);
 	
 	wire is_srli;
-	assign is_srli	 	= (opcode == 7'b0010011 & funct3 == 3'b101 & funct7 == 7'b0000000);
+	assign is_srli	 = (opcode == 7'b0010011 & funct3 == 3'b101 & funct7 == 7'b0000000);
 	
 	//PC operator 
 	wire is_auipc;
-	assign is_auipc  	= (opcode == 7'b0010111);
+	assign is_auipc = (opcode == 7'b0010111);
 	
 	//Jump 
 	wire is_jal;
-	assign is_jal    	= (opcode == 7'b1101111);
+	assign is_jal   = (opcode == 7'b1101111);
 	
 	wire is_lui;
-	assign is_lui	  	= (opcode == 7'b0110111);
+	assign is_lui 	 = (opcode == 7'b0110111);
 	
 	wire is_jalr;
-	assign is_jalr   	= (opcode == 7'b1100111 & funct3 == 3'b0);
+	assign is_jalr  = (opcode == 7'b1100111 & funct3 == 3'b0);
 	
 	wire is_bge;
-	assign is_bge    	= (opcode == 7'b1100011 & funct3 == 3'b101);
+	assign is_bge  = (opcode == 7'b1100011 & funct3 == 3'b101);
 	
 	wire is_beq;
-	assign is_beq    	= (opcode == 7'b1100011 & funct3 == 3'b0);
+	assign is_beq  = (opcode == 7'b1100011 & funct3 == 3'b0);
 	
 	wire is_blt;
-	assign is_blt    	= (opcode == 7'b1100011 & funct3 == 3'b100);
+	assign is_blt  = (opcode == 7'b1100011 & funct3 == 3'b100);
 	
 	wire is_bne;
-	assign is_bne    	= (opcode == 7'b1100011 & funct3 == 3'b001);
+	assign is_bne  = (opcode == 7'b1100011 & funct3 == 3'b001);
 	
 	//Memory 
 	wire is_sw;
-	assign is_sw     	= (opcode == 7'b0100011 & funct3 == 3'b010);
+	assign is_sw   = (opcode == 7'b0100011 & funct3 == 3'b010);
 	
 	wire is_lw;
-	assign is_lw     	= (opcode == 7'b0000011 & funct3 == 3'b010);
+	assign is_lw   = (opcode == 7'b0000011 & funct3 == 3'b010);
 	
 	wire is_sb;
-	assign is_sb		= (opcode == 7'b0100011 & funct3 == 3'b000);
+	assign is_sb	= (opcode == 7'b0100011 & funct3 == 3'b000);
 	
 	wire is_lbu;
-	assign is_lbu		= (opcode == 7'b0000011 & funct3 == 3'b100);
+	assign is_lbu	= (opcode == 7'b0000011 & funct3 == 3'b100);
 
 	//---------------------------- Controler ---------------------------------------------//
 	
@@ -174,21 +174,21 @@ module franken_riscv( input  		     clk, reset,
 	//-------------------------------------ALU-------------------------------------------------//
 	//wire [31:0] alu_result;
 	assign alu_result = 	is_add   	? src1 + src2:
-							is_addi		? src1 + imm:
-							is_sub		? src1 - src2:
-							is_andi		? src1 & imm:
-							is_or		? src1 | src2:
-							is_slli		? src1 << imm[4:0]:
-							is_srli		? src1 >> imm[4:0]:
-							is_auipc	? pc + $signed(imm):
-							J_type   	? jump_add:
-							S_type 		? src1 + imm: 
-							is_lw		? src1 + imm: 
-							is_sw		? src1 + imm: 
-							is_lui		? imm:
-							is_xor		? src1 ^ src2:
-							is_lbu		? src1 + imm:
-							32'b0;
+							   is_addi		? src1 + imm:
+							   is_sub		? src1 - src2:
+							   is_andi		? src1 & imm:
+							   is_or		   ? src1 | src2:
+							   is_slli		? src1 << imm[4:0]:
+							   is_srli		? src1 >> imm[4:0]:
+							   is_auipc	   ? pc + $signed(imm):
+							   J_type   	? jump_add:
+							   S_type 		? src1 + imm: 
+							   is_lw		   ? src1 + imm: 
+							   is_sw		   ? src1 + imm: 
+							   is_lui		? imm:
+							   is_xor		? src1 ^ src2:
+							   is_lbu		? src1 + imm:
+							   32'b0;
 	
 	// Caso nossa instruçao seja de JUMP, temos que calcular a nova posiçao para nosso PC.
 	assign jump_add =	is_jal 										 ? pc 			 + $signed(imm):
@@ -201,24 +201,24 @@ module franken_riscv( input  		     clk, reset,
 
 	// Valor que sera salvo na nossa memoria e a condicional de escrita
 	assign write_data = is_sw ? src2 : (is_sb ? (alu_result[1:0]==3 ? {src2[7:0], 24'h000000} : 
-														      alu_result[1:0]==2 ? {8'h00, src2[7:0], 16'h0000} :
-														      alu_result[1:0]==1 ? {16'h0000, src2[7:0], 8'h00} :
-														                           {24'h000000, src2[7:0]}) :
+									     	     alu_result[1:0]==2 ? {8'h00, src2[7:0], 16'h0000} :
+												 alu_result[1:0]==1 ? {16'h0000, src2[7:0], 8'h00} :
+												                      {24'h000000, src2[7:0]}) :
 																							32'bX);
 	
 	// Escrita alinhada na memoria
 	assign byte_enable = is_lbu || is_sb ? (alu_result[1:0]==3 ? 4'b1000 : // sb/lb
-														 alu_result[1:0]==2 ? 4'b0100 :
-														 alu_result[1:0]==1 ? 4'b0010 :
-														                      4'b0001): 
-														                      4'b1111;  // lw/sw
+											alu_result[1:0]==2 ? 4'b0100 :
+											alu_result[1:0]==1 ? 4'b0010 :
+											                     4'b0001): 
+									     	                     4'b1111;  // lw/sw
 	
    //Acerta a posiçao para ser salvo em memoria 
    assign data_load = is_lbu ? (alu_result[1:0]==3 ? {24'h000000, read_data[31:24]} : 
-	                             alu_result[1:0]==2 ? {24'h000000, read_data[23:16]} : 
-	                             alu_result[1:0]==1 ? {24'h000000, read_data[15: 8]} : 
-										                       {24'h000000, read_data[ 7: 0]}):
-																	  read_data;
+	                            alu_result[1:0]==2 ? {24'h000000, read_data[23:16]} : 
+	                            alu_result[1:0]==1 ? {24'h000000, read_data[15: 8]} : 
+								                     {24'h000000, read_data[ 7: 0]}):
+																  read_data;
 	
 	regfile regs(!clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
 	

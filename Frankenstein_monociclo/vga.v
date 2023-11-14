@@ -1,7 +1,7 @@
-/* verilator lint_off UNUSEDPARAM */
-/* verilator lint_off WIDTHTRUNC */
+/* verilator lint_off EOFNEWLINE */
 /* verilator lint_off WIDTHEXPAND */
 /* verilator lint_off UNUSEDSIGNAL */
+
 module vga #(parameter VGA_BITS = 8) (
   input clk,
   input [31:0] vdata,
@@ -12,8 +12,8 @@ module vga #(parameter VGA_BITS = 8) (
   reg [9:0] CounterX = 0, CounterY = 0;
   reg inDisplayArea, inDisplayAreaPrev;
   reg vga_HS, vga_VS;
-  wire [4:0] row;
-  wire [5:0] col;
+  wire [31:0] row;
+  wire [31:0] col;
   wire [7:0] vbyte;
 
   wire CounterXmaxed = (CounterX == 800); // 16 + 48 + 96 + 640
@@ -36,10 +36,10 @@ module vga #(parameter VGA_BITS = 8) (
   assign col = (CounterX>>4);
   assign row = (CounterY>>4);
   assign vaddr = col + (row<<5) + (row<<3);
-  assign vbyte = col[1] ? (col[0] ? vdata[ 7: 0] : 
-                                    vdata[15: 8]): 
-                          (col[0] ? vdata[23:16] : 
-                                    vdata[31:24]); // byte select (reversed)
+  assign vbyte = col[1] ? (col[0] ? vdata[31:24] : 
+                                    vdata[23:16]): 
+                          (col[0] ? vdata[15: 8] : 
+                                    vdata[ 7: 0]); // byte select (reversed)
 
   always @(posedge clk)
   begin
@@ -50,7 +50,7 @@ module vga #(parameter VGA_BITS = 8) (
     VGA_HS_O <= ~vga_HS;
     VGA_VS_O <= ~vga_VS;
   end
-  assign VGA_R = inDisplayArea ? {vbyte[5:4], 6'b000000} : 8'b00000000;
-  assign VGA_G = inDisplayArea ? {vbyte[3:2], 6'b000000} : 8'b00000000;
-  assign VGA_B = inDisplayArea ? {vbyte[1:0], 6'b000000} : 8'b00000000;  
+  assign VGA_R = inDisplayArea ? {8{vbyte[0]}} : 8'b00000000;
+  assign VGA_G = inDisplayArea ? {8{vbyte[0]}} : 8'b00000000;
+  assign VGA_B = inDisplayArea ? {8{vbyte[0]}} : 8'b00000000;  
 endmodule

@@ -9,18 +9,21 @@ module dmem( input clk, mem_write,
              input  [ 8:0] vaddr,
              input  [31:0] write_data,
              output [31:0] read_data,
-             output [31:0] vdata
+             output reg [31:0] vdata
 );
 
   reg [31:0] RAM [0:511];
+  
+  wire [31:0] vdata_;
 	
 	initial
 		$readmemh("mem.txt", RAM);
   
   assign read_data = (mem_write) ? write_data : RAM[{2'b00, addr[31:2]}]; // word aligned
-  assign vdata = (vaddr == addr[8:0]) ? read_data : RAM[{25'b0000000000000000000000000, vaddr[8:2]}]; // word aligned
+  assign vdata_ = (vaddr == addr[8:0]) ? read_data : RAM[{25'b0000000000000000000000000, vaddr[8:2]}]; // word aligned
   
-  always @(posedge clk) 
+  always @(posedge clk)
+  begin
     if (mem_write) 
 	 begin
         //$display("RAM[%d] = %h -> %h (%b)", addr, read_data, write_data, byte_en);
@@ -33,7 +36,9 @@ module dmem( input clk, mem_write,
 		if (byte_en[3])
 		  RAM[addr[31:2]][31:24] <= write_data[31:24];
 	 end
-
+	
+	   vdata <= vdata_;
+	end
 endmodule
 
 // Modulo de memoria das instruçoes
