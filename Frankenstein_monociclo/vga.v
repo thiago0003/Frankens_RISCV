@@ -46,11 +46,12 @@ module vga #(parameter VGA_BITS = 8) (
     vga_HS <= (CounterX > (640 + 16) && (CounterX < (640 + 16 + 96)));   // active for 96 clocks
     vga_VS <= (CounterY > (480 + 10) && (CounterY < (480 + 10 +  2)));   // active for  2 clocks
     inDisplayAreaPrev <= (CounterX < 640) && (CounterY < 480);  
-	 inDisplayArea <= inDisplayAreaPrev;
+	  inDisplayArea <= inDisplayAreaPrev;
     VGA_HS_O <= ~vga_HS;
     VGA_VS_O <= ~vga_VS;
   end
-  assign VGA_R = inDisplayArea ? {8{vbyte[0]}} : 8'b00000000;
-  assign VGA_G = inDisplayArea ? {8{vbyte[0]}} : 8'b00000000;
-  assign VGA_B = inDisplayArea ? {8{vbyte[0]}} : 8'b00000000;  
+  
+  assign VGA_R = {VGA_BITS{inDisplayArea ? vbyte[0] : 1'b0}};
+  assign VGA_G = {VGA_BITS{inDisplayArea ? vbyte[0] : 1'b0}};
+  assign VGA_B = {VGA_BITS{inDisplayArea ? vbyte[0] : 1'b0}};
 endmodule
