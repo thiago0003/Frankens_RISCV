@@ -27,12 +27,17 @@ module blockram #(
 
 	integer i; 
 	initial
-	 for (i = 0; i < DEPTH; i++)begin
-	 	ram[i[31:2]][0] <= 8'b00000000;
-	 	ram[i[31:2]][1] <= 8'b00000000;
-	 	ram[i[31:2]][2] <= 8'b00000000;
-	 	ram[i[31:2]][3] <= 8'b00000000;
-	 end
+	begin
+		ram[1][1]  <= 8'b00000001;
+		ram[11][1] <= 8'b00000001;
+		ram[21][1] <= 8'b00000001;
+	//  for (i = 0; i < 1200; i++)begin
+	 	// ram[i[31:2]][0] <= 8'b00000000;
+	 	// ram[i[31:2]][1] <= 8'b00000000;
+	 	// ram[i[31:2]][2] <= 8'b00000000;
+	 	// ram[i[31:2]][3] <= 8'b00000000;
+	//  end
+	end
   
  // port A
 	always@(posedge clk)
