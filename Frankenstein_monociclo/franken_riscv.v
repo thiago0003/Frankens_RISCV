@@ -190,7 +190,6 @@ module franken_riscv( input  		    clk, reset,
 						J_type   	? jump_add:
 						S_type 		? src1 + imm: 
 						is_lw		? src1 + imm: 
-						is_sw		? src1 + imm: 
 						is_lui		? imm:
 						is_xor		? src1 ^ src2:
 						is_lbu		? src1 + imm:
