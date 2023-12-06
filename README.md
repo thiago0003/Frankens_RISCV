@@ -1,6 +1,13 @@
 # RISCV_MultiCiclo
 Também conhecido como Frankenstein, tem como objetivo ser um processador de fácil utilização, utilizando apenas memórias SRAM para armazenamento dos dados pois não teremos um pipeline. Dessa forma,não temos um sincronismo entre enviar o endereço e o retorno da instrução. Para faciliar, também utilizaremos o tipo de memória Von Neuman, onde a memória de dados e a memória de instrução estarão em diferentes locais.  
 
+## Run Quartus 
+`export QUARTUS_PATH="/home/martins/intelFPGA_lite/22.1std/quartus/bin"`
+
+`export PATH=$PATH:$QUARTUS_PATH`
+
+`make -f ../Makefile program`
+
 ## Install 
 ### Verilator
 `sudo apt-get install git help2man perl python3 make autoconf g++ flex bison ccache`
