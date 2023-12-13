@@ -58,8 +58,9 @@ Intruções contidas no processador.
 | ☑️ | blt      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 100 \| imm[4:1\|11] \| 1100011`|
 | ☑️ | bge      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 101 \| imm[4:1\|11] \| 1100011`|
 | ☑️ | sb       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 000 \| imm[4:0] \| 0100011`        |
-| ❌ | bltu     |        |                                                                |
-| ❌ | bgeu     |        |                                                                |
+| ⚠️ | bltu     | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 110 \| imm[4:1\|11] \| 1100011`|
+| ⚠️ | bgeu     | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 111 \| imm[4:1\|11] \| 1100011`|
+| ❌ | lb       |        |                                                                |
 | ❌ | lh       |        |                                                                |
 | ❌ | lhu      |        |                                                                |
 | ❌ | sh       |        |                                                                |
@@ -72,16 +73,9 @@ Intruções contidas no processador.
 | ☑️ | srl      | R-Type | `0000000 \| rs2 \| rs1 \| 101 \| rd \| 0110011`                |
 | ⚠️ | sra      | R-Type | `0100000 \| rs2 \| rs1 \| 101 \| rd \| 0110011`                |
 | ☑️ | and      | R-Type | `0000000 \| rs2 \| rs1 \| 111 \| rd \| 0110011`                |
-| ❌ | fence    |        |                                                                |
-| ❌ | fence.i  |        |                                                                |
-| ❌ | ecall    |        |                                                                |
-| ❌ | ebreak   |        |                                                                |
-| ❌ | csrrw    |        |                                                                |
-| ❌ | csrrs    |        |                                                                |   
-| ❌ | csrrc    |        |                                                                |
-| ❌ | csrrwi   | I-Type |                                                                |
-| ❌ | csrrsi   | I-Type |                                                                |
-| ❌ | csrrci   | I-Type |                                                                |
+| ❌ | fence    | I-Type |                                                                |
+| ❌ | ecall    | I-Type |                                                                |
+| ❌ | ebreak   | I-Type |                                                                |
 
  ☑️  Funcional 
  ⚠️  Ainda não testado
