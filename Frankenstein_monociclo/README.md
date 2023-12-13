@@ -61,9 +61,9 @@ Intruções contidas no processador.
 | ⚠️ | bltu     | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 110 \| imm[4:1\|11] \| 1100011`|
 | ⚠️ | bgeu     | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 111 \| imm[4:1\|11] \| 1100011`|
 | ❌ | lb       |        |                                                                |
-| ❌ | lh       |        |                                                                |
+| ⚠️ | lh       |        |                                                                |
 | ❌ | lhu      |        |                                                                |
-| ❌ | sh       |        |                                                                |
+| ⚠️ | sh       |        |                                                                |
 | ☑️ | slti     | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
 | ☑️ | xori     | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
 | ☑️ | ori      | I-Type | `imm[11:0] \| rs1 \| 110 \| rd  \| 0010011`                    |
