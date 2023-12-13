@@ -42,7 +42,7 @@ Intruções contidas no processador.
 | ☑️ | andi     | I-Type | `imm[11:0] \| rs1 \| 111 \| rd  \| 0010011`                    |
 | ☑️ | or       | R-Type | `0000000 \| rs2 \| rs1 \| 110 \| rd \| 0110011`                |
 | ☑️ | slli     | I-Type | `0000000 \| shamt \| rs1 \| 001 \| rd \| 0010011`              |
-| ☑️ | srli     | R-Type | `0000000 \| shamt \| rs1 \| 101 \| rd \| 0010011`              |
+| ☑️ | srli     | I-Type | `0000000 \| shamt \| rs1 \| 101 \| rd \| 0010011`              |
 | ☑️ | auipc    | U-Type | `imm[31:12] \| rd \| 0010111`                                  |
 | ☑️ | lw       | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
 | ☑️ | sw       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 010 \| imm[4:0] \| 0100011`        |
@@ -50,7 +50,7 @@ Intruções contidas no processador.
 | ☑️ | xor      | R-Type | `0000000 \| rs2 \| rs1 \| 100 \| rd \| 0110011`                |
 | ☑️ | lbu      | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
 | ☑️ | sltiu    | I-Type | `imm[11:0] \| rs1 \| 011 \| rd  \| 0010011`                    |
-| ☑️ | sltu     | R-Type | `0000000 \| rs2 \| rs1 \| 011 \| rd \| 0110011`                |
+| ⚠️ | sltu     | R-Type | `0000000 \| rs2 \| rs1 \| 011 \| rd \| 0110011`                |
 | ☑️ | jal      | J-Type | `imm[20\|10:1\|11\|19:12] \| rd \| 1101111`                    |
 | ☑️ | jalr     | I-Type | `imm[11:0] \| rs1 \| 000 \| rd \| 1100111`                     |
 | ☑️ | beq      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 000 \| imm[4:1\|11] \| 1100011`|
@@ -58,27 +58,31 @@ Intruções contidas no processador.
 | ☑️ | blt      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 100 \| imm[4:1\|11] \| 1100011`|
 | ☑️ | bge      | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 101 \| imm[4:1\|11] \| 1100011`|
 | ☑️ | sb       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 000 \| imm[4:0] \| 0100011`        |
-| -  | bltu     |        |                                                                |
-| -  | bgeu     |        |                                                                |
-| -  | lh       |        |                                                                |
-| -  | lhu      |        |                                                                |
-| -  | sh       |        |                                                                |
-| -  | slti     |        |                                                                |
-| -  | xori     |        |                                                                |
-| -  | ori      |        |                                                                |
-| -  | srai     |        |                                                                |
-| -  | sll      |        |                                                                |
-| -  | slt      |        |                                                                |
-| -  | srl      |        |                                                                |
-| -  | sra      |        |                                                                |
-| -  | and      |        |                                                                |
-| -  | fence    |        |                                                                |
-| -  | fence.i  |        |                                                                |
-| -  | ecall    |        |                                                                |
-| -  | ebreak   |        |                                                                |
-| -  | csrrw    |        |                                                                |
-| -  | csrrs    |        |                                                                |   
-| -  | csrrc    |        |                                                                |
-| -  | csrrwi   | I-Type |                                                                |
-| -  | csrrsi   | I-Type |                                                                |
-| -  | csrrci   | I-Type |                                                                |
+| ❌ | bltu     |        |                                                                |
+| ❌ | bgeu     |        |                                                                |
+| ❌ | lh       |        |                                                                |
+| ❌ | lhu      |        |                                                                |
+| ❌ | sh       |        |                                                                |
+| ☑️ | slti     | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
+| ☑️ | xori     | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
+| ☑️ | ori      | I-Type | `imm[11:0] \| rs1 \| 110 \| rd  \| 0010011`                    |
+| ⚠️ | srai     | I-Type | `0100000 \| shamt \| rs1 \| 101 \| rd \| 0010011`              |
+| ☑️ | sll      | R-Type | `0000000 \| rs2 \| rs1 \| 001 \| rd \| 0110011`                |
+| ⚠️ | slt      | R-Type | `0000000 \| rs2 \| rs1 \| 010 \| rd \| 0110011`                |
+| ☑️ | srl      | R-Type | `0000000 \| rs2 \| rs1 \| 101 \| rd \| 0110011`                |
+| ⚠️ | sra      | R-Type | `0100000 \| rs2 \| rs1 \| 101 \| rd \| 0110011`                |
+| ☑️ | and      | R-Type | `0000000 \| rs2 \| rs1 \| 111 \| rd \| 0110011`                |
+| ❌ | fence    |        |                                                                |
+| ❌ | fence.i  |        |                                                                |
+| ❌ | ecall    |        |                                                                |
+| ❌ | ebreak   |        |                                                                |
+| ❌ | csrrw    |        |                                                                |
+| ❌ | csrrs    |        |                                                                |   
+| ❌ | csrrc    |        |                                                                |
+| ❌ | csrrwi   | I-Type |                                                                |
+| ❌ | csrrsi   | I-Type |                                                                |
+| ❌ | csrrci   | I-Type |                                                                |
+
+ ☑️  Funcional 
+ ⚠️  Ainda não testado
+ ❌  Não implementado    

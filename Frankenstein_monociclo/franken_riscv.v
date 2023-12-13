@@ -1,4 +1,6 @@
 /* verilator lint_off DECLFILENAME */
+/* verilator lint_off WIDTHEXPAND */
+
 // Nosso processador 
 module franken_riscv( input  		    clk, reset,
                       output reg [31:0] pc,
@@ -45,39 +47,76 @@ module franken_riscv( input  		    clk, reset,
 	assign funct7_ = instruction[31:25];
 	
 	//Instruction Type 
-	wire R_type;
-	assign R_type = (opcode == 7'b0110011);
+
+	// R-Type 
+	wire R_type  = (opcode == 7'b0110011);
+	wire is_add  = (R_type & funct3 == 3'b000 & funct7 == 7'b0000000);
+	wire is_sub	 = (R_type & funct3 == 3'b000 & funct7 == 7'b0100000);
+	wire is_xor	 = (R_type & funct3 == 3'b100 & funct7 == 7'b0000000);
+	wire is_or 	 = (R_type & funct3 == 3'b110 & funct7 == 7'b0000000);
+	wire is_and  = (R_type & funct3 == 3'b111 & funct7 == 7'b0000000);
+	wire is_sltu = (R_type & funct3 == 3'b011 & funct7 == 7'b0000000);
+	wire is_sll  = (R_type & funct3 == 3'b001 & funct7 == 7'b0000000);
+	wire is_slt	 = (R_type & funct3 == 3'b010 & funct7 == 7'b0000000);
+	wire is_srl  = (R_type & funct3 == 3'b101 & funct7 == 7'b0000000);
+	wire is_sra  = (R_type & funct3 == 3'b101 & funct7 == 7'b0100000);
+
+
+	// I-Type
+	wire I_type   = (opcode == 7'b1100111 | opcode == 7'b0000011 | opcode == 7'b0010011);
+	wire is_addi  = (I_type & funct3 == 3'b000);
+	wire is_xori  = (I_type & funct3 == 3'b100);
+	wire is_ori   = (I_type & funct3 == 3'b110);
+	wire is_andi  = (I_type & funct3 == 3'b111);
+	wire is_jalr  = (I_type & funct3 == 3'b000);
+	wire is_lw    = (I_type & funct3 == 3'b010);
+	wire is_slti  = (I_type & funct3 == 3'b010);
+	wire is_sltiu = (I_type & funct3 == 3'b011);
+	wire is_lbu   = (I_type & funct3 == 3'b100);
+	wire is_slli  = (I_type & funct3 == 3'b001 & funct7 == 7'b0);
+	wire is_srli  = (I_type & funct3 == 3'b101 & funct7 == 7'b0);
+	wire is_srai  = (I_type & funct3 == 3'b101 & funct7 == 7'b0100000);
 	
-	wire I_type;
-	assign I_type = (opcode == 7'b1100111 | opcode == 7'b0000011 | opcode == 7'b0010011); //Tambem seria uma instruçao do tipo I para 64bits => 0010011
+
+	// S-Type
+	wire S_type = (opcode == 7'b0100011);
+	wire is_sw  = (S_type & funct3 == 3'b010);
+	wire is_sb  = (S_type & funct3 == 3'b000);
 	
-	wire S_type;
-	assign S_type = (opcode == 7'b0100011); //Tambem seria uma instruçao do tipo S para Double ou Float => 0100111
+
+	// B-Type
+	wire B_type = (opcode == 7'b1100011);
+	wire is_bge = (B_type & funct3 == 3'b101);
+	wire is_beq = (B_type & funct3 == 3'b0);
+	wire is_blt = (B_type & funct3 == 3'b100);
+	wire is_bne = (B_type & funct3 == 3'b001);
+
+
+	// U-Type 
+	wire U_type = (opcode == 7'b0110111 | opcode == 7'b0010111);
+	wire is_auipc = U_type;
+	wire is_lui = U_type;
 	
-	wire B_type;
-	assign B_type = (opcode == 7'b1100011);
-	
-	wire U_type;
-	assign U_type = (opcode == 7'b0110111 | opcode == 7'b0010111);
-	
-	wire J_type;
-	assign J_type = (opcode == 7'b1101111);
+
+	// J-Type
+	wire J_type = (opcode == 7'b1101111);
+	wire is_jal = (J_type);
 	
 	// Decodificaçao das instruçoes e seus respectivos tipos 
 	wire [4:0] RS1;
-	assign RS1 = (R_type | I_type | S_type | B_type) 	? rs1 : 5'b0;
+	assign RS1 = (R_type | I_type | S_type | B_type) 	? rs1 : 5'b000000;
 	
 	wire [4:0] RS2;
-	assign RS2 = (R_type | S_type | B_type)         	? rs2 : 5'b0;
+	assign RS2 = (R_type | S_type | B_type)         	? rs2 : 5'b000000;
 
 	wire [4:0] RD;
-	assign RD = (R_type | I_type | U_type | J_type) 	? rd_ : 5'b0;
+	assign RD = (R_type | I_type | U_type | J_type) 	? rd_ : 5'b000000;
 	
 	wire [2:0] funct3;
-	assign funct3 = (R_type | I_type | S_type | B_type)? funct3_ : 3'b0;
+	assign funct3 = (R_type | I_type | S_type | B_type) ? funct3_ : 3'b000;
 	
 	wire [6:0] funct7;
-	assign funct7 = (R_type)                           ? funct7_ : 7'b0;
+	assign funct7 = (R_type)                            ? funct7_ : 7'b000000;
 	
 	wire [31:0] imm;
 	assign imm = (I_type) ? ({{20{instruction[31]}},instruction[31:20]}):
@@ -86,115 +125,46 @@ module franken_riscv( input  		    clk, reset,
 				 (U_type) ? ({instruction[31:12],12'b0}):
 				 (J_type) ? ({{11{instruction[31]}}, instruction[31],instruction[19:12],instruction[20],instruction[30:21],1'b0}):
 				 32'b0;
-					 
-	//Math
-	wire is_add;
-	assign is_add   = (opcode == 7'b0110011 & funct3 == 3'b000 & funct7 == 7'b0000000);
-	
-	wire is_addi;
-	assign is_addi  = (opcode == 7'b0010011 & funct3 == 3'b000);
-	
-	wire is_sub;
-	assign is_sub 	= (opcode == 7'b0110011 & funct3 == 3'b000 & funct7 == 7'b0100000);
-	
-	//Logic
-	wire is_xor;
-	assign is_xor	= (opcode == 7'b0110011 & funct3 == 3'b100 & funct7 == 7'b0000000);
-	
-	wire is_or;
-	assign is_or	= (opcode == 7'b0110011 & funct3 == 3'b110 & funct7 == 7'b0000000);
-	
-	wire is_andi;
-	assign is_andi	= (opcode == 7'b0010011 & funct3 == 3'b111);
-	
-	//Bit operator
-	wire is_slli;
-	assign is_slli 	= (opcode == 7'b0010011 & funct3 == 3'b001 & funct7 == 7'b0000000);
-	
-	wire is_srli;
-	assign is_srli	 = (opcode == 7'b0010011 & funct3 == 3'b101 & funct7 == 7'b0000000);
-	
-	//PC operator 
-	wire is_auipc;
-	assign is_auipc = (opcode == 7'b0010111);
-	
-	//Jump 
-	wire is_jal;
-	assign is_jal   = (opcode == 7'b1101111);
-	
-	wire is_lui;
-	assign is_lui 	 = (opcode == 7'b0110111);
-	
-	wire is_jalr;
-	assign is_jalr  = (opcode == 7'b1100111 & funct3 == 3'b0);
-	
-	wire is_bge;
-	assign is_bge  = (opcode == 7'b1100011 & funct3 == 3'b101);
-	
-	wire is_beq;
-	assign is_beq  = (opcode == 7'b1100011 & funct3 == 3'b0);
-	
-	wire is_blt;
-	assign is_blt  = (opcode == 7'b1100011 & funct3 == 3'b100);
-	
-	wire is_bne;
-	assign is_bne  = (opcode == 7'b1100011 & funct3 == 3'b001);
-	
-	//Memory 
-	wire is_sw;
-	assign is_sw   = (opcode == 7'b0100011 & funct3 == 3'b010);
-	
-	wire is_lw;
-	assign is_lw   = (opcode == 7'b0000011 & funct3 == 3'b010);
-	
-	wire is_sb;
-	assign is_sb	= (opcode == 7'b0100011 & funct3 == 3'b000);
-	
-	wire is_lbu;
-	assign is_lbu	= (opcode == 7'b0000011 & funct3 == 3'b100);
-
-	wire is_sltiu;
-	assign is_sltiu	= (opcode == 7'b0010011 & funct3 == 3'b011);
-
-	wire is_sltu;
-	assign is_sltu	= (opcode == 7'b0110011 & funct3 == 3'b011);
-
+					
 	//---------------------------- Controler ---------------------------------------------//
 	
-	wire is_mem_reg;
-	wire reg_write;
-	
-	//Condiçao de escrita na memoria
 	assign mem_write = S_type;
-	
+
 	//Condiçao de salto
 	assign is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_jal || is_jalr);
 	
 	//Escrita da memoria para o registrador
-	assign is_mem_reg = is_lw || is_lbu;
+	wire is_mem_reg = is_lw || is_lbu;
 	
 	// Condicional para escrita nos registradores
-	assign reg_write = (R_type || S_type || B_type || I_type || U_type) && RD != 5'b0;
-	
+	wire reg_write = (R_type || S_type || B_type || I_type || U_type) && RD != 5'b0;
 	
 	//-------------------------------------ALU-------------------------------------------------//
 	//wire [31:0] alu_result;
 	assign alu_result = is_add   	? src1 + src2:
-						is_addi		? src1 + imm:
+						is_addi		? src1 + $signed(imm):
 						is_sub		? src1 - src2:
-						is_andi		? src1 & imm:
+						is_andi		? src1 & $signed(imm):
+						is_and		? src1 & src2:
 						is_or		? src1 | src2:
+						is_ori		? src1 | $signed(imm): 
 						is_slli		? src1 << imm[4:0]:
 						is_srli		? src1 >> imm[4:0]:
 						is_auipc	? pc + $signed(imm):
 						J_type   	? jump_add:
-						S_type 		? src1 + imm: 
-						is_lw		? src1 + imm: 
+						S_type 		? src1 + $signed(imm): 
 						is_lui		? imm:
 						is_xor		? src1 ^ src2:
+						is_xori		? src1 ^ $signed(imm):
 						is_lbu		? src1 + imm:
 						is_sltiu	? src1 < imm:
+						is_slti		? src1 < $signed(imm):
 						is_sltu		? src1 < src2:
+						is_sll		? src1 << src2:
+						is_slt		? src1 < src2:
+						is_srl		? src1 >> src2:
+						is_srai     ? src1 >>> imm[4:0]:
+						is_sra      ? src1 >>> src2:
 						32'b0;
 	
 	// Caso nossa instruçao seja de JUMP, temos que calcular a nova posiçao para nosso PC.
@@ -215,8 +185,8 @@ module franken_riscv( input  		    clk, reset,
 	
 	// Escrita alinhada na memoria
 	assign byte_enable = is_lbu || is_sb ? (alu_result[1:0]==3 ? 4'b1000 : // sb/lb
-											alu_result[1:0]==2 ? 4'b0100 :
-											alu_result[1:0]==1 ? 4'b0010 :
+											alu_result[1:0]==2 ? 4'b0100 : 
+											alu_result[1:0]==1 ? 4'b0010 : 
 											                     4'b0001): 
 									     	                     4'b1111;  // lw/sw
 	
@@ -227,23 +197,6 @@ module franken_riscv( input  		    clk, reset,
 								                     {24'h000000, read_data[ 7: 0]}):
 																  read_data;
 	
-	regfile regs(clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
-	
-endmodule
-
-// Modulo de registradores
-module regfile(input  wire        clk, 
-               input  wire        reg_write,
-               input  wire [4:0]  reg_addr1, reg_addr2, addr, 
-               input  wire [31:0] write_reg, 
-               output wire [31:0] rd1, rd2);
-					
-  reg [31:0] rf[31:0];
-
-	always @(posedge clk) 
-		if (reg_write) 
-			rf[addr] <= write_reg;	
-		
-	assign rd1 = (reg_addr1 != 5'b0) ? rf[reg_addr1] : 32'b0; 
-	assign rd2 = (reg_addr2 != 5'b0) ? rf[reg_addr2] : 32'b0;
+	// Banco de registradores 
+	register regs(clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
 endmodule
