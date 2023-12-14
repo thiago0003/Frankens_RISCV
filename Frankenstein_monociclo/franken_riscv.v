@@ -70,7 +70,7 @@ module franken_riscv( input  		    clk, reset,
 	wire is_lh    = (funct3 == 3'b001 & opcode == 7'b0000011);
 	wire is_lw    = (funct3 == 3'b010 & opcode == 7'b0000011);
 	wire is_lbu   = (funct3 == 3'b100 & opcode == 7'b0000011);
-	wire is_lhu   = (funct3 == 3'b100 & opcode == 7'b0000011);
+	wire is_lhu   = (funct3 == 3'b101 & opcode == 7'b0000011);
 	wire is_addi  = (funct3 == 3'b000 & opcode == 7'b0010011);
 	wire is_slti  = (funct3 == 3'b010 & opcode == 7'b0010011);
 	wire is_sltiu = (funct3 == 3'b011 & opcode == 7'b0010011);
@@ -171,6 +171,7 @@ module franken_riscv( input  		    clk, reset,
 						is_xori		? $signed(src1) ^ $signed(imm):
 						is_lbu		? src1 + imm:
 						is_lh		? src1 + imm:
+						is_lhu	    ? src1 + imm:
 						is_sltiu	? src1 < imm:
 						is_slti		? $signed(src1) < $signed(imm):
 						is_sltu		? src1 < src2:
@@ -211,14 +212,16 @@ module franken_riscv( input  		    clk, reset,
 									     	                     4'b1111;  // lw/sw
 	
    //Acerta a posiçao para ser salvo em memoria 
-   assign data_load = is_lbu ? (alu_result[1:0]==3 ? {24'h000000, read_data[31:24]} : 
-	                            alu_result[1:0]==2 ? {24'h000000, read_data[23:16]} : 
-	                            alu_result[1:0]==1 ? {24'h000000, read_data[15: 8]} : 
-								                     {24'h000000, read_data[ 7: 0]}):
-					   is_lh ? (alu_result[1:0]==2 ? {16'h000000, read_data[31:16]} :
-					   								 {16'h000000, read_data[15: 0]}):
+   assign data_load = is_lbu  ? (alu_result[1:0]==3 ? {24'h000000, read_data[31:24]} : 
+	                             alu_result[1:0]==2 ? {24'h000000, read_data[23:16]} : 
+	                             alu_result[1:0]==1 ? {24'h000000, read_data[15: 8]} : 
+								                      {24'h000000, read_data[ 7: 0]}):
+					   is_lh  ? (alu_result[1:0]==2 ? {{16{read_data[31]}}, $signed(read_data[31:16])} :
+					   								  {{16{read_data[31]}}, $signed(read_data[15: 0])}):
+					   is_lhu ? (alu_result[1:0]==2 ? {16'h000000, read_data[31:16]} :
+					   								  {16'h000000, read_data[15: 0]}):
 																  read_data;
 	
 	// Banco de registradores 
-	register regs(clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
+	register regs(!clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
 endmodule
