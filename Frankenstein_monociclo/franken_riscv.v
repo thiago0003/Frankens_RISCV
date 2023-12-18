@@ -170,7 +170,12 @@ module franken_riscv( input  		    clk, reset,
 	reg  [3:0] current_state;
 	wire [3:0] next_state;
 
-	assign next_state = current_state == FETCH ? DECODE : FETCH;
+	assign next_state = (current_state == FETCH) ? DECODE : 
+						((is_lw || is_sw) && (current_state == DECODE))? MEMADR :
+						((R_type) && (current_state == DECODE)) ? RTYPEEX :
+						((I_type) && (current_state == DECODE)) ? ITYPEEX :
+						
+						FETCH;
 
 	always @(posedge clk)
 		if(reset) 
