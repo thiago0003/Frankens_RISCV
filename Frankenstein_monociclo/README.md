@@ -60,10 +60,10 @@ Intruções contidas no processador.
 | ☑️ | sb       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 000 \| imm[4:0] \| 0100011`        |
 | ⚠️ | bltu     | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 110 \| imm[4:1\|11] \| 1100011`|
 | ⚠️ | bgeu     | B-Type | `imm[12\|10:5] \| rs2 \| rs1 \| 111 \| imm[4:1\|11] \| 1100011`|
-| ❌ | lb       |        |                                                                |
-| ⚠️ | lh       |        |                                                                |
-| ❌ | lhu      |        |                                                                |
-| ⚠️ | sh       |        |                                                                |
+| ⚠️ | lb       | I-Type | `imm[11:0] \| rs1 \| 000 \| rd  \| 0000011`                    |
+| ⚠️ | lh       | I-Type | `imm[11:0] \| rs1 \| 001 \| rd  \| 0000011`                    |
+| ⚠️ | lhu      | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0000011`                    |
+| ⚠️ | sh       | S-Type | `imm[11:5] \| rs2 \| rs1 \| 001 \| imm[4:0] \| 0100011`        |
 | ☑️ | slti     | I-Type | `imm[11:0] \| rs1 \| 010 \| rd  \| 0010011`                    |
 | ☑️ | xori     | I-Type | `imm[11:0] \| rs1 \| 100 \| rd  \| 0010011`                    |
 | ☑️ | ori      | I-Type | `imm[11:0] \| rs1 \| 110 \| rd  \| 0010011`                    |

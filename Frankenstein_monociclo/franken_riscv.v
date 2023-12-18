@@ -1,6 +1,7 @@
 /* verilator lint_off DECLFILENAME */
 /* verilator lint_off WIDTHEXPAND */
 /* verilator lint_off UNUSEDSIGNAL */
+/* verilator lint_off UNUSEDPARAM */
 
 // Nosso processador 
 module franken_riscv( input  		    clk, reset,
@@ -138,7 +139,7 @@ module franken_riscv( input  		    clk, reset,
 				 (U_type) ? ({instruction[31:12],12'b0}):
 				 (J_type) ? ({{11{instruction[31]}}, instruction[31],instruction[19:12],instruction[20],instruction[30:21],1'b0}):
 				 32'b0;
-					
+			
 	//---------------------------- Controler ---------------------------------------------//
 	
 	assign mem_write = S_type;
@@ -151,6 +152,31 @@ module franken_riscv( input  		    clk, reset,
 	
 	// Condicional para escrita nos registradores
 	wire reg_write = (R_type || S_type || B_type || I_type || U_type) && RD != 5'b0;
+
+	// ------------ State Machine ------------ //
+
+	parameter   FETCH   = 4'b0000; 	// State 0
+	parameter   DECODE  = 4'b0001; 	// State 1
+	parameter   MEMADR  = 4'b0010;	// State 2
+	parameter   MEMRD   = 4'b0011;	// State 3
+	parameter   MEMWB   = 4'b0100;	// State 4
+	parameter   MEMWR   = 4'b0101;	// State 5
+	parameter   RTYPEEX = 4'b0110;	// State 6
+	parameter   ITYPEEX = 4'b0111;	// State 7
+	parameter   JEX     = 4'b1000;	// State 8
+	parameter   ALUWB   = 4'b1001;	// State 9
+	parameter   BEQX    = 4'b1010;	// state 10
+
+	reg  [3:0] current_state;
+	wire [3:0] next_state;
+
+	assign next_state = current_state == FETCH ? DECODE : FETCH;
+
+	always @(posedge clk)
+		if(reset) 
+	 		current_state <= FETCH;
+	 	else 
+	 		current_state <= next_state;
 	
 	//-------------------------------------ALU-------------------------------------------------//
 	//wire [31:0] alu_result;
@@ -169,6 +195,7 @@ module franken_riscv( input  		    clk, reset,
 						is_lui		? imm:
 						is_xor		? $signed(src1) ^ $signed(src2):
 						is_xori		? $signed(src1) ^ $signed(imm):
+						is_lb		? src1 + imm:
 						is_lbu		? src1 + imm:
 						is_lh		? src1 + imm:
 						is_lhu	    ? src1 + imm:
@@ -216,6 +243,10 @@ module franken_riscv( input  		    clk, reset,
 	                             alu_result[1:0]==2 ? {24'h000000, read_data[23:16]} : 
 	                             alu_result[1:0]==1 ? {24'h000000, read_data[15: 8]} : 
 								                      {24'h000000, read_data[ 7: 0]}):
+					  is_lb   ? (alu_result[1:0]==3 ? {24'h000000, $signed(read_data[31:24])} : 
+	                             alu_result[1:0]==2 ? {24'h000000, $signed(read_data[23:16])} : 
+	                             alu_result[1:0]==1 ? {24'h000000, $signed(read_data[15: 8])} : 
+								                      {24'h000000, $signed(read_data[ 7: 0])}):
 					   is_lh  ? (alu_result[1:0]==2 ? {{16{read_data[31]}}, $signed(read_data[31:16])} :
 					   								  {{16{read_data[31]}}, $signed(read_data[15: 0])}):
 					   is_lhu ? (alu_result[1:0]==2 ? {16'h000000, read_data[31:16]} :

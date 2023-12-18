@@ -7,19 +7,13 @@
 //module top #(parameter VGA_BITS = 8) (
 //			 input CLOCK_50);
 
-module top #(parameter VGA_BITS = 8) (
-   input CLOCK_50, // 50MHz
-   output [VGA_BITS-1:0] VGA_R, VGA_G, VGA_B,
-   output VGA_HS, VGA_VS,
-   output reg VGA_CLK, 
-   output VGA_BLANK_N, VGA_SYNC_N);
+module top (
+   input CLOCK_50 // 50MHz
+   );
 
-	wire [31:0] pc, addr_vga, instruction, read_data, read_data_vga, write_data, alu_result;
+	wire [31:0] pc, instruction, read_data, write_data, alu_result;
 	wire        mem_write;
 	wire [3:0]  byte_enable;
-	
-	always@(posedge CLOCK_50)
-     VGA_CLK <= ~VGA_CLK; // 25MHz
 
 	wire resetn;
   	power_on_reset power_on_reset(CLOCK_50, resetn);
@@ -30,11 +24,6 @@ module top #(parameter VGA_BITS = 8) (
 	// Memoria 
    imem imem(pc, instruction);
    // dmem dmem(CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
-  	blockram blockram(alu_result, addr_vga, byte_enable, write_data, mem_write, CLOCK_50, read_data, read_data_vga);
+  	blockram blockram(alu_result, byte_enable, write_data, mem_write, CLOCK_50, read_data);
 
-   // Video 
-	vga video(VGA_CLK, read_data_vga, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS, addr_vga);
-	
-   assign VGA_BLANK_N = 1'b1;
-   assign VGA_SYNC_N  = 1'b0;  
 endmodule
