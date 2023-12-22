@@ -28,7 +28,7 @@ int main(int argc, char** argv, char** env)
         //     m_trace->dump(sim_time);
         // } 
 
-        top->CLOCK_50^=1;
+        top->clk^=1;
         sim_time ++;
 
         top->eval();

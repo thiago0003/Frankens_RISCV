@@ -11,12 +11,16 @@ module franken_riscv( input  		    clk, reset,
 			          output 	 [3: 0] byte_enable,
                       output     [31:0] alu_result, 
 			          output  	 [31:0] write_data,
-                      input      [31:0] read_data
+                      input      [31:0] read_data,
+					  output			reg_write, // Register Bank 
+					  output     [4:0]  RS1, RS2, RD,
+					  output     [31:0] write_reg,
+					  input 	 [31:0] src1, src2	
 );
 
 	// Registradores
-	wire [31:0] src1;
-	wire [31:0] src2;
+	// wire [31:0] src1;
+	// wire [31:0] src2;
 	wire [31:0] data_load;
 
 	//JUMP
@@ -117,13 +121,13 @@ module franken_riscv( input  		    clk, reset,
 	wire ebreak = (opcode == 7'b1110011 & funct3 == 3'b000 & instruction[31:25] == 12'b000000000001);
 	
 	// Decodificaçao das instruçoes e seus respectivos tipos 
-	wire [4:0] RS1;
+	// wire [4:0] RS1;
 	assign RS1 = (R_type | I_type | S_type | B_type) 	? rs1 : 5'b000000;
 	
-	wire [4:0] RS2;
+	// wire [4:0] RS2;
 	assign RS2 = (R_type | S_type | B_type)         	? rs2 : 5'b000000;
 
-	wire [4:0] RD;
+	// wire [4:0] RD;
 	assign RD = (R_type | I_type | U_type | J_type) 	? rd_ : 5'b000000;
 	
 	wire [2:0] funct3;
@@ -149,39 +153,41 @@ module franken_riscv( input  		    clk, reset,
 	
 	//Escrita da memoria para o registrador
 	wire is_mem_reg = is_lw || is_lbu || is_lb || is_lh || is_lhu;
+
+	assign write_reg = is_mem_reg ? data_load : alu_result;
 	
 	// Condicional para escrita nos registradores
-	wire reg_write = (R_type || S_type || B_type || I_type || U_type) && RD != 5'b0;
+	assign reg_write = (R_type || S_type || B_type || I_type || U_type) && RD != 5'b0;
 
 	// ------------ State Machine ------------ //
 
-	parameter   FETCH   = 4'b0000; 	// State 0
-	parameter   DECODE  = 4'b0001; 	// State 1
-	parameter   MEMADR  = 4'b0010;	// State 2
-	parameter   MEMRD   = 4'b0011;	// State 3
-	parameter   MEMWB   = 4'b0100;	// State 4
-	parameter   MEMWR   = 4'b0101;	// State 5
-	parameter   RTYPEEX = 4'b0110;	// State 6
-	parameter   ITYPEEX = 4'b0111;	// State 7
-	parameter   JEX     = 4'b1000;	// State 8
-	parameter   ALUWB   = 4'b1001;	// State 9
-	parameter   BEQX    = 4'b1010;	// state 10
+	// parameter   FETCH   = 4'b0000; 	// State 0
+	// parameter   DECODE  = 4'b0001; 	// State 1
+	// parameter   MEMADR  = 4'b0010;	// State 2
+	// parameter   MEMRD   = 4'b0011;	// State 3
+	// parameter   MEMWB   = 4'b0100;	// State 4
+	// parameter   MEMWR   = 4'b0101;	// State 5
+	// parameter   RTYPEEX = 4'b0110;	// State 6
+	// parameter   ITYPEEX = 4'b0111;	// State 7
+	// parameter   JEX     = 4'b1000;	// State 8
+	// parameter   ALUWB   = 4'b1001;	// State 9
+	// parameter   BEQX    = 4'b1010;	// state 10
 
-	reg  [3:0] current_state;
-	wire [3:0] next_state;
+	// reg  [3:0] current_state;
+	// wire [3:0] next_state;
 
-	assign next_state = (current_state == FETCH) ? DECODE : 
-						((is_lw || is_sw) && (current_state == DECODE))? MEMADR :
-						((R_type) && (current_state == DECODE)) ? RTYPEEX :
-						((I_type) && (current_state == DECODE)) ? ITYPEEX :
+	// assign next_state = (current_state == FETCH) ? DECODE : 
+	// 					((is_lw || is_sw) && (current_state == DECODE))? MEMADR :
+	// 					((R_type) && (current_state == DECODE)) ? RTYPEEX :
+	// 					((I_type) && (current_state == DECODE)) ? ITYPEEX :
 						
-						FETCH;
+	// 					FETCH;
 
-	always @(posedge clk)
-		if(reset) 
-	 		current_state <= FETCH;
-	 	else 
-	 		current_state <= next_state;
+	// always @(posedge clk)
+	// 	if(reset) 
+	//  		current_state <= FETCH;
+	//  	else 
+	//  		current_state <= next_state;
 	
 	//-------------------------------------ALU-------------------------------------------------//
 	//wire [31:0] alu_result;
@@ -258,6 +264,5 @@ module franken_riscv( input  		    clk, reset,
 					   								  {16'h000000, read_data[15: 0]}):
 																  read_data;
 	
-	// Banco de registradores 
-	register regs(!clk, reg_write, RS1, RS2, RD, is_mem_reg ? data_load : alu_result, src1, src2);
+
 endmodule

@@ -3,27 +3,44 @@
 /* verilator lint_off WIDTHTRUNC */
 /* verilator lint_off UNUSEDSIGNAL */
 
-// Instancia devidamente os modulos
-//module top #(parameter VGA_BITS = 8) (
-//			 input CLOCK_50);
-
 module top (
-   input CLOCK_50 // 50MHz
+   input clk 
    );
 
-	wire [31:0] pc, instruction, read_data, write_data, alu_result;
-	wire        mem_write;
-	wire [3:0]  byte_enable;
+	wire [31:0]  pc, instruction, read_data, write_data, alu_result, write_reg, src1, src2;
+	wire         mem_write, reg_write;
+	wire [3:0]   byte_enable;
+	wire [4:0]   RS1, RS2, RD;
+	wire [127:0] out_decoder1, out_decoder2, out_decoder3, out_decoder4;
+	reg 		 clk_div1, clk_div2, clk_div3, clk_div4;
+
+	always@(posedge clk)
+		clk_div1 <= ~clk_div1; // Div 1
+	
+	always@(posedge clk_div1)
+		clk_div2 <= ~clk_div2; // Div 2
+
+	always@(posedge clk_div2)
+		clk_div3 <= ~clk_div3; // Div 3
+
+	always@(posedge clk_div3)
+		clk_div4 <= ~clk_div4; // Div 4
+
 
 	wire resetn;
-  	power_on_reset power_on_reset(CLOCK_50, resetn);
+  	power_on_reset power_on_reset(clk, resetn);
 
 	// CPU
-	franken_riscv franken_riscv(CLOCK_50, !resetn, pc, instruction, mem_write, byte_enable, alu_result, write_data, read_data);
+	franken_riscv franken_riscv(clk_div4, !resetn, pc, instruction, mem_write, byte_enable, alu_result, write_data, read_data, reg_write, RS1, RS2, RD, write_reg, src1, src2);
 	
 	// Memoria 
-   imem imem(pc, instruction);
-   // dmem dmem(CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
-  	blockram blockram(alu_result, byte_enable, write_data, mem_write, CLOCK_50, read_data);
+    imem imem(pc, instruction);
+    // dmem dmem(CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
+  	blockram blockram(alu_result, byte_enable, write_data, mem_write, clk_div4, read_data);
+
+	// Banco de registradores 
+	register regs(!clk_div4, reg_write, RS1, RS2, RD, write_reg, src1, src2);
+
+	alu_decoder alu_decoder(clk, instruction, RS1, RS2, out_decoder1, out_decoder2, out_decoder3, out_decoder4);
 
 endmodule
