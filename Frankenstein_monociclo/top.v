@@ -34,13 +34,13 @@ module top (
 	franken_riscv franken_riscv(clk_div4, !resetn, pc, instruction, mem_write, byte_enable, alu_result, write_data, read_data, reg_write, RS1, RS2, RD, write_reg, src1, src2);
 	
 	// Memoria 
-    imem imem(pc, instruction);
+    imem imem(!clk_div4, 1'b0, pc, 5'b0, 32'b0, instruction);
     // dmem dmem(CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
   	blockram blockram(alu_result, byte_enable, write_data, mem_write, clk_div4, read_data);
 
 	// Banco de registradores 
-	register regs(!clk_div4, reg_write, RS1, RS2, RD, write_reg, src1, src2);
+	register regs(clk_div4, reg_write, RS1, RS2, RD, write_reg, src1, src2);
 
-	alu_decoder alu_decoder(clk, instruction, RS1, RS2, out_decoder1, out_decoder2, out_decoder3, out_decoder4);
+	alu_decoder alu_decoder(clk, instruction, RS1, RS2, write_reg, out_decoder1, out_decoder2, out_decoder3, out_decoder4);
 
 endmodule

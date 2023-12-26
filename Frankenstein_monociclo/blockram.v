@@ -5,7 +5,7 @@
 module blockram #(
   parameter   BYTE_WIDTH = 8,
               ADDRESS_WIDTH = 32,
-		      DEPTH = 1200,
+		      DEPTH = 750,
 		      BYTES = 4,
 		      DATA_WIDTH_R = BYTE_WIDTH * BYTES
 )
@@ -15,13 +15,14 @@ module blockram #(
 	input [DATA_WIDTH_R-1:0] data_in, 
 	input we, clk,
 	output [DATA_WIDTH_R-1:0] data_out);
-	// 
+
+
 	// model the RAM with two dimensional packed array
 	reg [BYTE_WIDTH-1:0] ram[0:DEPTH-1][0:BYTES-1];
 
 	reg [DATA_WIDTH_R-1:0] data_reg;
 
- // port A
+ 	// port A
 	always@(posedge clk)
 	begin
 		if(we) begin
@@ -32,7 +33,7 @@ module blockram #(
 			if(be[3]) ram[addr[31:2]][3] <= data_in[31:24];
 		end
 		
-      data_reg <= {ram[addr][3], ram[addr][2], ram[addr][1], ram[addr][0]};
+      data_reg <= {ram[addr[31:2]][3], ram[addr[31:2]][2], ram[addr[31:2]][1], ram[addr[31:2]][0]};
 	end
 
 	assign data_out = data_reg;

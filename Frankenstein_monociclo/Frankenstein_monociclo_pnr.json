@@ -38,7 +38,7 @@
       },
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/top.v:10.1-33.10"
+        "src": "/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/top.v:6.1-46.10"
       },
       "ports": {
         "clk": {
@@ -47,7 +47,7 @@
         }
       },
       "cells": {
-        "bram_sp_0.clk_IBUF_O$iob": {
+        "alu_decoder.clk_IBUF_O$iob": {
           "hide_name": 0,
           "type": "IOB",
           "parameters": {
@@ -59,7 +59,7 @@
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000110",
             "NEXTPNR_BEL": "R17C47_IOBA",
-            "src": "/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/top.v:11.10-11.13",
+            "src": "/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/top.v:7.10-7.13",
             "&IO_TYPE=LVCMOS33": "00000000000000000000000000000001",
             "&PULL_MODE=UP": "00000000000000000000000000000001"
           },
@@ -89,7 +89,7 @@
             "G": "output"
           },
           "connections": {
-            "G": [ 3878576 ]
+            "G": [ 3878579 ]
           }
         },
         "$PACKER_VCC": {
@@ -105,31 +105,31 @@
             "V": "output"
           },
           "connections": {
-            "V": [ 3878578 ]
+            "V": [ 3878581 ]
           }
         }
       },
       "netnames": {
         "$PACKER_GND_NET": {
           "hide_name": 1,
-          "bits": [ 3878576 ] ,
+          "bits": [ 3878579 ] ,
           "attributes": {
             "ROUTING": " "
           }
         },
-        "bram_sp_0.clk": {
+        "alu_decoder.clk": {
           "hide_name": 0,
           "bits": [ 3878563 ] ,
           "attributes": {
             "ROUTING": " ",
             "unused_bits": "0 ",
-            "src": "/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/top.v:20.19-20.46|/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/power_on_reset.v:4.9-4.12",
+            "src": "/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/top.v:31.19-31.46|/home/martins/Documents/Frankens_RISCV/Frankenstein_monociclo/power_on_reset.v:4.9-4.12",
             "hdlname": "power_on_reset clk"
           }
         },
         "$PACKER_VCC_NET": {
           "hide_name": 1,
-          "bits": [ 3878578 ] ,
+          "bits": [ 3878581 ] ,
           "attributes": {
             "ROUTING": " "
           }

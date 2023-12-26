@@ -2,10 +2,11 @@
 /* verilator lint_off WIDTHTRUNC */
 /* verilator lint_off UNUSEDSIGNAL */
 /* verilator lint_off DECLFILENAME */
+/* verilator lint_off UNDRIVEN */
 
 module alu_decoder (
    input             clk,
-   input      [31:0] instruction,RD1, RD2,
+   input      [31:0] instruction,R1, R2, RD,
    output reg [127 :0] data_out1, data_out2, data_out3, data_out4 
    );
 
@@ -14,29 +15,44 @@ module alu_decoder (
    always @(posedge clk)
    begin
     data_out1 <= hex_code;
-    data_out2 <= {{24'h49_4D_4D   , imm_}, {5{16'h00}}};
-    data_out3 <= {{32'h52_44_31_3A, RD1_}, {4{16'h00}}};
-    data_out4 <= {{32'h52_44_32_3A, RD2_}, {4{16'h00}}};
+
+	data_out2[127:95] <= R_type ? 32'h52_44_3A_00 : 32'h49_4D_4D_3A;
+	data_out2[63:0]   <= R_type ? RD_ : imm_;
+
+	if(U_type)
+		data_out3 <= 128'h0;
+	else if(is_jalr)
+		data_out3 <= 128'h52_31_00_2B_00_49_4D_4D;
+	else if(J_type || B_type)
+		data_out3 <= 128'h50_43_3A_00_2B_00_49_4D_4D;
+	else
+	begin
+		data_out3[127:95] <= 32'h52_31_3A_00;
+		data_out3[63:0]   <= R1_;
+	end
+
+	data_out4[127:95] <= I_type || U_type || J_type ? 32'h52_44_3A_00 : 32'h52_32_3A_00;
+    data_out4[63:0] <= I_type || U_type || J_type ? RD_ : R2_;
    end
 
-   wire [63:0] RD1_, RD2_, imm_;
-   ascii_decoder ascii_decoder1_1(RD1[3 : 0], RD1_[7:0]);
-   ascii_decoder ascii_decoder1_2(RD1[7 : 4], RD1_[15:8]);
-   ascii_decoder ascii_decoder1_3(RD1[11: 8], RD1_[23:16]);
-   ascii_decoder ascii_decoder1_4(RD1[15:12], RD1_[31:24]);
-   ascii_decoder ascii_decoder1_5(RD1[19:16], RD1_[39:32]);
-   ascii_decoder ascii_decoder1_6(RD1[23:20], RD1_[47:40]);
-   ascii_decoder ascii_decoder1_7(RD1[27:24], RD1_[55:48]);
-   ascii_decoder ascii_decoder1_8(RD1[31:28], RD1_[63:56]);
+   wire [63:0] R1_, R2_, RD_, imm_;
+   ascii_decoder ascii_decoder1_1(R1[3 : 0], R1_[7:0]);
+   ascii_decoder ascii_decoder1_2(R1[7 : 4], R1_[15:8]);
+   ascii_decoder ascii_decoder1_3(R1[11: 8], R1_[23:16]);
+   ascii_decoder ascii_decoder1_4(R1[15:12], R1_[31:24]);
+   ascii_decoder ascii_decoder1_5(R1[19:16], R1_[39:32]);
+   ascii_decoder ascii_decoder1_6(R1[23:20], R1_[47:40]);
+   ascii_decoder ascii_decoder1_7(R1[27:24], R1_[55:48]);
+   ascii_decoder ascii_decoder1_8(R1[31:28], R1_[63:56]);
 
-   ascii_decoder ascii_decoder2_1(RD2[3 : 0], RD2_[7:0]);
-   ascii_decoder ascii_decoder2_2(RD2[7 : 4], RD2_[15:8]);
-   ascii_decoder ascii_decoder2_3(RD2[11: 8], RD2_[23:16]);
-   ascii_decoder ascii_decoder2_4(RD2[15:12], RD2_[31:24]);
-   ascii_decoder ascii_decoder2_5(RD2[19:16], RD2_[39:32]);
-   ascii_decoder ascii_decoder2_6(RD2[23:20], RD2_[47:40]);
-   ascii_decoder ascii_decoder2_7(RD2[27:24], RD2_[55:48]);
-   ascii_decoder ascii_decoder2_8(RD2[31:28], RD2_[63:56]);
+   ascii_decoder ascii_decoder2_1(R2[3 : 0], R2_[7:0]);
+   ascii_decoder ascii_decoder2_2(R2[7 : 4], R2_[15:8]);
+   ascii_decoder ascii_decoder2_3(R2[11: 8], R2_[23:16]);
+   ascii_decoder ascii_decoder2_4(R2[15:12], R2_[31:24]);
+   ascii_decoder ascii_decoder2_5(R2[19:16], R2_[39:32]);
+   ascii_decoder ascii_decoder2_6(R2[23:20], R2_[47:40]);
+   ascii_decoder ascii_decoder2_7(R2[27:24], R2_[55:48]);
+   ascii_decoder ascii_decoder2_8(R2[31:28], R2_[63:56]);
 
    ascii_decoder ascii_decoder3_1(imm[3 : 0], imm_[7:0]);
    ascii_decoder ascii_decoder3_2(imm[7 : 4], imm_[15:8]);
@@ -47,8 +63,14 @@ module alu_decoder (
    ascii_decoder ascii_decoder3_7(imm[27:24], imm_[55:48]);
    ascii_decoder ascii_decoder3_8(imm[31:28], imm_[63:56]);
 
-
-//    wire [31:0] RD1_ = {{{{RD1[31:24] + 8'h41}, {RD1[23:16] + 8'h41}}, {RD1[15:8] + 8'h41}}, {RD1[7:0] + 8'h41}};
+   ascii_decoder ascii_decoder4_1(RD[3 : 0], RD_[7:0]);
+   ascii_decoder ascii_decoder4_2(RD[7 : 4], RD_[15:8]);
+   ascii_decoder ascii_decoder4_3(RD[11: 8], RD_[23:16]);
+   ascii_decoder ascii_decoder4_4(RD[15:12], RD_[31:24]);
+   ascii_decoder ascii_decoder4_5(RD[19:16], RD_[39:32]);
+   ascii_decoder ascii_decoder4_6(RD[23:20], RD_[47:40]);
+   ascii_decoder ascii_decoder4_7(RD[27:24], RD_[55:48]);
+   ascii_decoder ascii_decoder4_8(RD[31:28], RD_[63:56]);
 
 	// Recebe os valores que sao passados na instruçao
 	wire [6:0] opcode;
@@ -98,51 +120,47 @@ module alu_decoder (
 				 (J_type) ? ({{11{instruction[31]}}, instruction[31],instruction[19:12],instruction[20],instruction[30:21],1'b0}):
 				 32'b0;
 
+	wire is_jalr  = (funct3 == 3'b000 & opcode == 7'b1100111);
+
                                                                                          // ASCII HEX
-    assign hex_code = (R_type & funct3 == 3'b000 & funct7 == 7'b0000000)                ? 128'h41_44_44_00_52_44_31_3A_2B_52_44_32_3A :  // is_add
-	                  (R_type & funct3 == 3'b000 & funct7 == 7'b0100000)                ? 128'h53_55_42_00_52_44_31_3A_2D_52_44_32_3A :  // is_sub
-	                  (R_type & funct3 == 3'b100 & funct7 == 7'b0000000)                ? 128'h58_4F_52_00_52_44_31_3A_5E_52_44_32_3A :  // is_xor
-	                  (R_type & funct3 == 3'b110 & funct7 == 7'b0000000)                ? 128'h4F_52_00_52_44_31_3A_7C_52_44_32_3A :  // is_or
-	                  (R_type & funct3 == 3'b111 & funct7 == 7'b0000000)                ? 128'h41_4E_44_00_52_44_31_3A_26_52_44_32_3A :  // is_and
-	                  (R_type & funct3 == 3'b011 & funct7 == 7'b0000000)                ? 128'h53_4C_54_55 :  // is_sltu
-	                  (R_type & funct3 == 3'b001 & funct7 == 7'b0000000)                ? 128'h53_4C_4C :  // is_sll
-	                  (R_type & funct3 == 3'b010 & funct7 == 7'b0000000)                ? 128'h53_4C_54 :  // is_slt
-	                  (R_type & funct3 == 3'b101 & funct7 == 7'b0000000)                ? 128'h53_52_4C :  // is_srl
-	                  (R_type & funct3 == 3'b101 & funct7 == 7'b0100000)                ? 128'h53_52_41 :  // is_sra
-	                  (funct3 == 3'b000 & opcode == 7'b1100111)                         ? 128'h4A_41_4C_52_50_43_2B_52_44_31_3A_2B_49_4D_4D :  // is_jalr 
-	                  (funct3 == 3'b000 & opcode == 7'b0000011)                         ? 128'h4C_42 :  // is_lb 
-	                  (funct3 == 3'b001 & opcode == 7'b0000011)                         ? 128'h4C_48 :  // is_lh 
-	                  (funct3 == 3'b010 & opcode == 7'b0000011)                         ? 128'h4C_57 :  // is_lw 
-	                  (funct3 == 3'b100 & opcode == 7'b0000011)                         ? 128'h4C_42_55 :  // is_lbu 
-	                  (funct3 == 3'b101 & opcode == 7'b0000011)                         ? 128'h4C_48_55 :  // is_lhu 
-	                  (funct3 == 3'b000 & opcode == 7'b0010011)                         ? 128'h41_44_44_49_00_52_44_31_3A_2B_49_4D_4D :  // is_addi 
-	                  (funct3 == 3'b010 & opcode == 7'b0010011)                         ? 128'h53_4C_54_49 :  // is_slti 
-	                  (funct3 == 3'b011 & opcode == 7'b0010011)                         ? 128'h53_4C_54_49_55 :  // is_sltiu 
-	                  (funct3 == 3'b100 & opcode == 7'b0010011)                         ? 128'h58_4F_52_49_00_52_44_31_3A_5E_49_4D_4D :  // is_xori 
-	                  (funct3 == 3'b110 & opcode == 7'b0010011)                         ? 128'h4F_52_49_00_52_44_31_3A_7C_49_4D_4D :  // is_ori 
-	                  (funct3 == 3'b111 & opcode == 7'b0010011)                         ? 128'h41_4E_44_49_00_52_44_31_3A_26_49_4D_4D :  // is_andi 
-	                  (funct3 == 3'b001 & funct7 == 7'b0000000 & opcode == 7'b0010011)  ? 128'h53_4C_4C_49 :  // is_slli
-	                  (funct3 == 3'b101 & funct7 == 7'b0000000 & opcode == 7'b0010011)  ? 128'h53_52_4C_49 :  // is_srli
-	                  (funct3 == 3'b101 & funct7 == 7'b0100000 & opcode == 7'b0010011)  ? 128'h53_52_41_49 :  // is_srai
-	                  (S_type & funct3 == 3'b010)                                       ? 128'h53_57 :  // is_sw
-	                  (S_type & funct3 == 3'b000)                                       ? 128'h53_42 :  // is_sb
-	                  (S_type & funct3 == 3'b001)                                       ? 128'h53_48 :  // is_sh
-                      (B_type & funct3 == 3'b101)                                       ? 128'h42_47_45 :  // is_bge 
-	                  (B_type & funct3 == 3'b000)                                       ? 128'h42_45_51 :  // is_beq 
-	                  (B_type & funct3 == 3'b100)                                       ? 128'h42_4C_54 :  // is_blt 
-	                  (B_type & funct3 == 3'b001)                                       ? 128'h42_4E_45 :  // is_bne 
-	                  (B_type & funct3 == 3'b110)                                       ? 128'h42_4C_54_55 :  // is_bltu
-	                  (B_type & funct3 == 3'b111)                                       ? 128'h42_47_45_55 :  // is_bgeu
+    assign hex_code = (R_type & funct3 == 3'b000 & funct7 == 7'b0000000)                ? 128'h41_44_44_00_52_31_00_2B_00_52_32_3A :  // is_add
+	                  (R_type & funct3 == 3'b000 & funct7 == 7'b0100000)                ? 128'h53_55_42_00_52_31_00_2D_00_52_32_3A :  // is_sub
+	                  (R_type & funct3 == 3'b100 & funct7 == 7'b0000000)                ? 128'h58_4F_52_00_52_31_00_5E_00_52_32_3A :  // is_xor
+	                  (R_type & funct3 == 3'b110 & funct7 == 7'b0000000)                ? 128'h4F_52_00_52_31_00_7C_00_52_32_3A :  // is_or
+	                  (R_type & funct3 == 3'b111 & funct7 == 7'b0000000)                ? 128'h41_4E_44_00_52_31_00_26_00_52_32_3A :  // is_and
+	                  (R_type & funct3 == 3'b011 & funct7 == 7'b0000000)                ? 128'h53_4C_54_55_00_52_31_00_3C_00_2B_52_32 :  // is_sltu
+	                  (R_type & funct3 == 3'b001 & funct7 == 7'b0000000)                ? 128'h53_4C_4C_00_52_31_3C_3C_00_52_32 :  // is_sll
+	                  (R_type & funct3 == 3'b010 & funct7 == 7'b0000000)                ? 128'h53_4C_54_00_52_31_00_3C_00_52_32 :  // is_slt
+	                  (R_type & funct3 == 3'b101 & funct7 == 7'b0000000)                ? 128'h53_52_4C_00_52_31_00_3E_00_52_32 :  // is_srl
+	                  (R_type & funct3 == 3'b101 & funct7 == 7'b0100000)                ? 128'h53_52_41_00_52_31_00_3E_3E_3E_00_52_32 :  // is_sra
+	                  (funct3 == 3'b000 & opcode == 7'b1100111)                         ? 128'h4A_41_4C_52_50_43_2B_52_31_00_2B_00_49_4D_4D :  // is_jalr 
+	                  (funct3 == 3'b000 & opcode == 7'b0000011)                         ? 128'h4C_42_00_38_62_69_74_73 :  // is_lb 
+	                  (funct3 == 3'b001 & opcode == 7'b0000011)                         ? 128'h4C_48_00_31_36_62_69_74_73 :  // is_lh 
+	                  (funct3 == 3'b010 & opcode == 7'b0000011)                         ? 128'h4C_57_00_33_32_62_69_74_73 :  // is_lw 
+	                  (funct3 == 3'b100 & opcode == 7'b0000011)                         ? 128'h4C_42_55_00_2B_38_62_69_74_73:  // is_lbu 
+	                  (funct3 == 3'b101 & opcode == 7'b0000011)                         ? 128'h4C_48_55_00_2B_31_36_62_69_74_73 :  // is_lhu 
+	                  (funct3 == 3'b000 & opcode == 7'b0010011)                         ? 128'h41_44_44_49_00_52_31_00_2B_00_49_4D_4D :  // is_addi 
+	                  (funct3 == 3'b010 & opcode == 7'b0010011)                         ? 128'h53_4C_54_49_00_52_31_00_3C_00_49_4D_4D :  // is_slti 
+	                  (funct3 == 3'b011 & opcode == 7'b0010011)                         ? 128'h53_4C_54_49_55_00_52_31_00_3C_00_2B_49_4D_4D :  // is_sltiu 
+	                  (funct3 == 3'b100 & opcode == 7'b0010011)                         ? 128'h58_4F_52_49_00_52_31_00_5E_00_49_4D_4D :  // is_xori 
+	                  (funct3 == 3'b110 & opcode == 7'b0010011)                         ? 128'h4F_52_49_00_52_31_00_7C_00_49_4D_4D :  // is_ori 
+	                  (funct3 == 3'b111 & opcode == 7'b0010011)                         ? 128'h41_4E_44_49_00_52_31_00_26_00_49_4D_4D :  // is_andi 
+	                  (funct3 == 3'b001 & funct7 == 7'b0000000 & opcode == 7'b0010011)  ? 128'h53_4C_4C_49_00_52_31_00_3C_3C_00_49_4D_4D :  // is_slli
+	                  (funct3 == 3'b101 & funct7 == 7'b0000000 & opcode == 7'b0010011)  ? 128'h53_52_4C_49_00_52_31_00_3E_3E_00_49_4D_4D :  // is_srli
+	                  (funct3 == 3'b101 & funct7 == 7'b0100000 & opcode == 7'b0010011)  ? 128'h53_52_41_49_00_52_31_00_3E_3E_3E_00_49_4D_4D :  // is_srai
+	                  (S_type & funct3 == 3'b010)                                       ? 128'h53_57_00_33_32_62_69_74_73 :  // is_sw
+	                  (S_type & funct3 == 3'b000)                                       ? 128'h53_42_00_38_62_69_74_73 :  // is_sb
+	                  (S_type & funct3 == 3'b001)                                       ? 128'h53_48_00_31_36_62_69_74_73 :  // is_sh
+                      (B_type & funct3 == 3'b101)                                       ? 128'h42_47_45_00_52_31_00_3E_3D_00_52_32 :  // is_bge 
+	                  (B_type & funct3 == 3'b000)                                       ? 128'h42_45_51_00_52_31_00_3D_3D_00_52_32 :  // is_beq 
+	                  (B_type & funct3 == 3'b100)                                       ? 128'h42_4C_54_00_52_31_00_3C_00_52_32 :  // is_blt 
+	                  (B_type & funct3 == 3'b001)                                       ? 128'h42_4E_45_00_52_31_00_21_3D_00_52_32 :  // is_bne 
+	                  (B_type & funct3 == 3'b110)                                       ? 128'h42_4C_54_55_00_2B_52_31_00_3C_00_2B_52_32 :  // is_bltu
+	                  (B_type & funct3 == 3'b111)                                       ? 128'h42_47_45_55_00_2B_52_31_00_3E_3D_00_2B_52_32 :  // is_bgeu
                       opcode == 7'b0010111                                              ? 128'h41_55_49_50_43 :  // is_auipc
-	                  opcode == 7'b0110111                                              ? 128'h4C_55_49 :  // is_lui
-	                  (J_type)                                                          ? 128'h4A_41_4C :  //  is_jal
+	                  opcode == 7'b0110111                                              ? 128'h4C_55_49_00_49_4D_4D :  // is_lui
+	                  (J_type)                                                          ? 128'h4A_41_4C_00_50_43_00_2B_00_49_4D_4D :  //  is_jal
                                                                                           128'h00;
-
-
-	// System-Type
-	// wire fence  = (opcode == 7'b0001111 & funct3 == 3'b000);
-	// wire ecall  = (opcode == 7'b1110011 & funct3 == 3'b000 & instruction[31:25] == 12'b000000000000);
-	// wire ebreak = (opcode == 7'b1110011 & funct3 == 3'b000 & instruction[31:25] == 12'b000000000001);
 
 endmodule
 
