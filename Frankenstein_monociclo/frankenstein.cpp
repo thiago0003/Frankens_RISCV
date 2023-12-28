@@ -33,6 +33,7 @@ int main(int argc, char** argv, char** env)
 
         top->eval();
         m_trace->dump(sim_time);
+        
     }
 
     m_trace->close();

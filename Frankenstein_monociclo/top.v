@@ -39,7 +39,7 @@ module top (
   	blockram blockram(alu_result, byte_enable, write_data, mem_write, clk_div4, read_data);
 
 	// Banco de registradores 
-	register regs(clk_div4, reg_write, RS1, RS2, RD, write_reg, src1, src2);
+	register regs(!clk_div4, reg_write, RS1, RS2, RD, write_reg, src1, src2);
 
 	alu_decoder alu_decoder(clk, instruction, RS1, RS2, write_reg, out_decoder1, out_decoder2, out_decoder3, out_decoder4);
 
