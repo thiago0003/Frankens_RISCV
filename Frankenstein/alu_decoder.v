@@ -6,18 +6,18 @@
 
 module alu_decoder (
    input             clk,
-   input      [31:0] instruction,R1, R2, RD,
-   output reg [127 :0] data_out1, data_out2, data_out3, data_out4 
+   input      [31:0]   instruction,R1, R2, RD,
+   output reg [127:0] data_out1, data_out2, data_out3, data_out4 
    );
 
    wire [127:0] hex_code;
-
-   always @(posedge clk)
+   
+   always @(clk)
    begin
     data_out1 <= hex_code;
 
-	data_out2[127:95] <= R_type ? 32'h52_44_3A_00 : 32'h49_4D_4D_3A;
-	data_out2[63:0]   <= R_type ? RD_ : imm_;
+	// data_out2[31:0] <= R_type ? 32'h52_44_3A_00 : 32'h49_4D_4D_3A;
+	data_out2 <= R_type ? {32'h52_44_3A_00, RD_} : {32'h49_4D_4D_3A, imm_};
 
 	if(U_type)
 		data_out3 <= 128'h0;
@@ -27,12 +27,12 @@ module alu_decoder (
 		data_out3 <= 128'h50_43_3A_00_2B_00_49_4D_4D;
 	else
 	begin
-		data_out3[127:95] <= 32'h52_31_3A_00;
-		data_out3[63:0]   <= R1_;
+		//data_out3[31:0] <= 32'h52_31_3A_00;
+		data_out3[127:0]   <= {32'h52_31_3A_00, R1_};
 	end
 
-	data_out4[127:95] <= I_type || U_type || J_type ? 32'h52_44_3A_00 : 32'h52_32_3A_00;
-    data_out4[63:0] <= I_type || U_type || J_type ? RD_ : R2_;
+	// data_out4[31:0] <= I_type || U_type || J_type ? 32'h52_44_3A_00 : 32'h52_32_3A_00;
+    data_out4[127:0] <= I_type || U_type || J_type ? {32'h52_44_3A_00, RD_} : {32'h52_32_3A_00, R2_};
    end
 
    wire [63:0] R1_, R2_, RD_, imm_;

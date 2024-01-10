@@ -2,7 +2,7 @@
 /* verilator lint_off UNUSEDSIGNAL */
 
  // Modulo de memoria de programa 
-module blockram #(
+module gowin_blockram #(
   parameter   BYTE_WIDTH = 8,
               ADDRESS_WIDTH = 32,
 		      DEPTH = 750,
@@ -14,7 +14,7 @@ module blockram #(
     input  [31:0] DI,
     input  [13:0] AD,
     input         WRE, CE, CLK, RESET, OCE,
-    input  [2 :0] BLKSEL
+    input  [2 :0] BLKSEL,
 
 
 
@@ -30,7 +30,7 @@ module blockram #(
 	reg [31:0] data_reg;
 
  // port A
-	always@(posedge clk)
+	always @(posedge clk)
 	begin
 		if(WRE) begin
 		   // edit this code if using other than four bytes per word

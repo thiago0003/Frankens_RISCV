@@ -36,7 +36,7 @@ module top (
 	// Memoria 
     imem imem(!clk_div4, 1'b0, pc, 5'b0, 32'b0, instruction);
     // dmem dmem(CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
-  	blockram blockram(alu_result, byte_enable, write_data, mem_write, clk_div4, read_data);
+  	blockram blockram(alu_result, byte_enable, write_data, mem_write, clk, read_data);
 
 	// Banco de registradores 
 	register regs(!clk_div4, reg_write, RS1, RS2, RD, write_reg, src1, src2);

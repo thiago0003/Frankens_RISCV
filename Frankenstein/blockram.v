@@ -5,7 +5,7 @@
 module blockram #(
   parameter   BYTE_WIDTH = 8,
               ADDRESS_WIDTH = 32,
-		      DEPTH = 750,
+		      DEPTH = 50,
 		      BYTES = 4,
 		      DATA_WIDTH_R = BYTE_WIDTH * BYTES
 )
