@@ -3,6 +3,8 @@
 /* verilator lint_off UNUSEDSIGNAL */
 /* verilator lint_off UNUSEDPARAM */
 
+/* verilator lint_off UNDRIVEN */
+
 // Nosso processador 
 module franken_riscv( input  		    clk, reset,
                       output reg [31:0] pc,
@@ -16,7 +18,9 @@ module franken_riscv( input  		    clk, reset,
 					  output	 [4:0]  RS1, RS2, 
 					  output reg [4:0]  RD_WB,
 					  output reg [31:0] write_reg_WB,
-					  input 	 [31:0] src1_Dec, src2_Dec	
+					  input 	 [31:0] src1_Dec, src2_Dec,
+					  input				RXD,
+					  output 		    TXD
 );
 
 	// Variáveis
@@ -36,7 +40,7 @@ module franken_riscv( input  		    clk, reset,
 	// Atualiza nosso valor de PC
 	wire [31:0] next_pc =	reset 				? 32'b0:
 						is_conditional_jump_Dec	? jump_add_Exec: // Flush: Force pc to stay in instruction
-						!stall 					? pc + 32'd4:
+						!stall_Exec 			? pc + 32'd4:
 						pc + 32'd0;								 // In case of stall, pc to stay in intruction 
 
 	// current_state == FETCH
@@ -50,7 +54,7 @@ module franken_riscv( input  		    clk, reset,
 	reg [2:0] funct3_;
 	reg [31:0] imm, pc_dec;
 	reg[1:0] Fwd_A, Fwd_B;
-	reg stall;
+	reg stall_Exec, stall_Mem, stall_WB;
 
 	always @(negedge clk)
 	begin
@@ -93,10 +97,10 @@ module franken_riscv( input  		    clk, reset,
 			Fwd_B <= 2'b00;
 
 		// ------------- Hazard Detection ------------- //
-		if(mem_read_Exec && !stall &&  (RD_Exec == instruction[11:7] || RD_Exec == instruction[24:20]) && RD_Exec != 5'b00000)
-			stall <= 1;
+		if(mem_read_Exec && !stall_Exec &&  (RD_Exec == instruction[11:7] || RD_Exec == instruction[24:20]) && RD_Exec != 5'b00000)
+			stall_Exec <= 1;
 		else
-			stall <= 0;
+			stall_Exec <= 0;
 	end
 	
 	//Instruction Type 
@@ -219,20 +223,22 @@ module franken_riscv( input  		    clk, reset,
 							src2_Dec; 
 
 
-	// Define os sinais para a multiplicação 
-	wire sign1 = src1_forward[31] &  is_mulh;
-    wire sign2 = src2_forward[31] & (is_mulh | is_mulhsu);
+	// ----------------------------- Multiply -------------------------------// 
+	wire sign1 = src1_Dec[31] &  is_mulh;
+    wire sign2 = src2_Dec[31] & (is_mulh | is_mulhsu);
 
-	wire signed [32:0] src1_sign = {sign1, src1_forward};
-   	wire signed [32:0] src2_sign = {sign2, src2_forward};
+	wire signed [32:0] src1_sign = {sign1, src1_Dec};
+   	wire signed [32:0] src2_sign = {sign2, src2_Dec};
 
-	wire [63:0] alu_result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
+	wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
 
 	// current_state == EXEC
 	always @(posedge clk)
 	begin
-		if(!stall)
+		if(!stall_Exec)
 		begin
+			stall_Mem <= stall_Exec;
+
 			// Exec
 			is_conditional_jump_Exec <= is_conditional_jump_Dec;
 
@@ -286,8 +292,8 @@ module franken_riscv( input  		    clk, reset,
 								is_srl		? $signed(src1_forward) >> $signed(src2_forward):
 								is_srai     ? $signed(src1_forward) >>> $signed(imm[4:0]):
 								is_sra      ? $signed(src1_forward) >>> $signed(src2_forward):
-								is_mul		? alu_result_mul[31:0]:
-								is_mulh || is_mulhsu || is_mulhu ? alu_result_mul[63:32]:
+								is_mul		? result_mul[31:0]:
+								is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
 								32'b0;
 		end 
 	end
@@ -295,8 +301,9 @@ module franken_riscv( input  		    clk, reset,
 	// current_state == MEM
 	always @(negedge clk)
 	begin
-		if(!stall)
+		if(!stall_Mem)
 		begin
+			stall_WB <= stall_Mem;
 
 			//Memory 
 			mem_write_Mem <= mem_write_Exec;
@@ -348,16 +355,15 @@ module franken_riscv( input  		    clk, reset,
 		end
 	end
 
-	//assign alu_result_ = mem_read_Dec ? alu_result_Exec : alu_result_Mem;
-
 	// current_state == WB
 	always @(posedge clk)
 	begin
-		if(!stall)
+		if(!stall_WB)
 		begin
 			reg_write_WB <= reg_write_Mem;
 			RD_WB  <= RD_Mem;
-			write_reg_WB <= mem_read_Mem ? data_load : alu_result_Mem;
+			write_reg_WB <= mem_read_Mem ? data_load :  
+							alu_result_Mem;
 		end
 	end
 
