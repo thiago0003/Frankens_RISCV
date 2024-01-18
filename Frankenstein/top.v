@@ -8,7 +8,7 @@ module top (
    );
 
 	wire [31:0]  pc, instruction, read_data, write_data, alu_result, write_reg, src1, src2;
-	wire         mem_write, reg_write, TXD, RXD;
+	wire         mem_write, reg_write, TXD, RXD, oce;
 	wire [3:0]   byte_enable;
 	wire [4:0]   RS1, RS2, RD;
 	wire [127:0] out_decoder1, out_decoder2, out_decoder3, out_decoder4;
@@ -39,6 +39,12 @@ module top (
     imem imem(!clk, 1'b0, pc, 5'b0, 32'b0, instruction);
     // dmem dmem(CLOCK_50, mem_write, byte_enable, alu_result, addr_vga, write_data, read_data, read_data_vga);
   	blockram blockram(alu_result, byte_enable, write_data, mem_write, clk, read_data);
+
+	wire rd_req, wr_req;
+	reg data_valid;
+	// wire [14:0] wr_addr
+
+	memory memory (clk, resetn, rd_req, alu_result, read_data, data_valid, wr_req, alu_result, write_data);
 
 	// Banco de registradores 
 	register regs(!clk, reg_write, RS1, RS2, RD, write_reg, src1, src2);

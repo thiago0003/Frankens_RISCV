@@ -128,8 +128,6 @@ module franken_riscv( input  		    clk, reset,
 	wire is_rem    = (R_type && funct3 == 3'b110 & funct7 == 7'b0000001);
 	wire is_remu   = (R_type && funct3 == 3'b111 & funct7 == 7'b0000001);
 
-	wire is_multiply = is_mul || is_mulh || is_mulhsu || is_mulhu;
-
 	// I-Type
 	wire I_type   = (opcode == 7'b1100111 || opcode == 7'b0000011 || opcode == 7'b0010011);
 	wire is_jalr  = (funct3 == 3'b000 & opcode == 7'b1100111);
@@ -231,6 +229,7 @@ module franken_riscv( input  		    clk, reset,
    	wire signed [32:0] src2_sign = {sign2, src2_Dec};
 
 	wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
+
 
 	// current_state == EXEC
 	always @(posedge clk)
