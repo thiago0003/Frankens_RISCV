@@ -20,7 +20,8 @@ module franken_riscv( input  		    clk, reset,
 					  output reg [31:0] write_reg_WB,
 					  input 	 [31:0] src1_Dec, src2_Dec,
 					  input				RXD,
-					  output 		    TXD
+					  output 		    TXD,
+					  output 	 [4 :0] LEDS	
 );
 
 	// Variáveis
@@ -75,7 +76,7 @@ module franken_riscv( input  		    clk, reset,
 		imm <=	(instruction[6:0] == 7'b1100111 | instruction[6:0] == 7'b0000011 | instruction[6:0] == 7'b0010011) ? ({{20{instruction[31]}},instruction[31:20]}):
 				(instruction[6:0] == 7'b0100011) ? ({{20{instruction[31]}},instruction[31:25],instruction[11:7]}):		
 				(instruction[6:0] == 7'b1100011) ? ({{19{instruction[31]}},instruction[31],instruction[7],instruction[30:25],instruction[11:8],1'b0}):
-				(instruction[6:0] == 7'b0110111 | instruction[6:0] == 7'b0010111) ? ({instruction[31:12],12'b0}):
+				(instruction[6:0] == 7'b0110111 | instruction[6:0] == 7'b0010111) ? ({instruction[31], instruction[30:12],12'b0}):
 				(instruction[6:0] == 7'b1101111) ? ({{11{instruction[31]}}, instruction[31],instruction[19:12],instruction[20],instruction[30:21],1'b0}):
 			   	32'b0;
 
@@ -222,14 +223,13 @@ module franken_riscv( input  		    clk, reset,
 
 
 	// ----------------------------- Multiply -------------------------------// 
-	wire sign1 = src1_Dec[31] &  is_mulh;
-    wire sign2 = src2_Dec[31] & (is_mulh | is_mulhsu);
-
-	wire signed [32:0] src1_sign = {sign1, src1_Dec};
-   	wire signed [32:0] src2_sign = {sign2, src2_Dec};
-
-	wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
-
+	// wire sign1 = src1_Dec[31] &  is_mulh;
+    // wire sign2 = src2_Dec[31] & (is_mulh | is_mulhsu);
+// 
+	// wire signed [32:0] src1_sign = {sign1, src1_Dec};
+   	// wire signed [32:0] src2_sign = {sign2, src2_Dec};
+// 
+	// wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
 
 	// current_state == EXEC
 	always @(posedge clk)
@@ -253,14 +253,14 @@ module franken_riscv( input  		    clk, reset,
 			//-------------------------------------ALU-------------------------------------------------//
 
 			// Caso nossa instruçao seja de JUMP, temos que calcular a nova posiçao para nosso PC.
-			jump_add_Exec <=	is_jal 										          ? pc_dec 			  + $signed(imm):
-								is_jalr 									          ? $signed(src2_forward) + $signed(imm):
-								(is_beq  && ($signed(src1_forward) == $signed(src2_forward))) ? pc_dec		 	  + $signed(imm):
-								(is_bne  && ($signed(src1_forward) != $signed(src2_forward))) ? pc_dec 			  + $signed(imm):
-								(is_blt  && ($signed(src1_forward)  < $signed(src2_forward))) ? pc_dec			  + $signed(imm):
-								(is_bltu && (src1_forward  < src2_forward)) 				  ? pc_dec			  + $signed(imm):
-								(is_bge  && ($signed(src1_forward) >= $signed(src2_forward))) ? pc_dec 			  + $signed(imm):
-								(is_bgeu && (src1_forward >= src2_forward)) 				  ? pc_dec 			  + $signed(imm):
+			jump_add_Exec <=	is_jal 										                  ? pc_dec + $signed(imm):
+								is_jalr 									                  ? $signed(src1_forward) + $signed(imm):
+								(is_beq  && ($signed(src1_forward) == $signed(src2_forward))) ? pc_dec + $signed(imm):
+								(is_bne  && ($signed(src1_forward) != $signed(src2_forward))) ? pc_dec + $signed(imm):
+								(is_blt  && ($signed(src1_forward)  < $signed(src2_forward))) ? pc_dec + $signed(imm):
+								(is_bltu && (src1_forward  < src2_forward)) 				  ? pc_dec + $signed(imm):
+								(is_bge  && ($signed(src1_forward) >= $signed(src2_forward))) ? pc_dec + $signed(imm):
+								(is_bgeu && (src1_forward >= src2_forward)) 				  ? pc_dec + $signed(imm):
 								pc_dec + 32'd4;
 
 			alu_result_Exec <=  is_add   	? $signed(src1_forward) + $signed(src2_forward):
@@ -291,8 +291,8 @@ module franken_riscv( input  		    clk, reset,
 								is_srl		? $signed(src1_forward) >> $signed(src2_forward):
 								is_srai     ? $signed(src1_forward) >>> $signed(imm[4:0]):
 								is_sra      ? $signed(src1_forward) >>> $signed(src2_forward):
-								is_mul		? result_mul[31:0]:
-								is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
+								// is_mul		? result_mul[31:0]:
+								// is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
 								32'b0;
 		end 
 	end
@@ -305,7 +305,7 @@ module franken_riscv( input  		    clk, reset,
 			stall_WB <= stall_Mem;
 
 			//Memory 
-			mem_write_Mem <= mem_write_Exec;
+			mem_write_Mem <= is_IO ? 1'b0 : mem_write_Exec;
 			mem_read_Mem <= mem_read_Exec; // Não utilizado (ainda)
 
 			// WB
@@ -362,8 +362,25 @@ module franken_riscv( input  		    clk, reset,
 			reg_write_WB <= reg_write_Mem;
 			RD_WB  <= RD_Mem;
 			write_reg_WB <= mem_read_Mem ? data_load :  
-							alu_result_Mem;
+				 		 	alu_result_Mem;;
 		end
 	end
+
+	//------------------------------------- IO -------------------------------------------------//
+
+	wire [29:0] mem_wordaddr = alu_result_Exec[31:2];
+	wire is_IO = alu_result_Exec[22];
+	wire mem_wstrb = |byte_enable;
+
+	 // Memory-mapped IO in IO page, 1-hot addressing in word address.   
+    localparam IO_LEDS_bit      = 0;  // W five leds
+    // localparam IO_UART_DAT_bit  = 1;  // W data to send (8 bits) 
+    // localparam IO_UART_CNTL_bit = 2;  // R status. bit 9: busy sending
+   
+    always @(posedge is_IO) begin
+    	if(is_IO & mem_wstrb & mem_wordaddr[IO_LEDS_bit]) begin
+			LEDS <= src2_Exec[4:0];
+		end
+    end
 
 endmodule

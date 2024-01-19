@@ -8,9 +8,8 @@ module blockram( input [31:0] addr,
 				 input we, clk,
 				 output [31:0] data_out);
 
-
 	// model the RAM with two dimensional packed array
-	reg [31:0] ram[0:1535];
+	reg [31:0] ram[0:256];
 
 	reg [31:0] data_reg;
 
@@ -29,4 +28,5 @@ module blockram( input [31:0] addr,
 	end
 
 	assign data_out = data_reg;
+
 endmodule
