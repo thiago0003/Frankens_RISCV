@@ -21,7 +21,7 @@ module franken_riscv( input  		    clk, reset,
 					  input 	 [31:0] src1_Dec, src2_Dec,
 					  input				RXD,
 					  output 		    TXD,
-					  output 	 [4 :0] LEDS	
+					  output 	 [5 :0] led	
 );
 
 	// Variáveis
@@ -223,13 +223,13 @@ module franken_riscv( input  		    clk, reset,
 
 
 	// ----------------------------- Multiply -------------------------------// 
-	// wire sign1 = src1_Dec[31] &  is_mulh;
-    // wire sign2 = src2_Dec[31] & (is_mulh | is_mulhsu);
-// 
-	// wire signed [32:0] src1_sign = {sign1, src1_Dec};
-   	// wire signed [32:0] src2_sign = {sign2, src2_Dec};
-// 
-	// wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
+	wire sign1 = src1_Dec[31] &  is_mulh;
+    wire sign2 = src2_Dec[31] & (is_mulh | is_mulhsu);
+
+	wire signed [32:0] src1_sign = {sign1, src1_Dec};
+   	wire signed [32:0] src2_sign = {sign2, src2_Dec};
+
+	wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
 
 	// current_state == EXEC
 	always @(posedge clk)
@@ -291,8 +291,8 @@ module franken_riscv( input  		    clk, reset,
 								is_srl		? $signed(src1_forward) >> $signed(src2_forward):
 								is_srai     ? $signed(src1_forward) >>> $signed(imm[4:0]):
 								is_sra      ? $signed(src1_forward) >>> $signed(src2_forward):
-								// is_mul		? result_mul[31:0]:
-								// is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
+								is_mul		? result_mul[31:0]:
+								is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
 								32'b0;
 		end 
 	end
@@ -369,18 +369,18 @@ module franken_riscv( input  		    clk, reset,
 	//------------------------------------- IO -------------------------------------------------//
 
 	wire [29:0] mem_wordaddr = alu_result_Exec[31:2];
-	wire is_IO = alu_result_Exec[22];
-	wire mem_wstrb = |byte_enable;
+	wire is_IO = alu_result_Exec[22] & is_sw;
+	reg [5:0] LEDS, LED_ANT;
 
 	 // Memory-mapped IO in IO page, 1-hot addressing in word address.   
-    localparam IO_LEDS_bit      = 0;  // W five leds
+    localparam IO_LEDS      = 0;  // W five leds
     // localparam IO_UART_DAT_bit  = 1;  // W data to send (8 bits) 
     // localparam IO_UART_CNTL_bit = 2;  // R status. bit 9: busy sending
    
-    always @(posedge is_IO) begin
-    	if(is_IO & mem_wstrb & mem_wordaddr[IO_LEDS_bit]) begin
-			LEDS <= src2_Exec[4:0];
-		end
+    always @(posedge is_IO && mem_wordaddr[IO_LEDS]) begin
+		LEDS <= ~src2_Exec[5:0];
     end
+
+	assign led = LEDS;
 
 endmodule

@@ -1,6 +1,27 @@
 /* verilator lint_off DECLFILENAME */
 /* verilator lint_off PINMISSING */
 
+//IMPORTED BLOCK:one_hz_clock
+`define clock_frequnecy 27_000_000
+module one_hz_clock #(parameter DELAY = 1000)
+				 	 (input clk,            // clk input
+					  output reg out);  // output pin
+
+  localparam TICKS = DELAY * (`clock_frequnecy / 2000);
+
+  reg [26:0] counter = 0;
+  
+  initial out = 1;
+  
+    always @(posedge clk) begin
+    	counter <= counter + 1'b1;
+    	if (counter == TICKS) begin
+    		out <= ~out;
+    		counter <= 27'b0;
+    	end
+    end
+endmodule
+
 //IMPORTED BLOCK:inverterC
 module inverterC( 
 A,
@@ -40,32 +61,6 @@ assign out_6 = in[6];
 assign out_7 = in[7];
 
 endmodule
-
-
-
-
-//IMPORTED BLOCK:one_hz_clock
-`define clock_frequnecy 27_000_000
-module one_hz_clock #(parameter DELAY = 1000)(input clk,            // clk input
-								output reg out);  // output pin
-
-  localparam TICKS = DELAY * (`clock_frequnecy / 2000);
-
-  reg [26:0] counter = 0;
-  
-  initial out = 1;
-  
-    always @(posedge clk) begin
-    	counter <= counter + 1'b1;
-    	if (counter == TICKS) begin
-    		out <= ~out;
-    		counter <= 27'b0;
-    	end
-    end
-endmodule
-
-
-
 
 //IMPORTED BLOCK:screen
 module screen
@@ -315,16 +310,19 @@ endmodule
 // Careful: this file (hdl.v) will be automatically replaced when you ask
 // to generate code from BLOCKS buttons.
 module top (
-
   output wire sck1,
   output wire sda1,
   output wire cs1,
   output wire dc1,
   output wire res1,
-  input wire clk,
-  output reg [4:0] led
+  input  wire clk,
+  output wire [5:0] led
 
 );
+
+  // always @(posedge clk)
+  //   if (!res1)
+  //       led <= 6'b111111;
 
 //Internal Wires
  wire w_1;
@@ -361,7 +359,7 @@ module top (
 
 //Instances os Modules
 register blk219_2 (
-         .clk (w_1),
+         .clk (clk),
          .reg_write (w_2),
          .reg_addr1 (w_3),
          .reg_addr2 (w_4),
@@ -372,7 +370,7 @@ register blk219_2 (
      );
 
 power_on_reset blk217_4 (
-         .clk (w_1),
+         .clk (clk),
          .resetn (w_12)
      );
 
@@ -459,7 +457,7 @@ imem blk218_50 (
      );
 
 blockram blk216_51 (
-         .clk (w_1),
+         .clk (clk),
          .addr (w_37),
          .be (w_38),
          .data_in (w_39),
@@ -496,7 +494,7 @@ franken_riscv blk220_54 (
          .write_data (w_39),
          .mem_write_Mem (w_40),
          .read_data (w_41),
-         .LEDS(led)
+         .led(led)
      );
 
 

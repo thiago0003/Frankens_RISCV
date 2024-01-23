@@ -2,10 +2,10 @@
 /* verilator lint_off UNUSEDSIGNAL */
 
  // Modulo de memoria de programa 
-module blockram( input [31:0] addr,
+module blockram( input clk, we,
 				 input [3:0] be,
-				 input [31:0] data_in, 
-				 input we, clk,
+				 input [31:0] addr,
+				 input [31:0] data_in,
 				 output [31:0] data_out);
 
 	// model the RAM with two dimensional packed array
