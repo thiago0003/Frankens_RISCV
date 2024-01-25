@@ -39,10 +39,10 @@ module franken_riscv( input  		    clk, reset,
 	//------------------------------------------------- FETCH ------------------------------------------------- //
 	
 	// Atualiza nosso valor de PC
-	wire [31:0] next_pc =	reset 				? 32'b0:
-						is_conditional_jump_Dec	? jump_add_Exec: // Flush: Force pc to stay in instruction
-						!stall_Exec 			? pc + 32'd4:
-						pc + 32'd0;								 // In case of stall, pc to stay in intruction 
+	wire [31:0] next_pc = reset 				    ? 32'b0:
+						  is_conditional_jump_Dec	? jump_add_Exec: // Flush: Force pc to stay in instruction
+						  !stall_Exec 			    ? pc + 32'd4:
+						  pc + 32'd0;								 // In case of stall, pc to stay in intruction 
 
 	// current_state == FETCH
 	always @(posedge clk)
