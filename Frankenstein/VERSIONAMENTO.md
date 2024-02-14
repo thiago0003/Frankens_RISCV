@@ -23,7 +23,7 @@ Atualmente, em desenvolvimento está o módulo `RISC-V(IM)` junto com o protocol
 Como já sabemos, teremos nossa academia voltado para cursos dentro da plataforma. Da forma que está estruturado, não teriamos como entregar um cursos de RISC-V avançado, de forma a ensinar o aluno como é o desenvolvimento do chip "por baixo dos panos". Além de quebrar o paradigma do projeto RISC-V que é o desenvolvimento de um produto que seja voltado para suas necessidades "sem ter uma bazuca para matar uma barata". Isso é, teriamos apenas um processador genérico que possivelmente atenda todas as necessidades mas que cumpre papeis a mais, ocupando uma maior área desnecessária no silício. 
 
 ## HID 
-Não sei o que está acontecendo nesse projeto, não sei as necessidades do projeto. Tem 1 grupo em que jogam informações que eu não consigo e não tenho tempo para acompanhare o JIRA em que basicamente está estruturado apenas um projeto da HID que contempla o processador (aqui eu estou ainda mais perdido).
+Não sei o que está acontecendo nesse projeto, não sei as necessidades do projeto. Tem 1 grupo em que colocam informações que eu não consigo e as vezes não tenho tempo para acompanhare o JIRA em que basicamente está estruturado apenas um projeto da HID que contempla o processador (aqui eu estou ainda mais perdido).
 
 ## Como eu dividiria o desenvolvimento 
 **Olhando para essas duas frentes diferentes, Von Braun Academy e HID.**
