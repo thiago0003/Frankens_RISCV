@@ -1,5 +1,5 @@
 //IMPORTED BLOCK:one_hz_clock
-`define clock_frequnecy 27_000_000
+`define clock_frequnecy 25_000_000
 module one_hz_clock #(parameter DELAY = 1000)
 				 	 (input clk,            // clk input
 					  output reg out);  // output pin

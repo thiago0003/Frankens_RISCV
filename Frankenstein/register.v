@@ -7,8 +7,12 @@ module register(input  wire        reg_write,
 					
   reg [31:0] rf[31:0];
 
+  initial begin
+    rf[0] = 32'b0;
+  end
+
 	always @(posedge clk) 
-		if (reg_write) 
+		if (reg_write && addr != 5'b0) 
 			rf[addr] <= write_reg;	
 		
 	assign rd1 = (reg_addr1 != 5'b0) ? rf[reg_addr1] : 32'b0; 

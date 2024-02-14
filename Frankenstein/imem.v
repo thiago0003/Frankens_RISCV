@@ -11,7 +11,7 @@ module imem(   input  wire        clk,
 					
   // localparam slow_bit=17;
 
-  reg [31:0] ram[0:127];
+  reg [31:0] ram[0:15];
 
   // `include "riscv_assembly.v"
   //  integer    L1_      = 28;
@@ -36,15 +36,16 @@ module imem(   input  wire        clk,
 
   initial     
 	begin
-    ram[0] = 32'h004001b7;
-    ram[1] = 32'h00000533;
-    ram[2] = 32'h00100293;
-    ram[3] = 32'h01129293;
-    ram[4] = 32'h00150513;
-    ram[5] = 32'h00A1A223;
-    ram[6] = 32'hFFFFF317;
-    ram[7] = 32'hFF4300E7;
-
+    ram[0] = 32'h00000393;
+    ram[1] = 32'h00100393;
+    ram[2] = 32'h01739393;
+    ram[3] = 32'h00138393;
+    ram[4] = 32'h00000513;
+    ram[5] = 32'h00100293;
+    ram[6] = 32'h00f29293;
+    ram[7] = 32'h00438393;
+    ram[8] = 32'h00000317;
+    ram[9] = 32'hff4300e7;
 	end
 
 	always @(posedge clk) 

@@ -1,17 +1,18 @@
 /* verilator lint_off WIDTHTRUNC */ 
 /* verilator lint_off UNUSEDSIGNAL */
 
- // Modulo de memoria de programa 
-module blockram( input clk, we,
+ // Modulo de memoria de programa
+
+module  blockram( input clk, we,
 				 input [3:0] be,
 				 input [31:0] addr,
 				 input [31:0] data_in,
 				 output [31:0] data_out);
 
-	// model the RAM with two dimensional packed array
-	reg [31:0] ram[0:256];
+	// model the RAM with two dimensional packed array (LUT RAM)
+	(* ram_style = "distributed" *) reg [31:0] ram[0:255];
 
-	reg [31:0] data_reg;
+	// reg [31:0] data_reg;
 
  	// port A
 	always@(posedge clk)
@@ -24,9 +25,9 @@ module blockram( input clk, we,
 			if(be[3]) ram[addr[31:2]][31:24] <= data_in[31:24];
 		end
 		
-      data_reg <= ram[addr[31:2]];
+    //   data_reg <= ;
 	end
 
-	assign data_out = data_reg;
+	assign data_out = ram[addr[31:2]];
 
 endmodule

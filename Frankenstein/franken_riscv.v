@@ -21,8 +21,7 @@ module franken_riscv( input  		    clk, reset,
 					  input 	 [31:0] src1_Dec, src2_Dec,
 					  input				RXD,
 					  output 		    TXD,
-					  output 	 [5 :0] led	
-);
+					  input 			rbusy);
 
 	// Variáveis
 		
@@ -37,16 +36,21 @@ module franken_riscv( input  		    clk, reset,
 		reg [4:0] RD_Mem;
 	
 	//------------------------------------------------- FETCH ------------------------------------------------- //
+
+	initial begin
+		pc = 32'h00400001;
+	end
 	
 	// Atualiza nosso valor de PC
-	wire [31:0] next_pc = reset 				    ? 32'b0:
+	wire [31:0] next_pc = reset 				    ? 32'h00400001:
 						  is_conditional_jump_Dec	? jump_add_Exec: // Flush: Force pc to stay in instruction
 						  !stall_Exec 			    ? pc + 32'd4:
 						  pc + 32'd0;								 // In case of stall, pc to stay in intruction 
 
 	// current_state == FETCH
 	always @(posedge clk)
-    	pc <= next_pc;
+		if (!rbusy)
+    		pc <= next_pc;
 
 	//------------------------------------------------- DECODE -------------------------------------------------//
 	
@@ -98,7 +102,7 @@ module franken_riscv( input  		    clk, reset,
 			Fwd_B <= 2'b00;
 
 		// ------------- Hazard Detection ------------- //
-		if(mem_read_Exec && !stall_Exec &&  (RD_Exec == instruction[11:7] || RD_Exec == instruction[24:20]) && RD_Exec != 5'b00000)
+		if((mem_read_Exec && !stall_Exec &&  (RD_Exec == instruction[11:7] || RD_Exec == instruction[24:20]) && RD_Exec != 5'b00000) || rbusy)
 			stall_Exec <= 1;
 		else
 			stall_Exec <= 0;
@@ -176,7 +180,7 @@ module franken_riscv( input  		    clk, reset,
 	wire is_jal = (J_type);
 
 	// System-Type
-	wire fence  = (opcode == 7'b0001111 & funct3 == 3'b000);
+	// wire fence  = (opcode == 7'b0001111 & funct3 == 3'b000);
 	// wire ecall  = (opcode == 7'b1110011 & funct3 == 3'b000 & instruction[31:25] == 12'b000000000000);
 	// wire ebreak = (opcode == 7'b1110011 & funct3 == 3'b000 & instruction[31:25] == 12'b000000000001);
 	
@@ -305,8 +309,8 @@ module franken_riscv( input  		    clk, reset,
 			stall_WB <= stall_Mem;
 
 			//Memory 
-			mem_write_Mem <= is_IO ? 1'b0 : mem_write_Exec;
-			mem_read_Mem <= mem_read_Exec; // Não utilizado (ainda)
+			mem_write_Mem <= mem_write_Exec;
+			mem_read_Mem <= mem_read_Exec;
 
 			// WB
 			reg_write_Mem <= reg_write_Exec;
@@ -321,12 +325,12 @@ module franken_riscv( input  		    clk, reset,
 
 			// Valor que sera salvo na nossa memoria e a condicional de escrita
 			write_data <= is_sw ? src2_Exec : (is_sb ? (alu_result_Exec[1:0]==3 ? {src2_Exec[7:0], 24'h000000} : 
-													   alu_result_Exec[1:0]==2 ? {8'h00, src2_Exec[7:0], 16'h0000} :
-													   alu_result_Exec[1:0]==1 ? {16'h0000, src2_Exec[7:0], 8'h00} :
-																				 {24'h000000, src2_Exec[7:0]}) :
-											  is_sh ?  alu_result_Exec[1:0]==2 ? {src2_Exec[15:0], 16'h0000} :
-																				 {16'h0000, src2_Exec[15:0]} :
-																								32'bX);
+													    alu_result_Exec[1:0]==2 ? {8'h00, src2_Exec[7:0], 16'h0000} :
+													    alu_result_Exec[1:0]==1 ? {16'h0000, src2_Exec[7:0], 8'h00} :
+														  						  {24'h000000, src2_Exec[7:0]}) :
+											  is_sh  ?  alu_result_Exec[1:0]==2 ? {src2_Exec[15:0], 16'h0000} :
+																				  {16'h0000, src2_Exec[15:0]} :
+																								    32'bX);
 			
 			// Escrita alinhada na memoria
 			byte_enable <= is_lbu || is_sb ? (alu_result_Exec[1:0]==3 ? 4'b1000 : // sb/lb
@@ -365,22 +369,5 @@ module franken_riscv( input  		    clk, reset,
 				 		 	alu_result_Mem;;
 		end
 	end
-
-	//------------------------------------- IO -------------------------------------------------//
-
-	wire [29:0] mem_wordaddr = alu_result_Exec[31:2];
-	wire is_IO = alu_result_Exec[22] & is_sw;
-	reg [5:0] LEDS, LED_ANT;
-
-	 // Memory-mapped IO in IO page, 1-hot addressing in word address.   
-    localparam IO_LEDS      = 0;  // W five leds
-    // localparam IO_UART_DAT_bit  = 1;  // W data to send (8 bits) 
-    // localparam IO_UART_CNTL_bit = 2;  // R status. bit 9: busy sending
-   
-    always @(posedge is_IO && mem_wordaddr[IO_LEDS]) begin
-		LEDS <= ~src2_Exec[5:0];
-    end
-
-	assign led = LEDS;
 
 endmodule
