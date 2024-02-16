@@ -10,7 +10,7 @@ module  blockram( input clk, we,
 				 output [31:0] data_out);
 
 	// model the RAM with two dimensional packed array (LUT RAM)
-	(* ram_style = "distributed" *) reg [31:0] ram[0:255];
+	(* ram_style = "distributed" *) reg [31:0] ram[0:128];
 
 	// reg [31:0] data_reg;
 

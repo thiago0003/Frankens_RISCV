@@ -60,7 +60,7 @@ module top (
 
 	wire [127:0] out_decoder1, out_decoder2, out_decoder3, out_decoder4;
 
-	alu_decoder alu_decoder(clk, 32'b0, pc, instruction, 32'b0, out_decoder1, out_decoder2, out_decoder3, out_decoder4);
+	alu_decoder alu_decoder(clk, instruction, src1, src2, 32'b0, out_decoder1, out_decoder2, out_decoder3, out_decoder4);
 
 	wire [7:0] sbyte1, sbyte2, sbyte3, sbyte4, muxOut, pixelData;
 	wire mudar;

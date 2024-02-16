@@ -39,7 +39,7 @@ module dma(input              clk,
     
     localparam IO_SPI = 0;
 
-    wire is_IO_SPI  = addr[22] && mem_write  && addr[IO_SPI];
+    wire is_IO_SPI  = addr[22] && addr[IO_SPI];
     // wire SPIFlash_rbusy;
     reg [31:0] SPI_addr;
     reg [31:0] SPIFlash_rdata = 32'hf;
@@ -47,21 +47,10 @@ module dma(input              clk,
 
     wire [21:0] addr_spi = mem_wordaddr[19:0] << 2;
 
-    flash flash(clk, is_IO_SPI, CLK, MISO, MOSI, CS_N, addr_spi, SPIFlash_rbusy, SPI_rdata);
+    flash flash(clk, is_IO_SPI, CLK, MISO, MOSI, CS_N, addr_spi, SPIFlash_rbusy, rdata);
 
-    always @(posedge clk) begin
-
-        if(is_IO_SPI && !SPIFlash_rbusy) 
-        begin
-            SPIFlash_rdata <= SPI_rdata;
-        end
-
-        SPI_addr <= addr_spi;
-    end
-
-    assign rdata = SPIFlash_rdata;
 
     //------------------------------------- RAM -------------------------------------------------//
-  	blockram blockram(clk, mem_write && !is_IO, byte_enable, addr, src, read_data);
+  	blockram blockram(clk, mem_write, byte_enable, addr, src, read_data);
 
 endmodule
