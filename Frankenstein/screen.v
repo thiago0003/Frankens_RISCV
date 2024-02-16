@@ -82,7 +82,20 @@ module screen
   assign ioReset = reset;
   assign ioCs = cs;
 
-  assign pixelAddress = pixelCounter;
+  // reg [9:0] CounterX = 0, CounterY = 0;
+
+  // wire CounterXmaxed = (CounterX == 896); // 16 + 48 + 96 + 640 // 1578
+  // wire CounterYmaxed = (CounterY == 64); // 10 +  2 + 33 + 480
+
+  // wire [31:0] row;
+  // wire [31:0] col;
+
+  // assign col = (CounterX >> 6); //14
+  // assign row = (CounterY >> 3); // 8
+
+    // assign vaddr =  // 320 col = 2^8 + 2^6
+
+  assign pixelAddress = pixelCounter >> 3; //  col + (row<<7);
 
   always @(posedge clk) begin
     case (state)
@@ -145,6 +158,18 @@ module screen
       end
       STATE_LOAD_DATA: begin
         pixelCounter <= pixelCounter + 1'b1;
+
+        // if (CounterXmaxed)
+        //   CounterX <= 10'b0;
+        // else
+        //   CounterX <= CounterX + 1'b1;
+        
+        // if (CounterXmaxed)
+        //   if(CounterYmaxed)
+        //     CounterY <= 10'b0;
+        //   else
+        //     CounterY <= CounterY + 1'b1;
+
         cs <= 0;
         dc <= 1;
         bitNumber <= 3'd7;

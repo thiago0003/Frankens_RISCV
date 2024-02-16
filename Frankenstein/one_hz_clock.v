@@ -1,20 +1,20 @@
 //IMPORTED BLOCK:one_hz_clock
-`define clock_frequnecy 25_000_000
-module one_hz_clock #(parameter DELAY = 1000)
-				 	 (input clk,            // clk input
+// `define clock_frequnecy 25_000_000
+module one_hz_clock (input clk,            // clk input
 					  output reg out);  // output pin
 
-  localparam TICKS = DELAY * (`clock_frequnecy / 2000);
-
-  reg [26:0] counter = 0;
-  
-  initial out = 1;
-  
-    always @(posedge clk) begin
-    	counter <= counter + 1'b1;
-    	if (counter == TICKS) begin
-    		out <= ~out;
-    		counter <= 27'b0;
-    	end
+  reg [20:0] count;
+ 
+  initial begin
+    out = 0;
+  	count = 0;
+  end
+ 
+  always @(posedge clk) begin
+    count <= count + 1;
+    if (count == 675000) begin
+      count <= 0;
+      out <= ~out;
     end
+  end
 endmodule
