@@ -13,7 +13,9 @@ module dma(input              clk,
            output             CLK, CS_N, MOSI, 
            input              MISO,
            output      [31:0] rdata,
-           output             SPIFlash_rbusy
+           output             SPIFlash_rbusy,
+        //    input              uart_rx//,
+           output             uart_tx
 );  
 
     wire [29:0] mem_wordaddr = addr[31:2];
@@ -29,11 +31,9 @@ module dma(input              clk,
 	always @(posedge clk) begin
 		if(is_IO_LED)
 			LEDS <= ~src[5:0];
-        // else if(!SPIFlash_rbusy)
-		// 	LEDS <= {SPIFlash_rdata[4:0], !SPIFlash_rbusy};
 	end
 
-	assign io_led = LEDS; //LEDS
+	assign io_led = data_tx[5:0]; //LEDS
 
     //------------------------------------- IO SPI -------------------------------------------------//
     
@@ -52,5 +52,47 @@ module dma(input              clk,
 
     //------------------------------------- RAM -------------------------------------------------//
   	blockram blockram(clk, mem_write, byte_enable, addr, src, read_data);
+
+    // ------------------------------------ UART -------------------------------------------------//
+    // localparam UART_RX_0 = 4;
+    localparam UART_TX_0 = 5;
+    
+    // reg byteReady;
+    // reg [7:0] dataIn;
+    // wire is_IO_UART_RX = addr[24] && addr[UART_RX_0];
+
+    // uart_rx uart_reciver(clk, uart_rx, byteReady, dataIn);
+    
+    // // DMA BUFFER CIRCULAR RX 
+    // (* ram_style = "distributed" *) reg [7:0] dma_uar_rx[0:12];
+    // reg [3:0] count_rx;
+
+    // always @(posedge clk) begin
+    //     if(byteReady) begin
+    //         dma_uar_rx[count_rx] <= dataIn;
+    //         count_rx <= count_rx + 1'd1; 
+    //     end
+    // end
+
+    // wire [7:0] read_data_rx = dma_uar_rx[addr[3:0]];
+
+    // UART TX
+    wire is_IO_UART_TX = addr[24] && addr[UART_TX_0];
+    (* ram_style = "distributed" *)  reg [7:0] dma_uar_tx[0:12];
+
+    reg [3:0] count_tx;
+
+    always @(posedge clk) begin
+        if(is_IO_UART_TX)
+        begin
+            dma_uar_tx[count_tx] <= src[7:0];
+            count_tx <= count_tx + 1'd1; 
+        end
+    end
+
+    wire [3:0] addr_uart_tx;
+    wire [7:0] data_tx = dma_uar_tx[addr_uart_tx];
+
+    uart_tx uart_emiter(clk, is_IO_UART_TX, data_tx, addr_uart_tx, uart_tx);
 
 endmodule

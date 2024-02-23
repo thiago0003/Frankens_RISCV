@@ -43,10 +43,10 @@ IO_LOC  "led5" 16;
 
 IO_LOC  "led_5" 16;
 
-IO_LOC  "uartTx" 17;
+IO_LOC  "uartTx" 48;
 IO_PORT "uartTx" DRIVE=8 IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-IO_LOC  "uartRx" 18;
+IO_LOC  "uartRx" 49;
 IO_PORT "uartRx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
 IO_LOC  "sdClk" 36;
