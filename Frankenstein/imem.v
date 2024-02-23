@@ -38,9 +38,11 @@ module imem(   input  wire        clk,
 	begin
 ram[0] = 32'h00100093;
 ram[1] = 32'h01809093;
-ram[2] = 32'h01008093;
-ram[3] = 32'h0080a023;
-ram[4] = 32'hffdff06f;
+ram[2] = 32'h02008093;
+ram[3] = 32'h00000413;
+ram[4] = 32'h0080a023;
+ram[5] = 32'h00140413;
+ram[6] = 32'hff9ff06f;
 	end
 
 	always @(posedge clk) 
@@ -49,3 +51,13 @@ ram[4] = 32'hffdff06f;
 		
 	assign instr = ram[pc[31:2]]; 
 endmodule
+
+
+
+
+// RX
+//ram[0] = 32'h00100093;
+//ram[1] = 32'h01809093;
+//ram[2] = 32'h01008093;
+//ram[3] = 32'h0080a023;
+//ram[4] = 32'hffdff06f;

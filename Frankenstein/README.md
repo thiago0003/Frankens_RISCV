@@ -137,8 +137,19 @@ Intruções contidas no processador.
 Alguns problemas percebidos recentemente ao trabalhar com os IOs, os registradores devem ser inicializados com Zero sempre que não carregado um valor previamente dentro deles. 
 Para isso, pode-se utilizar `addi regDest, x0, 0` dessa forma, será carregado zero no `regDest` e impedirá possíveis transtornos. 
 
+#### UART
+UART está definida no bit 24 do DMA, foi criado um mapa de IOs UART. Dessa forma, podemos passar o bit 24 para indicar que vamos utilizar UART junto com os bits conforma a tabela abaixo.
+
+|Posição do bit| Informação|
+|:-------:|:-----:|
+|24| Seta a utilização do UART|
+|6| Full Duplex RX_TX_0 (Envia e recebe dados)|
+|5| Half Duplex TX_0 (Envia os dados)|
+|4| Half Duplex RX_0 (recebe os dados)|
+|3:0 | Busca na memória do buffer o valor contido caso seja solicitado| 
+
 ### Memória de programa 
-Foi implementado a memória de programa em SPI, para acesso a memória SPI é utilizado o bit 23 do endereço. Dessa forma, é inicializado a memória de programa com `32'h00800001`, sendo o último bit para defirnir que iremos ler a memória. 
+Foi implementado a memória de programa em SPI, para acesso a memória SPI é utilizado o bit 23 do endereço. Dessa forma, é inicializado a memória de programa com `32'h00400001`, sendo o último bit para defirnir que iremos ler a memória. 
 
 Para leitura da memória é utilizado da mesma forma o bit 23 porém com a instrução `SW`, possivelmente será trocado para `LW` a leitura e `SW` a gravação. Deverá ser implementado uma verificação para o dados não ser gravado dentro da memória de programa. 
 

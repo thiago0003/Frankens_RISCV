@@ -14,13 +14,13 @@ module dma(input              clk,
            input              MISO,
            output      [31:0] rdata,
            output             SPIFlash_rbusy,
-        //    input              uart_rx//,
+           input              uart_rx,
            output             uart_tx
 );  
 
     wire [29:0] mem_wordaddr = addr[31:2];
     wire is_IO = is_IO_LED || is_IO_SPI;
-
+    assign read_data = is_IO_UART_RX ? read_data_rx : read_data_RAM;  
 
 	//------------------------------------- IO LED -------------------------------------------------//
     localparam IO_LEDS = 0;
@@ -33,7 +33,7 @@ module dma(input              clk,
 			LEDS <= ~src[5:0];
 	end
 
-	assign io_led = data_tx[5:0]; //LEDS
+	assign io_led = {read_data_rx[4:0], is_IO_UART_RX};
 
     //------------------------------------- IO SPI -------------------------------------------------//
     
@@ -51,33 +51,40 @@ module dma(input              clk,
 
 
     //------------------------------------- RAM -------------------------------------------------//
-  	blockram blockram(clk, mem_write, byte_enable, addr, src, read_data);
+    wire [31:0] read_data_RAM;
+    wire        mem_write_RAM = !is_IO_UART_TX && mem_write;
+
+  	blockram blockram(clk, mem_write_RAM, byte_enable, addr, src, read_data_RAM);
 
     // ------------------------------------ UART -------------------------------------------------//
-    // localparam UART_RX_0 = 4;
+    //Half Duplex 
+    localparam UART_RX_0 = 4;
     localparam UART_TX_0 = 5;
     
-    // reg byteReady;
-    // reg [7:0] dataIn;
-    // wire is_IO_UART_RX = addr[24] && addr[UART_RX_0];
+    //Full Duplex
+    localparam UART_RX_TX_0 = 6;
 
-    // uart_rx uart_reciver(clk, uart_rx, byteReady, dataIn);
+    reg byteReady;
+    reg [7:0] dataIn;
+    wire is_IO_UART_RX = addr[24] && (addr[UART_RX_0] || addr[UART_RX_TX_0]);
+
+    uart_rx uart_reciver(clk, uart_rx, byteReady, dataIn);
     
-    // // DMA BUFFER CIRCULAR RX 
-    // (* ram_style = "distributed" *) reg [7:0] dma_uar_rx[0:12];
-    // reg [3:0] count_rx;
+    // DMA BUFFER CIRCULAR RX 
+    (* ram_style = "distributed" *) reg [7:0] dma_uar_rx[0:12];
+    reg [3:0] count_rx;
 
-    // always @(posedge clk) begin
-    //     if(byteReady) begin
-    //         dma_uar_rx[count_rx] <= dataIn;
-    //         count_rx <= count_rx + 1'd1; 
-    //     end
-    // end
+    always @(posedge clk) begin
+        if(byteReady) begin
+            dma_uar_rx[count_rx] <= dataIn;
+            count_rx <= count_rx + 1'd1; 
+        end
+    end
 
-    // wire [7:0] read_data_rx = dma_uar_rx[addr[3:0]];
+    wire [7:0] read_data_rx = dma_uar_rx[addr[3:0]];
 
     // UART TX
-    wire is_IO_UART_TX = addr[24] && addr[UART_TX_0];
+    wire is_IO_UART_TX = addr[24] && (addr[UART_TX_0] || addr[UART_RX_TX_0]) && mem_write;
     (* ram_style = "distributed" *)  reg [7:0] dma_uar_tx[0:12];
 
     reg [3:0] count_tx;
