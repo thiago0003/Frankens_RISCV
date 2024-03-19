@@ -20,9 +20,9 @@ module top (
 		input  wire  uartRx
    );
 
-	wire [31:0]  pc, read_data, write_data, alu_result, write_reg, src1, src2, SPIFlash_rdata;
-	reg  [31:0]  instruction;
-	wire         mem_write, reg_write, TXD, RXD, is_IO;
+	wire [31:0]  pc, read_data, write_data, alu_result, write_reg, src1, src2;
+	reg  [31:0]  instruction, instruction_;
+	wire         mem_write, mem_read, reg_write, TXD, RXD, rbusy;
 	wire [3:0]   byte_enable;
 	wire [4:0]   RS1, RS2, RD;
 	wire         one_hz;		
@@ -33,72 +33,57 @@ module top (
   	power_on_reset power_on_reset(one_hz, resetn);
 
 	// CPU
-	franken_riscv franken_riscv(one_hz, !resetn, pc, instruction, mem_write, byte_enable, alu_result, write_data, read_data, reg_write, RS1, RS2, RD, write_reg, src1, src2, RXD, TXD, rbusy);
+	franken_riscv franken_riscv(one_hz, !resetn, pc, instruction, mem_write, mem_read, byte_enable, alu_result, write_data, read_data, reg_write, RS1, RS2, RD, write_reg, src1, src2, rbusy);
 	
 	// Memoria 
-    // imem imem(!clk, 1'b0, pc, 5'b0, 32'b0, instruction);
+    // imem imem(!one_hz, 1'b0, pc, 5'b0, 32'b0, instruction);
 
 	// Banco de registradores 
-	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, !clk);
+	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, one_hz);
 
-	wire [31:0] addr_dma = mem_write ? alu_result : pc;
+	dma dma(!one_hz, clk, pc, alu_result, write_data, mem_write, mem_read, byte_enable, read_data, flashClk, flashCs, flashMosi, flashMiso, instruction, rbusy, uartRx, uartTx);
 
-	reg pc_write;
+	// wire [127:0] out_decoder1, out_decoder2;
 
-	always @(posedge clk) begin
-		if(!mem_write) 
-			pc_write <= 1'b1;
-		else
-			pc_write <= 0;
+	// alu_decoder alu_decoder(.clk(clk), 
+	// 						.instruction(instruction), 
+	// 						.data_out1(out_decoder1),
+	// 						.R1(pc),
+	// 						.data_out3(out_decoder2));
 
-		if(!rbusy)
-			instruction <= SPIFlash_rdata;
-	end
+	// wire [7:0] sbyte1, sbyte2, muxOut, pixelData; //sbyte2, sbyte3, sbyte4, 
+	// wire mudar;
+	// wire [1:0] select;
+	// wire [5:0] charAddress;
+	// wire [9:0] pixelAddress;
 
-	wire dma_write = pc_write || mem_write; 
-	wire rbusy;
-
-	dma dma(clk, addr_dma, write_data, dma_write, byte_enable, read_data, led, flashClk, flashCs, flashMosi, flashMiso, SPIFlash_rdata, rbusy, uartRx, uartTx);
-
-	wire [127:0] out_decoder1;
-
-	alu_decoder alu_decoder(.clk(clk), 
-							.instruction(instruction), 
-							.data_out1(out_decoder1));
-
-	wire [7:0] sbyte1, sbyte2, muxOut, pixelData; //sbyte3, sbyte4, 
-	wire mudar;
-	wire [1:0] select;
-	wire [5:0] charAddress;
-	wire [9:0] pixelAddress;
-
-	stringbyte stringbyte1(clk, mudar, out_decoder1, sbyte1);
+	// stringbyte stringbyte1(clk, mudar, out_decoder1, sbyte1);
 	// stringbyte stringbyte2(clk, mudar, out_decoder2, sbyte2);
-	// stringbyte stringbyte3(clk, mudar, out_decoder3, sbyte3);
-	// stringbyte stringbyte4(clk, mudar, out_decoder4, sbyte4);
+	// // stringbyte stringbyte3(clk, mudar, out_decoder3, sbyte3);
+	// // stringbyte stringbyte4(clk, mudar, out_decoder4, sbyte4);
 
-	bus_to_wires bus_to_wires(
-		.in(charAddress),
-		.out_0(mudar)
-	);
+	// bus_to_wires bus_to_wires(
+	// 	.in(charAddress),
+	// 	.out_0(mudar)
+	// );
 
-	bus_to_bus_4_5 bus_to_bus_4_5(charAddress, select);
+	// bus_to_bus_4_5 bus_to_bus_4_5(charAddress, select);
 
-	mux4_8 mux4_8(clk, sbyte1, 7'b0, 7'b0, 7'b0, select, muxOut);
+	// mux4_8 mux4_8(clk, sbyte1, sbyte2, 8'b0, 8'b0, select, muxOut);
 
-	textEngine textEngine(.clk(clk), 
-						  .pixelAddress(pixelAddress), 
-						  .charOutput(muxOut), 
-						  .pixelData(pixelData), 
-						  .charAddress(charAddress));
+	// textEngine textEngine(.clk(clk), 
+	// 					  .pixelAddress(pixelAddress), 
+	// 					  .charOutput(muxOut), 
+	// 					  .pixelData(pixelData), 
+	// 					  .charAddress(charAddress));
 
-	screen screen(.clk(clk), 
-				  .pixelData(pixelData), 
-				  .ioSclk(sck1), 
-				  .ioSdin(sda1), 
-				  .ioCs(cs1), 
-				  .ioDc(dc1), 
-				  .ioReset(res1), 
-				  .pixelAddress(pixelAddress));
+	// screen screen(.clk(clk), 
+	// 			  .pixelData(pixelData), 
+	// 			  .ioSclk(sck1), 
+	// 			  .ioSdin(sda1), 
+	// 			  .ioCs(cs1), 
+	// 			  .ioDc(dc1), 
+	// 			  .ioReset(res1), 
+	// 			  .pixelAddress(pixelAddress));
 
 endmodule

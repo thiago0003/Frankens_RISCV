@@ -9,9 +9,11 @@ module register(input  wire        reg_write,
 
   initial begin
     rf[0] = 32'b0;
+    rf[2] = 32'h7fffeffc; //Endereço padrão da pilha de dados
+    rf[3] = 32'h10008000; //Endereço padrão gp
   end
 
-	always @(posedge clk) 
+	always @(negedge clk) 
 		if (reg_write && addr != 5'b0) 
 			rf[addr] <= write_reg;	
 		
