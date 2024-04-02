@@ -3,8 +3,8 @@
 
  // Modulo de memoria de programa
 
-module  blockram( input clk, we,
-				 input [3:0] be,
+module  blockram( input clk, write_enable,
+				 input [3:0] byte_enable,
 				 input [31:0] addr,
 				 input [31:0] data_in,
 				 output [31:0] data_out);
@@ -17,11 +17,11 @@ module  blockram( input clk, we,
 
 	always@(posedge clk)
 	begin
-		if(we) begin
-			if(be[0]) ram[address[31:2]][7 :0 ] <= data_in[ 7: 0];
-			if(be[1]) ram[address[31:2]][15:8 ] <= data_in[15: 8];
-			if(be[2]) ram[address[31:2]][23:16] <= data_in[23:16];
-			if(be[3]) ram[address[31:2]][31:24] <= data_in[31:24];
+		if(write_enable) begin
+			if(byte_enable[0]) ram[address[31:2]][7 :0 ] <= data_in[ 7: 0];
+			if(byte_enable[1]) ram[address[31:2]][15:8 ] <= data_in[15: 8];
+			if(byte_enable[2]) ram[address[31:2]][23:16] <= data_in[23:16];
+			if(byte_enable[3]) ram[address[31:2]][31:24] <= data_in[31:24];
 		end
 	end
 

@@ -25,65 +25,40 @@ module top (
 	wire         mem_write, mem_read, reg_write, TXD, RXD, rbusy;
 	wire [3:0]   byte_enable;
 	wire [4:0]   RS1, RS2, RD;
-	wire         one_hz;		
+	reg          clk_div_one;		
 
-	one_hz_clock one_hz_clock(clk, one_hz);
+	one_hz_clock one_hz(clk, clk_div_one);
+
 
 	wire resetn;
-  	power_on_reset power_on_reset(one_hz, resetn);
+  	power_on_reset power_on_reset(clk_div_one, resetn);
 
 	// CPU
-	franken_riscv franken_riscv(one_hz, !resetn, pc, instruction, mem_write, mem_read, byte_enable, alu_result, write_data, read_data, reg_write, RS1, RS2, RD, write_reg, src1, src2, rbusy);
+	franken_riscv franken_riscv(
+		.clk(clk_div_one),
+		.reset(!resetn),
+		.rbusy(rbusy),
+		.read_data(read_data),
+		.instruction(instruction),
+		.src1_data_DEC(src1),
+		.src2_data_DEC(src2),
+		.RS1_data(RS1),
+		.RS2_data(RS2),
+		.reg_data_WB(write_reg),
+		.alu_result_MEM(alu_result),
+		.mem_write_enable_MEM(mem_write),
+		.mem_read_enable_MEM(mem_read),
+		.reg_write_enable_WB(reg_write),
+		.byte_enable(byte_enable),
+		.addr_RD_WB(RD),
+		.pc(pc),
+		.write_data_MEM(write_data));
 	
 	// Memoria 
     // imem imem(!one_hz, 1'b0, pc, 5'b0, 32'b0, instruction);
 
 	// Banco de registradores 
-	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, one_hz);
+	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, clk_div_one);
 
-	dma dma(!one_hz, clk, pc, alu_result, write_data, mem_write, mem_read, byte_enable, read_data, flashClk, flashCs, flashMosi, flashMiso, instruction, rbusy, uartRx, uartTx);
-
-	// wire [127:0] out_decoder1, out_decoder2;
-
-	// alu_decoder alu_decoder(.clk(clk), 
-	// 						.instruction(instruction), 
-	// 						.data_out1(out_decoder1),
-	// 						.R1(pc),
-	// 						.data_out3(out_decoder2));
-
-	// wire [7:0] sbyte1, sbyte2, muxOut, pixelData; //sbyte2, sbyte3, sbyte4, 
-	// wire mudar;
-	// wire [1:0] select;
-	// wire [5:0] charAddress;
-	// wire [9:0] pixelAddress;
-
-	// stringbyte stringbyte1(clk, mudar, out_decoder1, sbyte1);
-	// stringbyte stringbyte2(clk, mudar, out_decoder2, sbyte2);
-	// // stringbyte stringbyte3(clk, mudar, out_decoder3, sbyte3);
-	// // stringbyte stringbyte4(clk, mudar, out_decoder4, sbyte4);
-
-	// bus_to_wires bus_to_wires(
-	// 	.in(charAddress),
-	// 	.out_0(mudar)
-	// );
-
-	// bus_to_bus_4_5 bus_to_bus_4_5(charAddress, select);
-
-	// mux4_8 mux4_8(clk, sbyte1, sbyte2, 8'b0, 8'b0, select, muxOut);
-
-	// textEngine textEngine(.clk(clk), 
-	// 					  .pixelAddress(pixelAddress), 
-	// 					  .charOutput(muxOut), 
-	// 					  .pixelData(pixelData), 
-	// 					  .charAddress(charAddress));
-
-	// screen screen(.clk(clk), 
-	// 			  .pixelData(pixelData), 
-	// 			  .ioSclk(sck1), 
-	// 			  .ioSdin(sda1), 
-	// 			  .ioCs(cs1), 
-	// 			  .ioDc(dc1), 
-	// 			  .ioReset(res1), 
-	// 			  .pixelAddress(pixelAddress));
-
+	dma dma(!clk_div_one, clk, pc, alu_result, write_data, mem_write, mem_read, byte_enable, read_data, flashClk, flashCs, flashMosi, flashMiso, instruction, rbusy, uartRx, uartTx, led);
 endmodule

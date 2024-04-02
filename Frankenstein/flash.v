@@ -106,5 +106,4 @@ module flash
       end
     endcase
   end
-
 endmodule
