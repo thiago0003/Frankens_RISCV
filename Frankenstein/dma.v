@@ -60,6 +60,24 @@ module dma(input              clk, clk2,
     (* ram_style = "distributed" *) reg [7:0] dma_uar_rx[0:12];
     reg [3:0] count_rx;
 
+    initial 
+    begin
+        count_rx = 0;
+        dma_uar_rx[0] = 0; 
+        dma_uar_rx[1] = 0;
+        dma_uar_rx[2] = 0;
+        dma_uar_rx[3] = 0;
+        dma_uar_rx[4] = 0;
+        dma_uar_rx[5] = 0;
+        dma_uar_rx[6] = 0;
+        dma_uar_rx[7] = 0;
+        dma_uar_rx[8] = 0;
+        dma_uar_rx[9] = 0;
+        dma_uar_rx[10] = 0;
+        dma_uar_rx[11] = 0;
+        dma_uar_rx[12] = 0;
+    end
+
     always @(posedge clk) begin
         if(byteReady) begin
             dma_uar_rx[count_rx] <= dataIn;

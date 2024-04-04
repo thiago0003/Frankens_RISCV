@@ -104,6 +104,6 @@ module one_hz_clock (input clk,            // clk input
 	always @(posedge clk_23)
 		clk_24 <= ~clk_24;
 
-	assign out = clk_2;
+	assign out = clk_15;
 
 endmodule
