@@ -1,9 +1,3 @@
-/* verilator lint_off WIDTHEXPAND */
-/* verilator lint_off WIDTHTRUNC */
-/* verilator lint_off UNUSEDSIGNAL */
-/* verilator lint_off UNDRIVEN */
-/* verilator lint_off PINMISSING */
-
 module top (
         input        clk,
         output [5:0] led,
@@ -11,18 +5,14 @@ module top (
 		output 		 flashCs,
 		output 		 flashMosi,
 		input 		 flashMiso,
-		output wire  sck1,
-		output wire  sda1,
-		output wire  cs1,
-		output wire  dc1,
-		output wire  res1,
 		output wire  uartTx,
 		input  wire  uartRx
    );
 
-	wire [31:0]  pc, read_data, write_data, alu_result, write_reg, src1, src2;
-	reg  [31:0]  instruction, instruction_;
-	wire         mem_write, mem_read, reg_write, TXD, RXD, rbusy;
+	wire [31:0]  pc;
+	wire [31:0]  read_data, write_data, alu_result, write_reg, src1, src2;
+	reg  [31:0]  instruction;
+	wire         mem_write, mem_read, reg_write, rbusy;
 	wire [3:0]   byte_enable;
 	wire [4:0]   RS1, RS2, RD;
 	reg          clk_div_one;		
@@ -60,5 +50,5 @@ module top (
 	// Banco de registradores 
 	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, clk_div_one);
 
-	dma dma(!clk_div_one, clk, pc, alu_result, write_data, mem_write, mem_read, byte_enable, read_data, flashClk, flashCs, flashMosi, flashMiso, instruction, rbusy, uartRx, uartTx, led);
+	dma dma(!clk_div_one, clk, pc[23:0], alu_result, write_data, mem_write, mem_read, byte_enable, read_data, flashClk, flashCs, flashMosi, flashMiso, instruction, rbusy, uartRx, uartTx, led);
 endmodule
