@@ -30,7 +30,7 @@ module dma(input              clk, clk2,
             LEDS <= src[5:0]; // {data_tx[4:0], ~is_IO_UART_TX}; //dataIn[5:0];
 	end
 
-	assign io_led = {clk, !is_IO_UART_RX, !is_IO_LED,!LEDS[2],!LEDS[1],!LEDS[0]}; //! && addr[24] &&  && (addr[UART_TX_0] || addr[UART_RX_TX_0]);
+	assign io_led = {clk, !LEDS[4], !LEDS[3],!LEDS[2],!LEDS[1],!LEDS[0]}; //! && addr[24] &&  && (addr[UART_TX_0] || addr[UART_RX_TX_0]);
 
     //------------------------------------- IO SPI -------------------------------------------------//
     

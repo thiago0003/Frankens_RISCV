@@ -143,13 +143,18 @@ UART está definida no bit 24 do DMA, foi criado um mapa de IOs UART. Dessa form
 |Posição do bit| Informação|
 |:-------:|:-----:|
 |24| Seta a utilização do UART|
-|6| Full Duplex RX_TX_0 (Envia e recebe dados)|
 |5| Half Duplex TX_0 (Envia os dados)|
 |4| Half Duplex RX_0 (recebe os dados)|
 |3:0 | Busca na memória do buffer o valor contido caso seja solicitado| 
 
+Um exemplo em C foi deixado na pasta Programas -> UART.c
+
+Para compilar é utilizado o [Compiler Explorer](https://godbolt.org/), nele setamos a compilação para RISC-V(32-bits) gcc 13.2.0.
+Após compilado é utilizado o programa [RARS](https://github.com/TheThirdOne/rars), nele colamos o assembly, executamos e salvamos em binário.
+Na mesma pasta haverá o compilado para a placa Tang Nano 9K (top.fs), para esse teste o primeiro led está definido como clk por isso deverá ficar oscilando.
+
 ### Memória de programa 
-Foi implementado a memória de programa em SPI, para acesso a memória SPI é utilizado o bit 23 do endereço. Dessa forma, é inicializado a memória de programa com `32'h00400001`, sendo o último bit para defirnir que iremos ler a memória. 
+Foi implementado a memória de programa em SPI, para acesso a memória SPI é utilizado o bit 23 do endereço. Dessa forma, é inicializado a memória de programa com `32'h00400000`, sendo o último bit para defirnir que iremos ler a memória. 
 
 Para leitura da memória é utilizado da mesma forma o bit 23 porém com a instrução `SW`, possivelmente será trocado para `LW` a leitura e `SW` a gravação. Deverá ser implementado uma verificação para o dados não ser gravado dentro da memória de programa. 
 
