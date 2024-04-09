@@ -1,8 +1,3 @@
-/* verilator lint_off WIDTHEXPAND */
-/* verilator lint_off WIDTHTRUNC */
-/* verilator lint_off UNUSEDSIGNAL */
-/* verilator lint_off UNDRIVEN */
-
 module top (
         input        	 clk,
         output reg [5:0] led,
