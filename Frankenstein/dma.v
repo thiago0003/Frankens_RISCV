@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 module dma(input              clk, clk2, 
            input       [23:0] pc, 
            input       [31:0] addr,
@@ -14,30 +15,28 @@ module dma(input              clk, clk2,
            output  [5:0]      io_led  
 );  
 
-    wire [29:0] mem_wordaddr = addr[31:2];
+    //wire [29:0] mem_wordaddr = addr[31:2];
     //wire is_IO = is_IO_LED || is_IO_SPI ; // 
     assign read_data = is_IO_UART_RX ? {24'b0, read_data_rx} : read_data_RAM;  
 
 	//------------------------------------- IO LED -------------------------------------------------//
-    localparam IO_LEDS = 0;
-	wire is_IO_LED = addr[23] && mem_write && mem_wordaddr[IO_LEDS];
+    //localparam IO_LEDS = 0;
+	wire is_IO_LED = !(|addr[31:24]) && addr[23] && !(|addr[22:7]) && mem_write; //&& mem_wordaddr[IO_LEDS]
 
 	reg [5:0] LEDS;
 
-	always @(posedge clk) begin
+	always @(posedge clk2) begin
         if(is_IO_LED)
-            LEDS <= ~src[5:0]; //dataIn[5:0];
+            LEDS <= src[5:0]; // {data_tx[4:0], ~is_IO_UART_TX}; //dataIn[5:0];
 	end
 
-	assign io_led = {!LEDS[5], !LEDS[4], !LEDS[3], !LEDS[2], !LEDS[1], !LEDS[0]}; //! && addr[24] &&  && (addr[UART_TX_0] || addr[UART_RX_TX_0]);
+	assign io_led = {clk, !is_IO_UART_RX, !is_IO_LED,!LEDS[2],!LEDS[1],!LEDS[0]}; //! && addr[24] &&  && (addr[UART_TX_0] || addr[UART_RX_TX_0]);
 
     //------------------------------------- IO SPI -------------------------------------------------//
     
     wire is_IO_SPI  = pc[22];
 
-    wire [23:0] addr_spi = pc[23:0];
-
-    flash flash(clk2, is_IO_SPI, CLK, MISO, MOSI, CS_N, addr_spi, SPIFlash_rbusy, instruction);
+    flash flash(clk2, is_IO_SPI, CLK, MISO, MOSI, CS_N, pc, SPIFlash_rbusy, instruction);
 
     //------------------------------------- RAM -------------------------------------------------//
     wire [31:0] read_data_RAM;
@@ -78,14 +77,14 @@ module dma(input              clk, clk2,
         dma_uar_rx[12] = 0;
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk2) begin
         if(byteReady) begin
             dma_uar_rx[count_rx] <= dataIn;
             count_rx <= count_rx + 1'd1; 
         end
     end
 
-    wire [7:0] read_data_rx = dma_uar_rx[addr[4] ? (count_rx -1) : addr[3:0]];
+    wire [7:0] read_data_rx = dma_uar_rx[|addr[3:0] ? addr[3:0] : (count_rx -1)];
 
     // UART TX
     wire is_IO_UART_TX = !(|addr[31:25]) && addr[24] && !(|addr[23:7]) && addr[UART_TX_0] && mem_write;

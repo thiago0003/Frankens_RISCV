@@ -4,7 +4,7 @@ module power_on_reset(
   input clk, 
   output resetn);
 
-  reg [2:0] q;
+  reg [3:0] q;
  
   always@(posedge clk)
        q <= {q,1'b1};

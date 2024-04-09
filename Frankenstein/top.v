@@ -2,33 +2,25 @@
 /* verilator lint_off WIDTHTRUNC */
 /* verilator lint_off UNUSEDSIGNAL */
 /* verilator lint_off UNDRIVEN */
-/* verilator lint_off PINMISSING */
 
 module top (
-        input        clk,
-        output [5:0] led,
+        input        	 clk,
+        output reg [5:0] led,
 		output 		 flashClk,
 		output 		 flashCs,
 		output 		 flashMosi,
 		input 		 flashMiso,
-		output wire  sck1,
-		output wire  sda1,
-		output wire  cs1,
-		output wire  dc1,
-		output wire  res1,
 		output wire  uartTx,
 		input  wire  uartRx
    );
 
 	wire [31:0]  pc, read_data, write_data, alu_result, write_reg, src1, src2;
-	reg  [31:0]  instruction, instruction_;
-	wire         mem_write, mem_read, reg_write, TXD, RXD, rbusy;
+	reg  [31:0]  instruction;
+	wire         mem_write, mem_read, reg_write, rbusy;
 	wire [3:0]   byte_enable;
 	wire [4:0]   RS1, RS2, RD;
-	reg          clk_div_one;		
-
+	wire  clk_div_one;		
 	one_hz_clock one_hz(clk, clk_div_one);
-
 
 	wire resetn;
   	power_on_reset power_on_reset(clk_div_one, resetn);
@@ -52,13 +44,32 @@ module top (
 		.byte_enable(byte_enable),
 		.addr_RD_WB(RD),
 		.pc(pc),
-		.write_data_MEM(write_data));
+		.write_data_MEM(write_data)
+	);
 	
 	// Memoria 
-    // imem imem(!one_hz, 1'b0, pc, 5'b0, 32'b0, instruction);
+    // imem imem(!clk, 1'b0, pc, 32'b0, 32'b0, instruction);
 
 	// Banco de registradores 
-	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, clk_div_one);
+	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, clk);
 
-	dma dma(!clk_div_one, clk, pc, alu_result, write_data, mem_write, mem_read, byte_enable, read_data, flashClk, flashCs, flashMosi, flashMiso, instruction, rbusy, uartRx, uartTx, led);
+	dma dma(
+	.clk(!clk_div_one), 
+	.clk2(clk), 
+	.pc(pc[23:0]), 
+	.addr(alu_result), 
+	.src(write_data), 
+	.mem_write(mem_write), 
+	.mem_read(mem_read), 
+	.byte_enable(byte_enable), 
+	.read_data(read_data), 
+	.CLK(flashClk), 
+	.CS_N(flashCs), 
+	.MOSI(flashMosi), 
+	.MISO(flashMiso), 
+	.instruction(instruction), 
+	.SPIFlash_rbusy(rbusy), 
+	.uart_rx_0(uartRx), 
+	.uart_tx_0(uartTx),
+	.io_led(led));
 endmodule
