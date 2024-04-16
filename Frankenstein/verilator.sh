@@ -3,7 +3,7 @@
 #export VERILATOR_ROOT=/home/$USER/Documents/verilator
 #export PATH=$VERILATOR_ROOT/bin:$PATH
 
-verilator -Wall --trace --exe --build -cc frankenstein.cpp top.v blockram.v dma.v flash.v franken_riscv.v power_on_reset.v register.v uart_rx.v  uart_tx.v 
+verilator -Wall --trace --exe --build -cc frankenstein.cpp top.v blockram.v dma.v flash.v franken_riscv.v power_on_reset.v register.v uart_rx.v  uart_tx.v spi_master.v
 
 if [ -f "*.hex" ]; then
     cp *.hex /obj_dir

@@ -4,7 +4,7 @@
 #include <verilated_vcd_c.h>
 #include "obj_dir/Vtop.h"
 
-#define MAX_TIME 200000000
+#define MAX_TIME 20000000
 vluint64_t sim_time = 0;
 
 int main(int argc, char** argv, char** env)

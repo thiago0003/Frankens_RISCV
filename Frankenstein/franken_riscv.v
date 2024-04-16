@@ -28,21 +28,21 @@ module franken_riscv( input  		    clk, reset, rbusy,
 	reg [31:0] load_data_WB, alu_result_WB;
 
 	initial begin
-		pc = 32'h00400000;
+	 	pc = 32'h00400000;
 	end
 	
 	//------------------------------------------------- FETCH ------------------------------------------------- //
 
 	// Atualiza nosso valor de PC
-	wire [31:0] next_pc = reset 				? 32'h00400000:
+	wire [31:0] next_pc = !reset 					? 32'h00400000:
 						  is_conditional_jump_DEC	? jump_add_EXEC: // Flush: Force pc to stay in instruction
 						  pc + 32'd4;			// In case of stall, pc to stay in intruction 
 
 	// current_state == FETCH
-	always @(posedge clk)
+	always @(posedge clk) begin
 		if (!rbusy && !stall)
     		pc <= next_pc;
-
+	end
 	//------------------------------------------------- DECODE -------------------------------------------------//
 
 	always @(negedge clk)
@@ -86,7 +86,7 @@ module franken_riscv( input  		    clk, reset, rbusy,
 			Fwd_B <= 2'b00;
 
 		// ------------- Hazard Detection ------------- //
-		if(((mem_read_enable_EXEC && !stall && addr_RD_EXEC != 5'b00000)) || rbusy || reset)
+		if(((mem_read_enable_EXEC && !stall && addr_RD_EXEC != 5'b00000)) || rbusy)
 			stall <= 1;
 		else
 			stall <= 0;
@@ -107,10 +107,10 @@ module franken_riscv( input  		    clk, reset, rbusy,
 	wire is_sra  = (R_type & funct3 == 3'b101 & funct7 == 7'b0100000);
 	
 	// R-Type - Multiply
-	wire is_mul    = (R_type && funct3 == 3'b000 & funct7 == 7'b0000001);
-	wire is_mulh   = (R_type && funct3 == 3'b001 & funct7 == 7'b0000001);
-	wire is_mulhsu = (R_type && funct3 == 3'b010 & funct7 == 7'b0000001);
-	wire is_mulhu  = (R_type && funct3 == 3'b011 & funct7 == 7'b0000001);
+	// wire is_mul    = (R_type && funct3 == 3'b000 & funct7 == 7'b0000001);
+	// wire is_mulh   = (R_type && funct3 == 3'b001 & funct7 == 7'b0000001);
+	// wire is_mulhsu = (R_type && funct3 == 3'b010 & funct7 == 7'b0000001);
+	// wire is_mulhu  = (R_type && funct3 == 3'b011 & funct7 == 7'b0000001);
 	// wire is_div    = (R_type && funct3 == 3'b100 & funct7 == 7'b0000001);
 	// wire is_divu   = (R_type && funct3 == 3'b101 & funct7 == 7'b0000001);
 	// wire is_rem    = (R_type && funct3 == 3'b110 & funct7 == 7'b0000001);
@@ -207,11 +207,11 @@ module franken_riscv( input  		    clk, reset, rbusy,
 
 
 	// ----------------------------- Multiply -------------------------------// 
-	wire sign1 = src1_data_DEC[31] &  is_mulh;
-    wire sign2 = src2_data_DEC[31] & (is_mulh | is_mulhsu);
-	wire signed [32:0] src1_sign = {sign1, src1_data_DEC};
-   	wire signed [32:0] src2_sign = {sign2, src2_data_DEC};
-	wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
+	// wire sign1 = src1_data_DEC[31] &  is_mulh;
+    // wire sign2 = src2_data_DEC[31] & (is_mulh | is_mulhsu);
+	// wire signed [32:0] src1_sign = {sign1, src1_data_DEC};
+   	// wire signed [32:0] src2_sign = {sign2, src2_data_DEC};
+	// wire [63:0] result_mul = src1_sign * src2_sign; // Realiza a operação de multiplicação
 
 	// Caso nossa instruçao seja de JUMP, temos que calcular a nova posiçao para nosso PC.
 	wire [31:0] jump_add_EXEC =	is_jal 										                  ? pc_dec + $signed(imm):
@@ -271,9 +271,9 @@ module franken_riscv( input  		    clk, reset, rbusy,
 								is_srl		? $signed(src1_forward) >> $signed(src2_forward):
 								is_srai     ? $signed(src1_forward) >>> $signed(imm[4:0]):
 								is_sra      ? $signed(src1_forward) >>> $signed(src2_forward):
-								is_mul		? result_mul[31:0]:
+								// is_mul		? result_mul[31:0]:
 								is_jalr		? pc_dec + 32'd4:
-								is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
+								// is_mulh || is_mulhsu || is_mulhu ? result_mul[63:32]:
 								32'b0;
 		end
 	end

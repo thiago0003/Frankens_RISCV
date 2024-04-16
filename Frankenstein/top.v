@@ -1,3 +1,5 @@
+/* verilator lint_off PINMISSING */
+/* verilator lint_off UNUSEDSIGNAL */
 module top (
         input        	 clk,
         output reg [5:0] led,
@@ -10,7 +12,7 @@ module top (
    );
 
 	wire [31:0]  pc, read_data, write_data, alu_result, write_reg, src1, src2;
-	reg  [31:0]  instruction;
+	reg  [31:0]  instruction, instruction_;
 	wire         mem_write, mem_read, reg_write, rbusy;
 	wire [3:0]   byte_enable;
 	wire [4:0]   RS1, RS2, RD;
@@ -23,7 +25,7 @@ module top (
 	// CPU
 	franken_riscv franken_riscv(
 		.clk(clk_div_one),
-		.reset(!resetn),
+		.reset(resetn),
 		.rbusy(rbusy),
 		.read_data(read_data),
 		.instruction(instruction),
@@ -46,22 +48,32 @@ module top (
     // imem imem(!clk, 1'b0, pc, 32'b0, 32'b0, instruction);
 
 	// Banco de registradores 
-	register regs(reg_write, RS1, RS2, RD, write_reg, src1, src2, clk);
+	register regs(
+		.enable_reg_write(reg_write), 
+		.reg_addr1(RS1), 
+		.reg_addr2(RS2), 
+		.addr_write(RD), 
+		.write_data(write_reg), 
+		.rd1_data(src1), 
+		.rd2_data(src2), 
+		.clk(clk),
+		.reset(resetn)
+		);
 
 	dma dma(
-	.clk(!clk_div_one), 
-	.clk2(clk), 
-	.pc(pc[23:0]), 
-	.addr(alu_result), 
-	.src(write_data), 
+	.clk(clk),
+	.rst(resetn),
+	.mem_pc(pc[23:0]), 
+	.mem_addr(alu_result), 
+	.mem_scr(write_data), 
 	.mem_write(mem_write), 
 	.mem_read(mem_read), 
 	.byte_enable(byte_enable), 
 	.read_data(read_data), 
-	.CLK(flashClk), 
-	.CS_N(flashCs), 
-	.MOSI(flashMosi), 
-	.MISO(flashMiso), 
+	.spi_clk(flashClk), 
+	.spi_cs_n(flashCs), 
+	.spi_mosi(flashMosi), 
+	.spi_miso(flashMiso), 
 	.instruction(instruction), 
 	.SPIFlash_rbusy(rbusy), 
 	.uart_rx_0(uartRx), 

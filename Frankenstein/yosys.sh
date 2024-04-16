@@ -9,7 +9,7 @@ if [ -d "obj_dir" ]; then
     rm -r obj_dir/top.json obj_dir/top_pnr.json obj_dir/top.fs
 fi
 
-yosys -p "read_verilog *.v ; synth_gowin -noalu -nowidelut -top top -json obj_dir/top.json"
+yosys -p "read_verilog *.v ; synth_gowin -noalu -top top -json obj_dir/top.json"
 
 echo "------------------------------------------------25%------------------------------------------------"
 
