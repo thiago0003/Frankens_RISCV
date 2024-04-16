@@ -122,12 +122,12 @@ Intruções contidas no processador.
 ## Desenvolvimento
 | Estado |Requisitos| Descrição |
 |:------:|:--------:|:---------:|
-| ⚠️     | 4- UART  | Implementação do protocolo de comunicação, atualmente em fase de teste de no envio de informações |
+| ☑️     | 4- UART  | Implementação do protocolo de comunicação, atualmente em fase de teste de no envio de informações |
 | ☑️     | 1- SPI Slave  | Utilizado para a memória de programa |
-| ⚠️     | 1- SPI Master | Utilizado para gravar dados na memória sem afetar a memória de programa |
-| ❌     | 1- SPI Slave  | Utilizado para consumir dados do System Clock|
-| ❌     | 1- SPI Master | Utilizado para o protocolo de comunicação do projeto|
-| ❌     | 1- DMA        | Ainda em viabilização |
+| ❌     | 1- SPI Master | Utilizado para gravar dados na memória sem afetar a memória de programa |
+| ⚠️     | 1- SPI Slave  | Utilizado para consumir dados do System Clock|
+| ☑️     | 1- SPI Master | Utilizado para o protocolo de comunicação do projeto|
+| ⚠️     | 1- DMA        | Ainda em viabilização |
 
 ⚠️ Em desenvolvimento
 ❌ Parado
